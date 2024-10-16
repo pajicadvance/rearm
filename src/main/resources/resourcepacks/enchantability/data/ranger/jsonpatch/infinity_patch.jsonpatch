@@ -1,0 +1,4 @@
+@version "1";
+@target "minecraft:enchantment/infinity.json";
+
+$supported_items = "#minecraft:enchantable/infinity_enchantable";

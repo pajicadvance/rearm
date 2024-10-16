@@ -1,0 +1,6 @@
+@version "1";
+@target "minecraft:tags/item/enchantable/infinity_enchantable.json";
+
+if (ranger_config.crossbow.acceptInfinity) {
+    $values = arrays.push($values, "#minecraft:enchantable/crossbow");
+}

@@ -1,0 +1,4 @@
+@version "1";
+@target "minecraft:enchantment/multishot.json";
+
+$supported_items = "#minecraft:enchantable/multishot_enchantable";

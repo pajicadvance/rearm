@@ -1,0 +1,6 @@
+{
+    "parent": "ranger:item/netherite_crossbow",
+    "textures": {
+        "layer0": "ranger:item/netherite_crossbow_pulling_1"
+    }
+}

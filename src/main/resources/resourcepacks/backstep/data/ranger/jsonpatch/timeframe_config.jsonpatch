@@ -1,0 +1,5 @@
+@version "1";
+@target "ranger:enchantment/backstep.json";
+
+$effects.'minecraft:post_attack'[0].effect.min_duration = ranger_config.bow.backstepTimeframe;
+$effects.'minecraft:post_attack'[0].effect.max_duration = ranger_config.bow.backstepTimeframe;

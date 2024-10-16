@@ -1,0 +1,27 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "minMixinExtrasVersion": "0.5.0-beta.3",
+  "package": "me.pajic.ranger.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AbstractArrowMixin",
+    "BowItemMixin",
+    "CrossbowItemMixin",
+    "FireworkRocketEntityMixin",
+    "PlayerMixin",
+    "RangedBowAttackGoalMixin",
+    "TippedArrowRecipeMixin",
+    "base.jsonpatcher.PatcherMixin",
+    "compat.emi.VanillaPluginMixin"
+  ],
+  "client": [
+    "GuiMixin",
+    "ItemInHandRendererMixin",
+    "PlayerRendererMixin",
+    "base.PackSelectionModelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

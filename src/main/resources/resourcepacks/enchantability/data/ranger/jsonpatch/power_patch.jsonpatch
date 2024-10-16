@@ -1,0 +1,4 @@
+@version "1";
+@target "minecraft:enchantment/power.json";
+
+$supported_items = "#minecraft:enchantable/power_enchantable";

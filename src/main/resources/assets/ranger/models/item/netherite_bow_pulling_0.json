@@ -1,0 +1,6 @@
+{
+    "parent": "ranger:item/netherite_bow",
+    "textures": {
+        "layer0": "ranger:item/netherite_bow_pulling_0"
+    }
+}

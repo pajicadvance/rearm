@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "ranger",
+  "version": "${version}",
+  "name": "Ranger",
+  "description": "",
+  "authors": [
+    "pajic"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/ranger/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.pajic.ranger.Main"
+    ],
+    "client": [
+      "me.pajic.ranger.ClientMain"
+    ]
+  },
+  "mixins": [
+    "ranger.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "owo-lib": "^0.12.15",
+    "jsonpatcher": "*",
+    "disable_custom_worlds_advice": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
+  }
+}

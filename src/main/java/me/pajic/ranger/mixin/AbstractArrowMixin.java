@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.pajic.ranger.Main;
+import me.pajic.ranger.item.RangerItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,6 +29,18 @@ public abstract class AbstractArrowMixin extends Projectile {
     @Shadow public abstract boolean isCritArrow();
     @Shadow public abstract boolean shotFromCrossbow();
     @Shadow public abstract ItemStack getWeaponItem();
+    @Shadow private @Nullable ItemStack firedFromWeapon;
+
+    @ModifyExpressionValue(
+            method = "shotFromCrossbow",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
+            )
+    )
+    private boolean ranger_shotFromCrossbow(boolean original) {
+        return original || firedFromWeapon.is(RangerItems.NETHERITE_CROSSBOW);
+    }
 
     @ModifyExpressionValue(
             method = "onHitEntity",
@@ -64,7 +78,6 @@ public abstract class AbstractArrowMixin extends Projectile {
             if (getWeaponItem() != null) {
                 // Apply Power enchantment bonus to perfect shot damage
                 float bonusDamage = EnchantmentHelper.modifyDamage((ServerLevel) level(), getWeaponItem(), entity, damageSource, Main.CONFIG.bow.perfectShotAdditionalDamage());
-                System.out.println("Perfect shot: " + bonusDamage + " bonus damage");
                 // Add the bonus damage
                 i.set((int) (i.get() + bonusDamage));
             }

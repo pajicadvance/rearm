@@ -16,9 +16,9 @@ public class RangerConfigModel {
     public static class Bow {
         public boolean enablePerfectShot = true;
         @PredicateConstraint("positive") public int perfectShotAdditionalDamage = 2;
-        @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.25F;
+        @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.1F;
         @RestartRequired public boolean enableBackstep = true;
-        @RestartRequired @PredicateConstraint("greaterThanZero") public float backstepTimeframe = 0.35F;
+        @RestartRequired @PredicateConstraint("greaterThanZero") public float backstepTimeframe = 0.25F;
         public boolean playerDrawingSounds = true;
         public boolean mobDrawingSounds = true;
         @RestartRequired public boolean acceptMultishot = true;

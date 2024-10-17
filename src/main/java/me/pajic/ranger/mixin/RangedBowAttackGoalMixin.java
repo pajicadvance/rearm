@@ -28,7 +28,10 @@ public class RangedBowAttackGoalMixin<T extends Monster & RangedAttackMob> {
     )
     private void playMobBowDrawingSound(CallbackInfo ci) {
         if (Main.CONFIG.bow.mobDrawingSounds()) {
-            mob.playSound(SoundEvents.CROSSBOW_QUICK_CHARGE_1.value(), 1.0F, 1.0F);
+            mob.playSound(
+                    SoundEvents.CROSSBOW_QUICK_CHARGE_1.value(),
+                    0.65F, 1.0F
+            );
         }
     }
 }

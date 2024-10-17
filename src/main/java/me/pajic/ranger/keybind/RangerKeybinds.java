@@ -1,6 +1,7 @@
 package me.pajic.ranger.keybind;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import me.pajic.ranger.effect.RangerEffects;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
@@ -29,14 +30,7 @@ public class RangerKeybinds {
             if (
                     // Check if backstep keybind got pressed while under the backstep status effect
                     BACKSTEP.consumeClick() && client.level != null && client.player != null &&
-                    client.player.hasEffect(
-                            client.level.registryAccess().registryOrThrow(Registries.MOB_EFFECT).getHolderOrThrow(
-                                    ResourceKey.create(
-                                            Registries.MOB_EFFECT,
-                                            ResourceLocation.fromNamespaceAndPath("ranger", "backstep_effect")
-                                    )
-                            )
-                    )
+                    client.player.hasEffect(RangerEffects.BACKSTEP_EFFECT)
             ) {
                 Player player = client.player;
                 // Get backstep enchantment level

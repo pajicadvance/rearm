@@ -1,22 +1,27 @@
 package me.pajic.ranger.keybind;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import me.pajic.ranger.effect.RangerEffects;
+import me.pajic.ranger.Main;
+import me.pajic.ranger.ability.BackstepAbility;
+import me.pajic.ranger.ability.CooldownTracker;
+import me.pajic.ranger.ability.MultishotAbility;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.phys.Vec3;
 import org.lwjgl.glfw.GLFW;
 
 public class RangerKeybinds {
 
-    private static final KeyMapping BACKSTEP = KeyBindingHelper.registerKeyBinding(
+    private static final KeyMapping ABILITY_KEY = KeyBindingHelper.registerKeyBinding(
+            new KeyMapping(
+                    "key.ranger.ability",
+                    InputConstants.Type.KEYSYM,
+                    GLFW.GLFW_KEY_X,
+                    "category.ranger.keybindings"
+            )
+    );
+
+    private static final KeyMapping BACKSTEP_KEY = KeyBindingHelper.registerKeyBinding(
             new KeyMapping(
                     "key.ranger.backstep",
                     InputConstants.Type.KEYSYM,
@@ -27,34 +32,14 @@ public class RangerKeybinds {
 
     public static void initKeybinds() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (
-                    // Check if backstep keybind got pressed while under the backstep status effect
-                    BACKSTEP.consumeClick() && client.level != null && client.player != null &&
-                    client.player.hasEffect(RangerEffects.BACKSTEP_EFFECT)
-            ) {
-                Player player = client.player;
-                // Get backstep enchantment level
-                int backstepLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                        client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(
-                                ResourceKey.create(
-                                        Registries.ENCHANTMENT,
-                                        ResourceLocation.fromNamespaceAndPath("ranger", "backstep")
-                                )
-                        ),
-                        player.getMainHandItem()
-                );
-                // Launch player
-                Vec3 look = player.getViewVector(1);
-                player.setDeltaMovement(
-                        -look.x / (4 - backstepLevel),
-                        player.getAttributeValue(Attributes.JUMP_STRENGTH),
-                        -look.z / (4 - backstepLevel)
-                );
-                // Apply exhaustion equal to jump exhaustion
-                if (player.isSprinting()) {
-                    player.causeFoodExhaustion(0.2F);
-                } else {
-                    player.causeFoodExhaustion(0.05F);
+            if (CooldownTracker.BACKSTEP_CD == 0) {
+                if (BackstepAbility.tryBackstep(BACKSTEP_KEY, client)) {
+                    CooldownTracker.BACKSTEP_CD = Main.CONFIG.bow.backstepTimeframe();
+                }
+            }
+            if (CooldownTracker.ABILITY_CD == 0) {
+                if (MultishotAbility.tryMultishot(ABILITY_KEY, client)) {
+                    CooldownTracker.ABILITY_CD = Main.CONFIG.abilities.abilityCooldown();
                 }
             }
         });

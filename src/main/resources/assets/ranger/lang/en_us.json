@@ -5,6 +5,7 @@
   "effect.ranger.backstep_effect": "Backstep Effect",
 
   "category.ranger.keybindings": "Ranger",
+  "key.ranger.ability": "Prepare Ability",
   "key.ranger.backstep": "Perform Backstep",
 
   "item.ranger.netherite_bow": "Netherite Bow",
@@ -18,9 +19,9 @@
   "text.config.ranger.category.bow": "Bow",
   "text.config.ranger.option.bow.enablePerfectShot": "Enable Perfect Shot",
   "text.config.ranger.option.bow.perfectShotAdditionalDamage": "Perfect Shot bonus damage",
-  "text.config.ranger.option.bow.perfectShotTimeframe": "Perfect Shot timeframe",
+  "text.config.ranger.option.bow.perfectShotTimeframe": "Perfect Shot timeframe (seconds)",
   "text.config.ranger.option.bow.enableBackstep": "Enable Backstep enchantment",
-  "text.config.ranger.option.bow.backstepTimeframe": "Backstep timeframe",
+  "text.config.ranger.option.bow.backstepTimeframe": "Backstep timeframe (ticks)",
   "text.config.ranger.option.bow.playerDrawingSounds": "Player drawing sound",
   "text.config.ranger.option.bow.mobDrawingSounds": "Mob drawing sound",
   "text.config.ranger.option.bow.acceptMultishot": "Accept Multishot enchantment",
@@ -32,13 +33,14 @@
   "text.config.ranger.option.crossbow.baseFireworkDamage": "One star firework damage",
   "text.config.ranger.option.crossbow.damagePerFireworkStar": "Additional damage per star",
   "text.config.ranger.option.crossbow.modifyLoadSpeed": "Modify charge time",
-  "text.config.ranger.option.crossbow.loadTime": "Charge time",
+  "text.config.ranger.option.crossbow.loadTime": "Charge time (seconds)",
   "text.config.ranger.option.crossbow.rejectMultishot": "Reject Multishot enchantment",
   "text.config.ranger.option.crossbow.acceptPower": "Accept Power enchantment",
   "text.config.ranger.option.crossbow.acceptInfinity": "Accept Infinity enchantment",
   "text.config.ranger.option.crossbow.crossbowNetheriteVariant": "Enable Netherite Crossbow",
-  "text.config.ranger.category.other": "Other",
-  "text.config.ranger.option.other.craftTippedArrowsWithRegularPotions": "Tipped arrows from regular potions",
-  "text.config.ranger.option.other.infinityFix": "Infinity Fix",
-  "text.config.ranger.option.other.infinimending": "Compatible Infinity and Mending"
+  "text.config.ranger.category.general": "General",
+  "text.config.ranger.option.general.abilityCooldown": "Ability cooldown (ticks)",
+  "text.config.ranger.option.general.craftTippedArrowsWithRegularPotions": "Tipped arrows from regular potions",
+  "text.config.ranger.option.general.infinityFix": "Infinity Fix",
+  "text.config.ranger.option.general.infinimending": "Compatible Infinity and Mending"
 }

@@ -1,5 +1,6 @@
 package me.pajic.ranger;
 
+import me.pajic.ranger.ability.AbilityNetworking;
 import me.pajic.ranger.config.RangerConfig;
 import me.pajic.ranger.data.RangerData;
 import me.pajic.ranger.effect.RangerEffects;
@@ -15,5 +16,6 @@ public class Main implements ModInitializer {
         RangerEffects.initEffects();
         RangerData.initData();
         RangerItems.initItems();
+        AbilityNetworking.initServer();
     }
 }

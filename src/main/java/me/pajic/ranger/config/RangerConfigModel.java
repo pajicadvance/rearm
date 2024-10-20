@@ -11,6 +11,7 @@ public class RangerConfigModel {
 
     @Nest public Bow bow = new Bow();
     @Nest public Crossbow crossbow = new Crossbow();
+    @Nest public Abilities abilities = new Abilities();
     @Nest public Other other = new Other();
 
     public static class Bow {
@@ -18,7 +19,7 @@ public class RangerConfigModel {
         @PredicateConstraint("positive") public int perfectShotAdditionalDamage = 2;
         @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.1F;
         @RestartRequired public boolean enableBackstep = true;
-        @RestartRequired @PredicateConstraint("greaterThanZero") public float backstepTimeframe = 0.25F;
+        @RestartRequired @PredicateConstraint("greaterThanZero") public int backstepTimeframe = 5;
         public boolean playerDrawingSounds = true;
         public boolean mobDrawingSounds = true;
         @RestartRequired public boolean acceptMultishot = true;
@@ -56,6 +57,16 @@ public class RangerConfigModel {
         }
         public static boolean positive(int value) {
             return Predicates.positive(value);
+        }
+    }
+
+    public static class Abilities {
+        public boolean multishotAbility = true;
+        public boolean piercingShotAbility = true;
+        @PredicateConstraint("greaterThanZero") public int abilityCooldown = 160;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
         }
     }
 

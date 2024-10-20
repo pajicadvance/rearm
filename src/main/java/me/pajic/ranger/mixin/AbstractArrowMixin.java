@@ -50,9 +50,11 @@ public abstract class AbstractArrowMixin extends Projectile {
             )
     )
     private double modifyVelocity(double original) {
-        if (Main.CONFIG.bow.enablePerfectShot() && !shotFromCrossbow() && original > 3.0) {
-            // Cap bow velocity to 3.0 to prevent damage overshot by one
-            // e.g. int i = 2 * 3.01 results in 7
+        System.out.println(original);
+        if (Main.CONFIG.bow.enablePerfectShot() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
+            // Cap bow velocity to 3.0 for consistent damage.
+            // If velocity is 3.5 or higher, we assume that the player is doing a trick shot,
+            // and allow the damage increase.
             return 3.0;
         }
         if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {

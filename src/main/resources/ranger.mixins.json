@@ -10,12 +10,14 @@
     "CrossbowItemMixin",
     "FireworkRocketEntityMixin",
     "PlayerMixin",
+    "ProjectileWeaponItemMixin",
     "RangedBowAttackGoalMixin",
     "TippedArrowRecipeMixin",
     "base.jsonpatcher.PatcherMixin",
     "compat.emi.VanillaPluginMixin"
   ],
   "client": [
+    "GuiGraphicsMixin",
     "GuiMixin",
     "ItemInHandRendererMixin",
     "PlayerRendererMixin",

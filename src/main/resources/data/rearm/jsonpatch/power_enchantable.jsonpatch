@@ -1,0 +1,6 @@
+@version "1";
+@target "minecraft:tags/item/enchantable/power_enchantable.json";
+
+if (rearm_config.crossbow.acceptPower) {
+    $values = arrays.push($values, "#minecraft:enchantable/crossbow");
+}

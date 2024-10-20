@@ -1,0 +1,5 @@
+@version "1";
+@target "rearm:enchantment/backstep.json";
+
+$effects.'minecraft:post_attack'[0].effect.min_duration = rearm_config.bow.backstepTimeframe / 20;
+$effects.'minecraft:post_attack'[0].effect.max_duration = rearm_config.bow.backstepTimeframe / 20;

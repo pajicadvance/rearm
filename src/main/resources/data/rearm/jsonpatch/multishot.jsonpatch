@@ -1,0 +1,9 @@
+@version "1";
+@target "minecraft:enchantment/multishot.json";
+
+$supported_items = "#minecraft:enchantable/multishot_enchantable";
+
+if (rearm_config.abilities.multishotAbility) {
+    $effects.'minecraft:projectile_count'[0].effect.value.base = 6;
+    $effects.'minecraft:projectile_spread'[0].effect.value.base = 25;
+}

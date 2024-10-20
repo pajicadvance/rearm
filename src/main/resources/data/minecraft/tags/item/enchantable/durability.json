@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "ranger:netherite_bow",
-    "ranger:netherite_crossbow"
+    "rearm:netherite_bow",
+    "rearm:netherite_crossbow"
   ]
 }

@@ -1,26 +1,26 @@
 {
   "schemaVersion": 1,
-  "id": "ranger",
+  "id": "rearm",
   "version": "${version}",
-  "name": "Ranger",
-  "description": "",
+  "name": "ReArm",
+  "description": "Remunition and Armament",
   "authors": [
     "pajic"
   ],
   "contact": {},
   "license": "MIT",
-  "icon": "assets/ranger/icon.png",
+  "icon": "assets/rearm/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "me.pajic.ranger.Main"
+      "me.pajic.rearm.Main"
     ],
     "client": [
-      "me.pajic.ranger.ClientMain"
+      "me.pajic.rearm.ClientMain"
     ]
   },
   "mixins": [
-    "ranger.mixins.json"
+    "rearm.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

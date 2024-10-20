@@ -1,0 +1,9 @@
+@version "1";
+@target "minecraft:tags/item/enchantable/multishot_enchantable.json";
+
+if (rearm_config.bow.acceptMultishot) {
+    $values = arrays.push($values, "#minecraft:enchantable/bow");
+}
+if (rearm_config.crossbow.rejectMultishot) {
+    $values = arrays.remove($values, "#minecraft:enchantable/crossbow");
+}

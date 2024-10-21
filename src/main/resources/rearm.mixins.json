@@ -6,12 +6,16 @@
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "AbstractArrowMixin",
+    "AnvilMenuMixin",
     "BowItemMixin",
     "CrossbowItemMixin",
+    "EnchantCommandMixin",
+    "EnchantmentHelperMixin",
     "FireworkRocketEntityMixin",
     "PlayerMixin",
     "ProjectileWeaponItemMixin",
     "RangedBowAttackGoalMixin",
+    "ServerGamePacketListenerImplMixin",
     "TippedArrowRecipeMixin",
     "base.jsonpatcher.PatcherMixin",
     "compat.emi.VanillaPluginMixin"

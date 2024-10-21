@@ -1,10 +1,12 @@
 {
   "enchantment.rearm.backstep": "Backstep",
-  "enchantment.rearm.backstep.desc": "Press the Perform Backstep keybind shortly after hitting an enemy with a bow to perform a backwards dash.",
+  "enchantment.rearm.backstep.desc": "Press the Perform Backstep key shortly after shooting an enemy to perform a backwards dash",
+  "enchantment.rearm.magic_protection": "Magic Protection",
+  "enchantment.rearm.magic_protection.desc": "High resistance to magic attacks",
 
   "effect.rearm.backstep_effect": "Backstep Effect",
 
-  "category.rearm.keybindings": "Ranger",
+  "category.rearm.keybindings": "ReArm",
   "key.rearm.ability": "Prepare Ability",
   "key.rearm.backstep": "Perform Backstep",
 
@@ -15,7 +17,7 @@
   "tag.minecraft.enchantable.multishot_enchantable": "Multishot Enchantable",
   "tag.minecraft.enchantable.power_enchantable": "Power Enchantable",
 
-  "text.config.rearm.title": "Ranger Mod Config",
+  "text.config.rearm.title": "ReArm Mod Config",
   "text.config.rearm.category.bow": "Bow",
   "text.config.rearm.option.bow.enablePerfectShot": "Enable Perfect Shot",
   "text.config.rearm.option.bow.perfectShotAdditionalDamage": "Perfect Shot bonus damage",
@@ -38,9 +40,21 @@
   "text.config.rearm.option.crossbow.acceptPower": "Accept Power enchantment",
   "text.config.rearm.option.crossbow.acceptInfinity": "Accept Infinity enchantment",
   "text.config.rearm.option.crossbow.crossbowNetheriteVariant": "Enable Netherite Crossbow",
-  "text.config.rearm.category.general": "General",
-  "text.config.rearm.option.general.abilityCooldown": "Ability cooldown (ticks)",
-  "text.config.rearm.option.general.craftTippedArrowsWithRegularPotions": "Tipped arrows from regular potions",
-  "text.config.rearm.option.general.infinityFix": "Infinity Fix",
-  "text.config.rearm.option.general.infinimending": "Compatible Infinity and Mending"
+  "text.config.rearm.category.abilities": "Abilities",
+
+  "text.config.rearm.category.protection": "Protection",
+  "text.config.rearm.option.protection.meleeProtection": "Melee Protection",
+  "text.config.rearm.option.protection.meleeProtection.tooltip": "Changes Protection to only work against physical damage\nand renames it to Melee Protection.",
+  "text.config.rearm.option.protection.elementalProtection": "Elemental Protection",
+  "text.config.rearm.option.protection.elementalProtection.tooltip": "Changes Fire Protection to work against lightning and freeze damage\non top of fire damage and renames it to Elemental Protection.",
+  "text.config.rearm.option.protection.magicProtection": "Magic Protection",
+  "text.config.rearm.option.protection.magicProtection.tooltip": "Adds a new armor enchantment that protects against magic damage.",
+  "text.config.rearm.option.protection.allowMultipleProtectionEnchantments": "Allow Multiple Protection Types",
+  "text.config.rearm.option.protection.allowMultipleProtectionEnchantments.tooltip": "Allows multiple different types of protection enchantments on the same item.",
+  "text.config.rearm.option.protection.maxProtectionEnchantments": "Max Protection Types",
+  "text.config.rearm.option.protection.maxProtectionEnchantments.tooltip": "Set the maximum allowed amount of different protection types on the same item.",
+  "text.config.rearm.category.tweaks": "Tweaks",
+  "text.config.rearm.option.tweaks.craftTippedArrowsWithRegularPotions": "Tipped arrows from regular potions",
+  "text.config.rearm.option.tweaks.infinityFix": "Infinity Fix",
+  "text.config.rearm.option.tweaks.infinimending": "Compatible Infinity and Mending"
 }

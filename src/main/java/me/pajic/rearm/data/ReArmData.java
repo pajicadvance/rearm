@@ -19,7 +19,23 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.other.infinimending()) {
+            if (Main.CONFIG.protection.magicProtection()) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        ResourceLocation.parse("rearm:magic_protection"),
+                        modContainer,
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
+
+            if (Main.CONFIG.protection.meleeProtection()) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        ResourceLocation.parse("rearm:melee_protection"),
+                        modContainer,
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
+
+            if (Main.CONFIG.tweaks.infinimending()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:infinimending"),
                         modContainer,

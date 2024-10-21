@@ -12,7 +12,8 @@ public class ReArmConfigModel {
     @Nest public Bow bow = new Bow();
     @Nest public Crossbow crossbow = new Crossbow();
     @Nest public Abilities abilities = new Abilities();
-    @Nest public Other other = new Other();
+    @Nest public Protection protection = new Protection();
+    @Nest public Tweaks tweaks = new Tweaks();
 
     public static class Bow {
         public boolean enablePerfectShot = true;
@@ -63,6 +64,8 @@ public class ReArmConfigModel {
     public static class Abilities {
         public boolean multishotAbility = true;
         public boolean piercingShotAbility = true;
+        public boolean sweepingEdgeAbility = true;
+        public boolean cripplingBlowAbility = true;
         @PredicateConstraint("greaterThanZero") public int abilityCooldown = 160;
 
         public static boolean greaterThanZero(int value) {
@@ -70,7 +73,19 @@ public class ReArmConfigModel {
         }
     }
 
-    public static class Other {
+    public static class Protection {
+        @RestartRequired public boolean meleeProtection = true;
+        @RestartRequired public boolean elementalProtection = true;
+        @RestartRequired public boolean magicProtection = true;
+        public boolean allowMultipleProtectionEnchantments = true;
+        @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 2;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class Tweaks {
         @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
         public boolean infinityFix = true;
         @RestartRequired public boolean infinimending = true;

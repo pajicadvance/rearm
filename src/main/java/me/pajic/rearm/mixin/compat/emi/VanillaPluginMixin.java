@@ -22,7 +22,7 @@ public class VanillaPluginMixin {
             )
     )
     private static ItemStack setRequiredPotionType(ItemStack stack) {
-        if (Main.CONFIG.other.craftTippedArrowsWithRegularPotions()) {
+        if (Main.CONFIG.tweaks.craftTippedArrowsWithRegularPotions()) {
             return new ItemStack(Items.POTION);
         }
         return stack;

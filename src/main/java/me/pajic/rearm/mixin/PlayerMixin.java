@@ -29,7 +29,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private boolean infinityFix(boolean original, @Local(argsOnly = true) ItemStack weaponStack) {
-        if (Main.CONFIG.other.infinityFix()) {
+        if (Main.CONFIG.tweaks.infinityFix()) {
             int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
                             .getHolderOrThrow(Enchantments.INFINITY),

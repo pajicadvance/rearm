@@ -1,4 +1,0 @@
-@version "1";
-@target "minecraft:enchantment/power.json";
-
-$effects.'minecraft:damage'[0].effect.value.base = 1.0;

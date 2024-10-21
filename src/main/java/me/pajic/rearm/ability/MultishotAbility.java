@@ -6,15 +6,13 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 public class MultishotAbility {
-
-    public static ItemStack ACTIVE_ITEM_CLIENT;
-    public static boolean MULTISHOT_READY_CLIENT;
 
     public static boolean tryMultishot(KeyMapping abilityKey, Minecraft client) {
         if (
@@ -28,9 +26,9 @@ public class MultishotAbility {
                         client.player.getWeaponItem()
                 ) > 0
         ) {
-            ACTIVE_ITEM_CLIENT = client.player.getWeaponItem().copy();
-            ClientPlayNetworking.send(new AbilityNetworking.C2STriggerMultishotAbilityPayload(ACTIVE_ITEM_CLIENT, client.player.getUUID()));
-            MULTISHOT_READY_CLIENT = true;
+            CooldownTracker.ACTIVE_ITEM_CLIENT = client.player.getWeaponItem().copy();
+            ClientPlayNetworking.send(new AbilityNetworking.C2STriggerMultishotAbilityPayload(CooldownTracker.ACTIVE_ITEM_CLIENT, client.player.getUUID()));
+            CooldownTracker.ABILITY_TYPE = AbilityType.MULTISHOT;
             abilityKey.setDown(false);
             return true;
         }
@@ -38,6 +36,12 @@ public class MultishotAbility {
     }
 
     public static boolean shouldRenderMultishotReadyHotbarIndicator(ItemStack stack, LocalPlayer localPlayer) {
-        return localPlayer != null && MULTISHOT_READY_CLIENT && Main.CONFIG.abilities.multishotAbility() && ItemStack.matches(stack, ACTIVE_ITEM_CLIENT);
+        return localPlayer != null && CooldownTracker.ABILITY_TYPE == AbilityType.MULTISHOT &&
+                Main.CONFIG.abilities.multishotAbility() && ItemStack.matches(stack, CooldownTracker.ACTIVE_ITEM_CLIENT);
+    }
+
+    public static boolean shouldTriggerMultishot(ItemStack weapon, Entity player) {
+        return AbilityNetworking.getPlayerAbilityType(player.getUUID()) == AbilityType.MULTISHOT &&
+                ItemStack.matches(AbilityNetworking.getPlayerActiveItem(player.getUUID()), weapon);
     }
 }

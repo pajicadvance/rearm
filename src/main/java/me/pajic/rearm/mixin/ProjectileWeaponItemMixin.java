@@ -4,6 +4,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityNetworking;
+import me.pajic.rearm.ability.AbilityType;
+import me.pajic.rearm.ability.MultishotAbility;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,9 +34,9 @@ public class ProjectileWeaponItemMixin {
     )
     private float multishotAbility_shoot(ServerLevel level, ItemStack weapon, Entity entity, float projectileSpread, Operation<Float> original) {
         if (Main.CONFIG.abilities.multishotAbility()) {
-            if (AbilityNetworking.shouldTriggerMultishot(weapon, entity)) {
+            if (MultishotAbility.shouldTriggerMultishot(weapon, entity)) {
                 if (entity instanceof ServerPlayer player) {
-                    ServerPlayNetworking.send(player, new AbilityNetworking.S2CClearAbilityUsedFlagPayload());
+                    ServerPlayNetworking.send(player, new AbilityNetworking.S2CSignalAbilityUsedPayload());
                 }
                 return original.call(level, weapon, entity, projectileSpread);
             }
@@ -52,7 +54,7 @@ public class ProjectileWeaponItemMixin {
     )
     private static int multishotAbility_draw(ServerLevel level, ItemStack weapon, Entity entity, int projectileCount, Operation<Integer> original) {
         if (Main.CONFIG.abilities.multishotAbility()) {
-            if (AbilityNetworking.shouldTriggerMultishot(weapon, entity)) {
+            if (MultishotAbility.shouldTriggerMultishot(weapon, entity)) {
                 return original.call(level, weapon, entity, projectileCount);
             }
             return 1;
@@ -64,12 +66,12 @@ public class ProjectileWeaponItemMixin {
             method = "shoot",
             at = @At("TAIL")
     )
-    private void resetReadyFlagOnUse(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, @Nullable LivingEntity target, CallbackInfo ci) {
-        if (AbilityNetworking.shouldTriggerMultishot(weapon, shooter)) {
+    private void resetDataOnUse(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, @Nullable LivingEntity target, CallbackInfo ci) {
+        if (MultishotAbility.shouldTriggerMultishot(weapon, shooter)) {
             if (shooter instanceof ServerPlayer player) {
-                ServerPlayNetworking.send(player, new AbilityNetworking.S2CClearClientMultishotReadyFlagPayload());
+                ServerPlayNetworking.send(player, new AbilityNetworking.S2CResetAbilityTypePayload());
+                AbilityNetworking.setPlayerAbilityData(player.getUUID(), ItemStack.EMPTY, AbilityType.NONE);
             }
-            AbilityNetworking.MULTISHOT_READY_SERVER = false;
         }
     }
 }

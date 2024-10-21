@@ -1,11 +1,10 @@
 package me.pajic.rearm.ability;
 
 import me.pajic.rearm.effect.ReArmEffects;
+import me.pajic.rearm.enchantment.ReArmEnchantments;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -22,12 +21,7 @@ public class BackstepAbility {
             Player player = client.player;
             // Get backstep enchantment level
             int backstepLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                    client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(
-                            ResourceKey.create(
-                                    Registries.ENCHANTMENT,
-                                    ResourceLocation.fromNamespaceAndPath("rearm", "backstep")
-                            )
-                    ),
+                    client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
                     player.getMainHandItem()
             );
             // Launch player

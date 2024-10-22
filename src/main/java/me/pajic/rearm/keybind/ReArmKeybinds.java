@@ -2,9 +2,7 @@ package me.pajic.rearm.keybind;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import me.pajic.rearm.Main;
-import me.pajic.rearm.ability.BackstepAbility;
-import me.pajic.rearm.ability.CooldownTracker;
-import me.pajic.rearm.ability.MultishotAbility;
+import me.pajic.rearm.ability.*;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.KeyMapping;
@@ -38,7 +36,7 @@ public class ReArmKeybinds {
                 }
             }
             if (CooldownTracker.ABILITY_CD == 0) {
-                if (MultishotAbility.tryMultishot(ABILITY_KEY, client)) {
+                if (AbilityManager.tryAbilities(ABILITY_KEY, client)) {
                     CooldownTracker.ABILITY_CD = Main.CONFIG.abilities.abilityCooldown();
                 }
             }

@@ -1,0 +1,6 @@
+@version "1";
+@target "minecraft:lang/en_us.json";
+
+if (rearm_config.abilities.piercingShotAbility) {
+    $'enchantment.minecraft.piercing' = "Piercing Shot";
+}

@@ -1,6 +1,6 @@
 package me.pajic.rearm.mixin;
 
-import me.pajic.rearm.ability.AbilityNetworking;
+import me.pajic.rearm.ability.AbilityManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,6 +19,6 @@ public class ServerGamePacketListenerImplMixin {
             at = @At("HEAD")
     )
     private void removePlayerAbilityData(CallbackInfo ci) {
-        AbilityNetworking.removePlayerAbilityData(player.getUUID());
+        AbilityManager.removePlayerAbilityData(player.getUUID());
     }
 }

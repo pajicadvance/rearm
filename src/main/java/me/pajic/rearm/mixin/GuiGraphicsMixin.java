@@ -5,8 +5,8 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.pajic.rearm.Main;
+import me.pajic.rearm.ability.AbilityManager;
 import me.pajic.rearm.ability.CooldownTracker;
-import me.pajic.rearm.ability.MultishotAbility;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
@@ -32,7 +32,7 @@ public class GuiGraphicsMixin {
                                           @Local LocalFloatRef f,
                                           @Local LocalPlayer localPlayer
     ) {
-        if (MultishotAbility.shouldRenderMultishotReadyHotbarIndicator(stack, localPlayer)) {
+        if (AbilityManager.shouldRenderHotbarIndicator(stack, localPlayer)) {
             f.set(1);
             return minecraft.level != null && minecraft.level.getGameTime() % 10 > 0 && minecraft.level.getGameTime() % 10 < 5;
         }

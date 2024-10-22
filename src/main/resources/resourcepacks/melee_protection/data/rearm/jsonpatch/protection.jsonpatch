@@ -4,7 +4,7 @@
 val tags = [
     {
         "expected": false,
-        "id": "minecraft:is_fire"
+        "id": "rearm:is_elemental"
     },
     {
         "expected": false,
@@ -13,10 +13,6 @@ val tags = [
     {
         "expected": false,
         "id": "minecraft:is_projectile"
-    },
-    {
-        "expected": false,
-        "id": "minecraft:is_lightning"
     },
     {
         "expected": false,

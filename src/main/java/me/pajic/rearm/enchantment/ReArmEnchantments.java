@@ -16,13 +16,13 @@ public class ReArmEnchantments {
     );
 
     public static void updateProtectionEnchantments(ItemEnchantments.Mutable existing, ItemEnchantments addition) {
-        for (Holder<Enchantment> e : addition.keySet()) {
-            if (e.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
-                if (existing.getLevel(e) == 0) {
-                    existing.set(e, addition.getLevel(e));
+        for (Holder<Enchantment> enchantment : addition.keySet()) {
+            if (enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+                if (existing.getLevel(enchantment) == 0) {
+                    existing.set(enchantment, addition.getLevel(enchantment));
                 }
                 else {
-                    existing.upgrade(e, addition.getLevel(e));
+                    existing.upgrade(enchantment, addition.getLevel(enchantment));
                 }
             }
         }

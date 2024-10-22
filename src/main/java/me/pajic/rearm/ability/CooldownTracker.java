@@ -1,10 +1,9 @@
 package me.pajic.rearm.ability;
 
 import me.pajic.rearm.Main;
+import me.pajic.rearm.item.ReArmItems;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 
 public class CooldownTracker {
@@ -17,8 +16,8 @@ public class CooldownTracker {
 
     public static boolean shouldRenderAbilityCooldownInHotbar(ItemStack stack, LocalPlayer localPlayer) {
         return localPlayer != null && ABILITY_USED &&
-                (Main.CONFIG.abilities.multishotAbility() && stack.getItem() instanceof BowItem ||
-                Main.CONFIG.abilities.piercingShotAbility() && stack.getItem() instanceof CrossbowItem);
+                (Main.CONFIG.abilities.multishotAbility() && ReArmItems.isBow(stack) ||
+                Main.CONFIG.abilities.piercingShotAbility() && ReArmItems.isCrossbow(stack));
     }
 
     public static void initClientTracker() {

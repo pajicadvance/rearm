@@ -4,8 +4,15 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.pajic.rearm.Main;
+import me.pajic.rearm.ability.AbilityManager;
+import me.pajic.rearm.ability.AbilityType;
 import me.pajic.rearm.item.ReArmItems;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -14,10 +21,11 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractArrow.class)
 public abstract class AbstractArrowMixin extends Projectile {
@@ -29,7 +37,8 @@ public abstract class AbstractArrowMixin extends Projectile {
     @Shadow public abstract boolean isCritArrow();
     @Shadow public abstract boolean shotFromCrossbow();
     @Shadow public abstract ItemStack getWeaponItem();
-    @Shadow private @Nullable ItemStack firedFromWeapon;
+
+    @Shadow protected boolean inGround;
 
     @ModifyExpressionValue(
             method = "shotFromCrossbow",
@@ -38,8 +47,8 @@ public abstract class AbstractArrowMixin extends Projectile {
                     target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
             )
     )
-    private boolean ranger_shotFromCrossbow(boolean original) {
-        return original || firedFromWeapon.is(ReArmItems.NETHERITE_CROSSBOW);
+    private boolean considerModCrossbows(boolean original) {
+        return ReArmItems.isCrossbow(getWeaponItem());
     }
 
     @ModifyExpressionValue(
@@ -50,7 +59,6 @@ public abstract class AbstractArrowMixin extends Projectile {
             )
     )
     private double modifyVelocity(double original) {
-        System.out.println(original);
         if (Main.CONFIG.bow.enablePerfectShot() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
             // Cap bow velocity to 3.0 for consistent damage.
             // If velocity is 3.5 or higher, we assume that the player is doing a trick shot,
@@ -79,7 +87,13 @@ public abstract class AbstractArrowMixin extends Projectile {
         if (Main.CONFIG.bow.enablePerfectShot() && isCritArrow() && !shotFromCrossbow()) {
             if (getWeaponItem() != null) {
                 // Apply Power enchantment bonus to perfect shot damage
-                float bonusDamage = EnchantmentHelper.modifyDamage((ServerLevel) level(), getWeaponItem(), entity, damageSource, Main.CONFIG.bow.perfectShotAdditionalDamage());
+                float bonusDamage = EnchantmentHelper.modifyDamage(
+                        (ServerLevel) level(),
+                        getWeaponItem(),
+                        entity,
+                        damageSource,
+                        Main.CONFIG.bow.perfectShotAdditionalDamage()
+                );
                 // Add the bonus damage
                 i.set((int) (i.get() + bonusDamage));
             }
@@ -91,5 +105,43 @@ public abstract class AbstractArrowMixin extends Projectile {
             return false;
         }
         return original;
+    }
+
+    @ModifyExpressionValue(
+            method = "onHitEntity",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/damagesource/DamageSources;arrow(Lnet/minecraft/world/entity/projectile/AbstractArrow;Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/damagesource/DamageSource;"
+            )
+    )
+    private DamageSource piercingShotAbility_modifyDamageSource(DamageSource original) {
+        if (
+                Main.CONFIG.abilities.piercingShotAbility() &&
+                getOwner() instanceof ServerPlayer player &&
+                getWeaponItem() != null &&
+                AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), player)
+        ) {
+            ServerPlayNetworking.send(player, new AbilityManager.S2CResetAbilityTypePayload());
+            AbilityManager.setPlayerAbilityData(player.getUUID(), ItemStack.EMPTY, AbilityType.NONE);
+            return damageSources().source(ResourceKey.create(
+                    Registries.DAMAGE_TYPE,
+                    ResourceLocation.fromNamespaceAndPath("rearm", "piercing_arrow"))
+            );
+        }
+        return original;
+    }
+
+    @Inject(
+            method = "tick",
+            at = @At("TAIL")
+    )
+    private void resetDataOnGroundHit(CallbackInfo ci) {
+        if (
+                getOwner() instanceof ServerPlayer player && inGround &&
+                AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), getOwner())
+        ) {
+            ServerPlayNetworking.send(player, new AbilityManager.S2CResetAbilityTypePayload());
+            AbilityManager.setPlayerAbilityData(getOwner().getUUID(), ItemStack.EMPTY, AbilityType.NONE);
+        }
     }
 }

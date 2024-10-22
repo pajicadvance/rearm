@@ -12,6 +12,7 @@
     "EnchantCommandMixin",
     "EnchantmentHelperMixin",
     "FireworkRocketEntityMixin",
+    "LivingEntityMixin",
     "PlayerMixin",
     "ProjectileWeaponItemMixin",
     "RangedBowAttackGoalMixin",

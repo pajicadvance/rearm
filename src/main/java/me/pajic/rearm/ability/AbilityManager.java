@@ -1,9 +1,13 @@
 package me.pajic.rearm.ability;
 
+import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -14,18 +18,23 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class AbilityNetworking {
+public class AbilityManager {
 
-    public static final ResourceLocation TRIGGER_MULTISHOT = ResourceLocation.fromNamespaceAndPath("rearm", "trigger_multishot");
+    public static final MultishotAbility multishotAbility = new MultishotAbility();
+    public static final PiercingShotAbility piercingShotAbility = new PiercingShotAbility();
+    public static final ImmutableList<Ability> abilities = ImmutableList.of(multishotAbility, piercingShotAbility);
+
+    public static final ResourceLocation TRIGGER_ABILITY = ResourceLocation.fromNamespaceAndPath("rearm", "trigger_ability");
     public static final ResourceLocation RESET_ABILITY_TYPE = ResourceLocation.fromNamespaceAndPath("rearm", "reset_ability_type");
     public static final ResourceLocation SIGNAL_ABILITY_USED = ResourceLocation.fromNamespaceAndPath("rearm", "signal_ability_used");
 
-    public record C2STriggerMultishotAbilityPayload(ItemStack activeItem, UUID activePlayerUUID) implements CustomPacketPayload {
-        public static final CustomPacketPayload.Type<C2STriggerMultishotAbilityPayload> TYPE = new CustomPacketPayload.Type<>(TRIGGER_MULTISHOT);
-        public static final StreamCodec<RegistryFriendlyByteBuf, C2STriggerMultishotAbilityPayload> CODEC = StreamCodec.composite(
-                ItemStack.STREAM_CODEC, C2STriggerMultishotAbilityPayload::activeItem,
-                UUIDUtil.STREAM_CODEC, C2STriggerMultishotAbilityPayload::activePlayerUUID,
-                C2STriggerMultishotAbilityPayload::new
+    public record C2STriggerAbilityPayload(ItemStack activeItem, AbilityType abilityType, UUID activePlayerUUID) implements CustomPacketPayload {
+        public static final CustomPacketPayload.Type<C2STriggerAbilityPayload> TYPE = new CustomPacketPayload.Type<>(TRIGGER_ABILITY);
+        public static final StreamCodec<RegistryFriendlyByteBuf, C2STriggerAbilityPayload> CODEC = StreamCodec.composite(
+                ItemStack.STREAM_CODEC, C2STriggerAbilityPayload::activeItem,
+                AbilityType.STREAM_CODEC, C2STriggerAbilityPayload::abilityType,
+                UUIDUtil.STREAM_CODEC, C2STriggerAbilityPayload::activePlayerUUID,
+                C2STriggerAbilityPayload::new
         );
 
         @Override
@@ -89,13 +98,31 @@ public class AbilityNetworking {
         return AbilityType.NONE;
     }
 
+    public static boolean tryAbilities(KeyMapping abilityKey, Minecraft client) {
+        for (Ability ability : abilities) {
+            if (ability.tryAbility(abilityKey, client)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean shouldRenderHotbarIndicator(ItemStack stack, LocalPlayer player) {
+        for (Ability ability : abilities) {
+            if (ability.shouldRenderHotbarIndicator(stack, player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static void initServer() {
-        PayloadTypeRegistry.playC2S().register(C2STriggerMultishotAbilityPayload.TYPE, C2STriggerMultishotAbilityPayload.CODEC);
+        PayloadTypeRegistry.playC2S().register(C2STriggerAbilityPayload.TYPE, C2STriggerAbilityPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(S2CResetAbilityTypePayload.TYPE, S2CResetAbilityTypePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(S2CSignalAbilityUsedPayload.TYPE, S2CSignalAbilityUsedPayload.CODEC);
 
-        ServerPlayNetworking.registerGlobalReceiver(C2STriggerMultishotAbilityPayload.TYPE, (payload, context) ->
-                setPlayerAbilityData(payload.activePlayerUUID, payload.activeItem.copy(), AbilityType.MULTISHOT)
+        ServerPlayNetworking.registerGlobalReceiver(C2STriggerAbilityPayload.TYPE, (payload, context) ->
+                setPlayerAbilityData(payload.activePlayerUUID, payload.activeItem.copy(), payload.abilityType)
         );
     }
 

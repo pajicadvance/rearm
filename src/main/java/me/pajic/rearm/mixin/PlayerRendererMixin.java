@@ -19,6 +19,6 @@ public class PlayerRendererMixin {
             )
     )
     private static boolean crossbow_getArmPose(boolean original, @Local ItemStack itemStack) {
-        return original || itemStack.is(ReArmItems.NETHERITE_CROSSBOW);
+        return ReArmItems.isCrossbow(itemStack);
     }
 }

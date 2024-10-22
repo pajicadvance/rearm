@@ -7,16 +7,16 @@ import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
-public class MultishotAbility implements Ability {
+public class PiercingShotAbility implements Ability {
 
     @Override
     public AbilityType abilityType() {
-        return AbilityType.MULTISHOT;
+        return AbilityType.PIERCING_SHOT;
     }
 
     @Override
     public boolean configCondition() {
-        return Main.CONFIG.abilities.multishotAbility();
+        return Main.CONFIG.abilities.piercingShotAbility();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MultishotAbility implements Ability {
     public boolean enchantmentCondition(Minecraft client) {
         return EnchantmentHelper.getItemEnchantmentLevel(
                 client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                        .getHolderOrThrow(Enchantments.MULTISHOT),
+                        .getHolderOrThrow(Enchantments.PIERCING),
                 client.player.getWeaponItem()
         ) > 0;
     }

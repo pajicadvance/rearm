@@ -1,6 +1,6 @@
 package me.pajic.rearm;
 
-import me.pajic.rearm.ability.AbilityNetworking;
+import me.pajic.rearm.ability.AbilityManager;
 import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.keybind.ReArmKeybinds;
 import me.pajic.rearm.model.ReArmModels;
@@ -12,6 +12,6 @@ public class ClientMain implements ClientModInitializer {
         ReArmModels.initModels();
         ReArmKeybinds.initKeybinds();
         CooldownTracker.initClientTracker();
-        AbilityNetworking.initClient();
+        AbilityManager.initClient();
     }
 }

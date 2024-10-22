@@ -4,15 +4,22 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 
 public interface Ability {
 
     default boolean tryAbility(KeyMapping abilityKey, Minecraft client) {
         if (
                 abilityKey.isDown() && client.level != null && client.player != null &&
-                configCondition() && weaponCondition(client) && enchantmentCondition(client)
+                configCondition() && weaponCondition(client.player.getWeaponItem()) &&
+                enchantmentCondition(
+                        client.player.getWeaponItem(),
+                        client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
+                )
         ) {
             CooldownTracker.ACTIVE_ITEM_CLIENT = client.player.getWeaponItem().copy();
             ClientPlayNetworking.send(new AbilityManager.C2STriggerAbilityPayload(
@@ -25,9 +32,14 @@ public interface Ability {
         return false;
     }
 
-    default boolean shouldRenderHotbarIndicator(ItemStack stack, LocalPlayer localPlayer) {
+    default boolean shouldRenderHotbarActiveIndicator(ItemStack stack, LocalPlayer localPlayer) {
         return localPlayer != null && CooldownTracker.ABILITY_TYPE == abilityType() &&
                 configCondition() && ItemStack.matches(stack, CooldownTracker.ACTIVE_ITEM_CLIENT);
+    }
+
+    default boolean shouldRenderHotbarCooldownIndicator(ItemStack stack, Minecraft client) {
+        return client.player != null && CooldownTracker.ABILITY_USED && configCondition() && weaponCondition(stack) &&
+                enchantmentCondition(stack, client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT));
     }
 
     default boolean shouldTriggerAbility(ItemStack weapon, Entity player) {
@@ -39,7 +51,7 @@ public interface Ability {
 
     boolean configCondition();
 
-    boolean weaponCondition(Minecraft client);
+    boolean weaponCondition(ItemStack itemStack);
 
-    boolean enchantmentCondition(Minecraft client);
+    boolean enchantmentCondition(ItemStack itemStack, Registry<Enchantment> registry);
 }

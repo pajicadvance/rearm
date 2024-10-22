@@ -32,11 +32,11 @@ public class GuiGraphicsMixin {
                                           @Local LocalFloatRef f,
                                           @Local LocalPlayer localPlayer
     ) {
-        if (AbilityManager.shouldRenderHotbarIndicator(stack, localPlayer)) {
+        if (AbilityManager.shouldRenderHotbarActiveIndicator(stack, localPlayer)) {
             f.set(1);
             return minecraft.level != null && minecraft.level.getGameTime() % 10 > 0 && minecraft.level.getGameTime() % 10 < 5;
         }
-        if (CooldownTracker.shouldRenderAbilityCooldownInHotbar(stack, localPlayer)) {
+        if (AbilityManager.shouldRenderHotbarCooldownIndicator(stack, minecraft)) {
             f.set(Mth.clamp((float) CooldownTracker.ABILITY_CD / Main.CONFIG.abilities.abilityCooldown(), 0.0F, 1.0F));
             return true;
         }

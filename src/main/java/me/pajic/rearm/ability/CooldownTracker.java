@@ -1,9 +1,7 @@
 package me.pajic.rearm.ability;
 
 import me.pajic.rearm.Main;
-import me.pajic.rearm.item.ReArmItems;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.item.ItemStack;
 
 public class CooldownTracker {
@@ -13,12 +11,6 @@ public class CooldownTracker {
     public static boolean ABILITY_USED = true;
     public static ItemStack ACTIVE_ITEM_CLIENT;
     public static AbilityType ABILITY_TYPE = AbilityType.NONE;
-
-    public static boolean shouldRenderAbilityCooldownInHotbar(ItemStack stack, LocalPlayer localPlayer) {
-        return localPlayer != null && ABILITY_USED &&
-                (Main.CONFIG.abilities.multishotAbility() && ReArmItems.isBow(stack) ||
-                Main.CONFIG.abilities.piercingShotAbility() && ReArmItems.isCrossbow(stack));
-    }
 
     public static void initClientTracker() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {

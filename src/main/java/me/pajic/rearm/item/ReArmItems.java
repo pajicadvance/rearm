@@ -19,6 +19,10 @@ public class ReArmItems {
         return stack.getItem() instanceof CrossbowItem;
     }
 
+    public static boolean isRangedWeapon(ItemStack stack) {
+        return isBow(stack) || isCrossbow(stack);
+    }
+
     public static void initItems() {
         Registry.register(
                 BuiltInRegistries.ITEM,

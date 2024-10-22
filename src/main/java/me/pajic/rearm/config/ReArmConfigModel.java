@@ -17,7 +17,7 @@ public class ReArmConfigModel {
 
     public static class Bow {
         public boolean enablePerfectShot = true;
-        @PredicateConstraint("positive") public int perfectShotAdditionalDamage = 2;
+        @PredicateConstraint("greaterThanZero") public int perfectShotAdditionalDamage = 2;
         @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.1F;
         @RestartRequired public boolean enableBackstep = true;
         @RestartRequired @PredicateConstraint("greaterThanZero") public int backstepTimeframe = 5;
@@ -31,9 +31,6 @@ public class ReArmConfigModel {
         }
         public static boolean greaterThanZero(float value) {
             return Predicates.greaterThanZero(value);
-        }
-        public static boolean positive(int value) {
-            return Predicates.positive(value);
         }
     }
 
@@ -61,12 +58,32 @@ public class ReArmConfigModel {
         }
     }
 
+    public static class Sword {
+        public boolean enableLethalTempo = true;
+        @PredicateConstraint("greaterThanZero") public int lethalTempoAdditionalDamagePerHit = 1;
+        @PredicateConstraint("greaterThanZero") public float lethalTempoTimeframe = 0.1F;
+        @PredicateConstraint("greaterThanZero") public int lethalTempoMaxStacks = 1;
+        public boolean disableCriticalHits = true;
+        @RestartRequired public boolean rejectKnockback = true;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+        public static boolean greaterThanZero(float value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class Axe {
+        public boolean acceptKnockback = true;
+    }
+
     public static class Abilities {
-        public boolean multishotAbility = true;
-        public boolean piercingShotAbility = true;
-        public boolean sweepingEdgeAbility = true;
-        public boolean cripplingBlowAbility = true;
         @PredicateConstraint("greaterThanZero") public int abilityCooldown = 160;
+        @RestartRequired public boolean multishotAbility = true;
+        @RestartRequired public boolean piercingShotAbility = true;
+        @RestartRequired public boolean sweepingEdgeAbility = true;
+        @RestartRequired public boolean cripplingBlowAbility = true;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);
@@ -86,9 +103,9 @@ public class ReArmConfigModel {
     }
 
     public static class Tweaks {
-        @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
         public boolean infinityFix = true;
         @RestartRequired public boolean infinimending = true;
+        @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
     }
 
     public static class Predicates {

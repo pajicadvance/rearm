@@ -1,9 +1,10 @@
 package me.pajic.rearm.ability;
 
 import me.pajic.rearm.Main;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.ProjectileWeaponItem;
+import me.pajic.rearm.item.ReArmItems;
+import net.minecraft.core.Registry;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
@@ -20,16 +21,12 @@ public class MultishotAbility implements Ability {
     }
 
     @Override
-    public boolean weaponCondition(Minecraft client) {
-        return client.player.getWeaponItem().getItem() instanceof ProjectileWeaponItem;
+    public boolean weaponCondition(ItemStack stack) {
+        return ReArmItems.isRangedWeapon(stack);
     }
 
     @Override
-    public boolean enchantmentCondition(Minecraft client) {
-        return EnchantmentHelper.getItemEnchantmentLevel(
-                client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                        .getHolderOrThrow(Enchantments.MULTISHOT),
-                client.player.getWeaponItem()
-        ) > 0;
+    public boolean enchantmentCondition(ItemStack stack, Registry<Enchantment> registry) {
+        return EnchantmentHelper.getItemEnchantmentLevel(registry.getHolderOrThrow(Enchantments.MULTISHOT), stack) > 0;
     }
 }

@@ -107,9 +107,18 @@ public class AbilityManager {
         return false;
     }
 
-    public static boolean shouldRenderHotbarIndicator(ItemStack stack, LocalPlayer player) {
+    public static boolean shouldRenderHotbarActiveIndicator(ItemStack stack, LocalPlayer player) {
         for (Ability ability : abilities) {
-            if (ability.shouldRenderHotbarIndicator(stack, player)) {
+            if (ability.shouldRenderHotbarActiveIndicator(stack, player)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean shouldRenderHotbarCooldownIndicator(ItemStack stack, Minecraft client) {
+        for (Ability ability : abilities) {
+            if (ability.shouldRenderHotbarCooldownIndicator(stack, client)) {
                 return true;
             }
         }

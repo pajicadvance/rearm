@@ -39,7 +39,6 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
                                  @Local(ordinal = 1) int i
     ) {
         if (Main.CONFIG.bow.enablePerfectShot()) {
-            // Make the arrow crit only if a perfect shot was performed
             if (i >= 20 && i <= 20 + Main.CONFIG.bow.perfectShotTimeframe() * 20) {
                 isPerfectShot.set(true);
                 return true;
@@ -58,7 +57,6 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             index = 7
     )
     private float increasePitchIfPerfectShot(float pitch, @Share("isCrit") LocalBooleanRef isPerfectShot) {
-        // Increase arrow shoot sound pitch if perfect shot was performed
         if (isPerfectShot.get()) {
             return pitch * 1.4F;
         }

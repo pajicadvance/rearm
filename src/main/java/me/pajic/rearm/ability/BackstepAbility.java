@@ -14,24 +14,20 @@ public class BackstepAbility {
 
     public static boolean tryBackstep(KeyMapping backstepKey, Minecraft client) {
         if (
-                // Check if backstep key got pressed while under the Backstep status effect
                 backstepKey.isDown() && client.level != null && client.player != null &&
                 client.player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)
         ) {
             Player player = client.player;
-            // Get backstep enchantment level
             int backstepLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
                     player.getMainHandItem()
             );
-            // Launch player
             Vec3 look = player.getViewVector(1);
             player.setDeltaMovement(
                     -look.x / (4 - backstepLevel),
                     player.getAttributeValue(Attributes.JUMP_STRENGTH),
                     -look.z / (4 - backstepLevel)
             );
-            // Apply exhaustion equal to jump exhaustion
             if (player.isSprinting()) {
                 player.causeFoodExhaustion(0.2F);
             } else {

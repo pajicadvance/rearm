@@ -19,8 +19,6 @@ public class GuiMixin {
             )
     )
     private boolean hideBackstepDisplay(boolean original, @Local MobEffectInstance effect) {
-        // Hide the backstep status effect icon
-        // Since the backstep window is less than a second it's really not necessary
         if (effect.is(ReArmEffects.BACKSTEP_EFFECT)) {
             return false;
         }

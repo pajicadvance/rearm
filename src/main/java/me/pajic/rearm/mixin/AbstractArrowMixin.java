@@ -60,13 +60,9 @@ public abstract class AbstractArrowMixin extends Projectile {
     )
     private double modifyVelocity(double original) {
         if (Main.CONFIG.bow.enablePerfectShot() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
-            // Cap bow velocity to 3.0 for consistent damage.
-            // If velocity is 3.5 or higher, we assume that the player is doing a trick shot,
-            // and allow the damage increase.
             return 3.0;
         }
         if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {
-            // Fixate velocity to fixedArrowDamage / baseDamage for consistent damage
             return Main.CONFIG.crossbow.fixedArrowDamageAmount() / 2.0;
         }
         return original;
@@ -86,7 +82,6 @@ public abstract class AbstractArrowMixin extends Projectile {
     ) {
         if (Main.CONFIG.bow.enablePerfectShot() && isCritArrow() && !shotFromCrossbow()) {
             if (getWeaponItem() != null) {
-                // Apply Power enchantment bonus to perfect shot damage
                 float bonusDamage = EnchantmentHelper.modifyDamage(
                         (ServerLevel) level(),
                         getWeaponItem(),
@@ -94,14 +89,11 @@ public abstract class AbstractArrowMixin extends Projectile {
                         damageSource,
                         Main.CONFIG.bow.perfectShotAdditionalDamage()
                 );
-                // Add the bonus damage
                 i.set((int) (i.get() + bonusDamage));
             }
-            // Cancel vanilla crit logic since we did our own
             return false;
         }
         if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {
-            // Prevent additional crossbow damage since we fixated it earlier
             return false;
         }
         return original;

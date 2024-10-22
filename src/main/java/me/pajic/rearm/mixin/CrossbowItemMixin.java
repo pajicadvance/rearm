@@ -2,7 +2,6 @@ package me.pajic.rearm.mixin;
 
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityManager;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,10 +41,11 @@ public class CrossbowItemMixin {
     )
     private void piercingShotAbility_shoot(Level level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, float velocity, float inaccuracy, LivingEntity target, CallbackInfo ci) {
         if (Main.CONFIG.abilities.piercingShotAbility()) {
-            if (AbilityManager.piercingShotAbility.shouldTriggerAbility(weapon, shooter)) {
-                if (shooter instanceof ServerPlayer player) {
-                    ServerPlayNetworking.send(player, new AbilityManager.S2CSignalAbilityUsedPayload());
-                }
+            if (
+                    shooter instanceof ServerPlayer player &&
+                    AbilityManager.piercingShotAbility.shouldTriggerAbility(weapon, player)
+            ) {
+                AbilityManager.setPlayerAbilityUsed(player);
             }
         }
     }

@@ -1,0 +1,9 @@
+@version "1";
+@target "minecraft:enchantment/sweeping_edge.json";
+
+if (rearm_config.abilities.sweepingEdgeAbility) {
+    $max_level = 1;
+    if ("minecraft:attributes" in $effects) {
+        delete $effects.'minecraft:attributes';
+    }
+}

@@ -21,12 +21,12 @@ public class MultishotAbility implements Ability {
     }
 
     @Override
-    public boolean weaponCondition(ItemStack stack) {
-        return ReArmItems.isRangedWeapon(stack);
+    public boolean weaponCondition(ItemStack itemStack) {
+        return ReArmItems.isRangedWeapon(itemStack);
     }
 
     @Override
-    public boolean enchantmentCondition(ItemStack stack, Registry<Enchantment> registry) {
-        return EnchantmentHelper.getItemEnchantmentLevel(registry.getHolderOrThrow(Enchantments.MULTISHOT), stack) > 0;
+    public boolean enchantmentCondition(ItemStack itemStack, Registry<Enchantment> registry) {
+        return EnchantmentHelper.getItemEnchantmentLevel(registry.getHolderOrThrow(Enchantments.MULTISHOT), itemStack) > 0;
     }
 }

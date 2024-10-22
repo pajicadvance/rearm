@@ -4,8 +4,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityManager;
-import me.pajic.rearm.ability.AbilityType;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -35,7 +33,7 @@ public class ProjectileWeaponItemMixin {
         if (Main.CONFIG.abilities.multishotAbility()) {
             if (AbilityManager.multishotAbility.shouldTriggerAbility(weapon, entity)) {
                 if (entity instanceof ServerPlayer player) {
-                    ServerPlayNetworking.send(player, new AbilityManager.S2CSignalAbilityUsedPayload());
+                    AbilityManager.setPlayerAbilityUsed(player);
                 }
                 return original.call(level, weapon, entity, projectileSpread);
             }
@@ -66,11 +64,11 @@ public class ProjectileWeaponItemMixin {
             at = @At("TAIL")
     )
     private void resetDataOnUse(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, @Nullable LivingEntity target, CallbackInfo ci) {
-        if (AbilityManager.multishotAbility.shouldTriggerAbility(weapon, shooter)) {
-            if (shooter instanceof ServerPlayer player) {
-                ServerPlayNetworking.send(player, new AbilityManager.S2CResetAbilityTypePayload());
-                AbilityManager.setPlayerAbilityData(player.getUUID(), ItemStack.EMPTY, AbilityType.NONE);
-            }
+        if (
+                shooter instanceof ServerPlayer player &&
+                AbilityManager.multishotAbility.shouldTriggerAbility(weapon, player)
+        ) {
+            AbilityManager.resetPlayerAbilityData(player);
         }
     }
 }

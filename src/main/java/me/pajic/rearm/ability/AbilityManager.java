@@ -13,6 +13,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +23,8 @@ public class AbilityManager {
 
     public static final MultishotAbility multishotAbility = new MultishotAbility();
     public static final PiercingShotAbility piercingShotAbility = new PiercingShotAbility();
-    public static final ImmutableList<Ability> abilities = ImmutableList.of(multishotAbility, piercingShotAbility);
+    public static final SweepingEdgeAbility sweepingEdgeAbility = new SweepingEdgeAbility();
+    public static final ImmutableList<Ability> abilities = ImmutableList.of(multishotAbility, piercingShotAbility, sweepingEdgeAbility);
 
     public static final ResourceLocation TRIGGER_ABILITY = ResourceLocation.fromNamespaceAndPath("rearm", "trigger_ability");
     public static final ResourceLocation RESET_ABILITY_TYPE = ResourceLocation.fromNamespaceAndPath("rearm", "reset_ability_type");
@@ -96,6 +98,15 @@ public class AbilityManager {
             return playerAbilityDataMap.get(playerUUID).abilityType;
         }
         return AbilityType.NONE;
+    }
+
+    public static void resetPlayerAbilityData(ServerPlayer serverPlayer) {
+        ServerPlayNetworking.send(serverPlayer, new S2CResetAbilityTypePayload());
+        setPlayerAbilityData(serverPlayer.getUUID(), ItemStack.EMPTY, AbilityType.NONE);
+    }
+
+    public static void setPlayerAbilityUsed(ServerPlayer player) {
+        ServerPlayNetworking.send(player, new AbilityManager.S2CSignalAbilityUsedPayload());
     }
 
     public static boolean tryAbilities(KeyMapping abilityKey, Minecraft client) {

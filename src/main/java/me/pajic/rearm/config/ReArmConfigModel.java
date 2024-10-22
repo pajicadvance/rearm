@@ -9,11 +9,37 @@ import io.wispforest.owo.config.annotation.*;
 @SuppressWarnings("unused")
 public class ReArmConfigModel {
 
+    @Nest public Abilities abilities = new Abilities();
     @Nest public Bow bow = new Bow();
     @Nest public Crossbow crossbow = new Crossbow();
-    @Nest public Abilities abilities = new Abilities();
+    @Nest public Sword sword = new Sword();
+    @Nest public Axe axe = new Axe();
     @Nest public Protection protection = new Protection();
     @Nest public Tweaks tweaks = new Tweaks();
+
+    public static class Abilities {
+        @PredicateConstraint("greaterThanZero") public int abilityCooldown = 200;
+        @RestartRequired public boolean multishotAbility = true;
+        @RestartRequired @PredicateConstraint("greaterThanZero") public int multishotAdditionalArrows = 6;
+        @RestartRequired public boolean piercingShotAbility = true;
+        @RestartRequired public boolean sweepingEdgeAbility = true;
+        @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.5F;
+        @Nest public SweepingEdgeRange sweepingEdgeRange = new SweepingEdgeRange();
+        @RestartRequired public boolean cripplingBlowAbility = true;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+        public static boolean greaterThanZero(float value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class SweepingEdgeRange {
+        public double x = 3.0;
+        public double y = 1.0;
+        public double z = 3.0;
+    }
 
     public static class Bow {
         public boolean enablePerfectShot = true;
@@ -76,18 +102,6 @@ public class ReArmConfigModel {
 
     public static class Axe {
         public boolean acceptKnockback = true;
-    }
-
-    public static class Abilities {
-        @PredicateConstraint("greaterThanZero") public int abilityCooldown = 160;
-        @RestartRequired public boolean multishotAbility = true;
-        @RestartRequired public boolean piercingShotAbility = true;
-        @RestartRequired public boolean sweepingEdgeAbility = true;
-        @RestartRequired public boolean cripplingBlowAbility = true;
-
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
     }
 
     public static class Protection {

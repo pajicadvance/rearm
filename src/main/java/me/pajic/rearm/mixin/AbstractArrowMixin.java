@@ -5,9 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityManager;
-import me.pajic.rearm.ability.AbilityType;
 import me.pajic.rearm.item.ReArmItems;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -113,8 +111,7 @@ public abstract class AbstractArrowMixin extends Projectile {
                 getWeaponItem() != null &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), player)
         ) {
-            ServerPlayNetworking.send(player, new AbilityManager.S2CResetAbilityTypePayload());
-            AbilityManager.setPlayerAbilityData(player.getUUID(), ItemStack.EMPTY, AbilityType.NONE);
+            AbilityManager.resetPlayerAbilityData(player);
             return damageSources().source(ResourceKey.create(
                     Registries.DAMAGE_TYPE,
                     ResourceLocation.fromNamespaceAndPath("rearm", "piercing_arrow"))
@@ -132,8 +129,7 @@ public abstract class AbstractArrowMixin extends Projectile {
                 getOwner() instanceof ServerPlayer player && inGround &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), getOwner())
         ) {
-            ServerPlayNetworking.send(player, new AbilityManager.S2CResetAbilityTypePayload());
-            AbilityManager.setPlayerAbilityData(getOwner().getUUID(), ItemStack.EMPTY, AbilityType.NONE);
+            AbilityManager.resetPlayerAbilityData(player);
         }
     }
 }

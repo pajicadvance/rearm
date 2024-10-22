@@ -1,9 +1,15 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pajic.rearm.Main;
+import me.pajic.rearm.ability.AbilityManager;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -11,14 +17,159 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+
+import java.util.List;
 
 @Mixin(Player.class)
 public abstract class PlayerMixin extends LivingEntity {
 
+    @Shadow public abstract @NotNull ItemStack getWeaponItem();
+
     protected PlayerMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @ModifyExpressionValue(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;getAttributeValue(Lnet/minecraft/core/Holder;)D",
+                    ordinal = 1
+            )
+    )
+    private double sweepingEdgeAbility_removeVanillaDamage(double original) {
+        if (Main.CONFIG.abilities.sweepingEdgeAbility()) {
+            return 0;
+        }
+        return original;
+    }
+
+    @ModifyExpressionValue(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;getEnchantedDamage(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;)F",
+                    ordinal = 1
+            )
+    )
+    private float sweepingEdgeAbility_removeEnchantmentDamage(float original) {
+        if (Main.CONFIG.abilities.sweepingEdgeAbility()) {
+            if (AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)) {
+                return original;
+            }
+            return 1;
+        }
+        return original;
+    }
+
+    @ModifyArgs(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/phys/AABB;inflate(DDD)Lnet/minecraft/world/phys/AABB;"
+            )
+    )
+    private void sweepingEdgeAbility_increaseAttackRadius(Args args) {
+        if (
+                Main.CONFIG.abilities.sweepingEdgeAbility() &&
+                AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
+        ) {
+            args.set(0, Main.CONFIG.abilities.sweepingEdgeRange.x());
+            args.set(1, Main.CONFIG.abilities.sweepingEdgeRange.y());
+            args.set(2, Main.CONFIG.abilities.sweepingEdgeRange.z());
+        }
+    }
+
+    @ModifyExpressionValue(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"
+            )
+    )
+    private <T extends Entity> List<T> sweepingEdgeAbility_getHitEntities(
+            List<T> original, @Share("original") LocalRef<List<T>> hitEntityList
+    ) {
+        hitEntityList.set(original);
+        return original;
+    }
+
+    @ModifyArg(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
+            ),
+            index = 1
+    )
+    private <T extends Entity> float sweepingEdgeAbility_increaseDamage(
+            float damage, @Share("original") LocalRef<List<T>> hitEntityList
+    ) {
+        if (
+                Main.CONFIG.abilities.sweepingEdgeAbility() &&
+                AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
+        ) {
+            return damage + Main.CONFIG.abilities.sweepingEdgeAdditionalDamagePerMob() * hitEntityList.get().size();
+        }
+        return damage;
+    }
+
+    @Inject(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;sweepAttack()V"
+            )
+    )
+    private void sweepingEdgeAbility_abilityUsed(Entity target, CallbackInfo ci) {
+        if (
+                (Player) (Object) this instanceof ServerPlayer serverPlayer &&
+                AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
+        ) {
+            AbilityManager.setPlayerAbilityUsed(serverPlayer);
+        }
+    }
+
+    @Inject(
+            method = "attack",
+            at = @At("TAIL")
+    )
+    private void sweepingEdgeAbility_resetDataAfterUse(Entity target, CallbackInfo ci) {
+        if (
+                (Player) (Object) this instanceof ServerPlayer serverPlayer &&
+                AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
+        ) {
+            AbilityManager.resetPlayerAbilityData(serverPlayer);
+        }
+    }
+
+    @ModifyVariable(
+            method = "attack",
+            at = @At("STORE"),
+            ordinal = 2
+    )
+    private boolean modifyCritCondition(boolean original) {
+        if (Main.CONFIG.sword.disableCriticalHits()) {
+            return false;
+        }
+        return original;
+    }
+
+    @WrapWithCondition(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;crit(Lnet/minecraft/world/entity/Entity;)V"
+            )
+    )
+    private boolean onlyCritIfAllowed(Player instance, Entity entityHit) {
+        return !Main.CONFIG.sword.disableCriticalHits();
     }
 
     @ModifyExpressionValue(

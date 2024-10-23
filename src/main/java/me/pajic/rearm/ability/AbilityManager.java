@@ -148,10 +148,10 @@ public class AbilityManager {
 
     public static void initClient() {
         ClientPlayNetworking.registerGlobalReceiver(S2CResetAbilityTypePayload.TYPE, (payload, context) ->
-                CooldownTracker.ABILITY_TYPE = AbilityType.NONE
+                CooldownTracker.abilityType = AbilityType.NONE
         );
         ClientPlayNetworking.registerGlobalReceiver(S2CSignalAbilityUsedPayload.TYPE, (payload, context) ->
-                CooldownTracker.ABILITY_USED = true
+                CooldownTracker.abilityUsed = true
         );
     }
 }

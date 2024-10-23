@@ -21,11 +21,11 @@ public interface Ability {
                         client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT)
                 )
         ) {
-            CooldownTracker.ACTIVE_ITEM_CLIENT = client.player.getWeaponItem().copy();
+            CooldownTracker.activeItemClient = client.player.getWeaponItem().copy();
             ClientPlayNetworking.send(new AbilityManager.C2STriggerAbilityPayload(
-                    CooldownTracker.ACTIVE_ITEM_CLIENT, abilityType(), client.player.getUUID())
+                    CooldownTracker.activeItemClient, abilityType(), client.player.getUUID())
             );
-            CooldownTracker.ABILITY_TYPE = abilityType();
+            CooldownTracker.abilityType = abilityType();
             abilityKey.setDown(false);
             return true;
         }
@@ -33,12 +33,12 @@ public interface Ability {
     }
 
     default boolean shouldRenderHotbarActiveIndicator(ItemStack stack, LocalPlayer localPlayer) {
-        return localPlayer != null && CooldownTracker.ABILITY_TYPE == abilityType() &&
-                configCondition() && ItemStack.matches(stack, CooldownTracker.ACTIVE_ITEM_CLIENT);
+        return localPlayer != null && CooldownTracker.abilityType == abilityType() &&
+                configCondition() && ItemStack.matches(stack, CooldownTracker.activeItemClient);
     }
 
     default boolean shouldRenderHotbarCooldownIndicator(ItemStack stack, Minecraft client) {
-        return client.player != null && CooldownTracker.ABILITY_USED && configCondition() && weaponCondition(stack) &&
+        return client.player != null && CooldownTracker.abilityUsed && configCondition() && weaponCondition(stack) &&
                 enchantmentCondition(stack, client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT));
     }
 

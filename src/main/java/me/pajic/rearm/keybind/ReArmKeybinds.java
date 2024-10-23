@@ -30,14 +30,14 @@ public class ReArmKeybinds {
 
     public static void initKeybinds() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (CooldownTracker.BACKSTEP_CD == 0) {
+            if (CooldownTracker.backstepCooldown == 0) {
                 if (BackstepAbility.tryBackstep(BACKSTEP_KEY, client)) {
-                    CooldownTracker.BACKSTEP_CD = Main.CONFIG.bow.backstepTimeframe();
+                    CooldownTracker.backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
                 }
             }
-            if (CooldownTracker.ABILITY_CD == 0) {
+            if (CooldownTracker.abilityCooldown == 0) {
                 if (AbilityManager.tryAbilities(ABILITY_KEY, client)) {
-                    CooldownTracker.ABILITY_CD = Main.CONFIG.abilities.abilityCooldown();
+                    CooldownTracker.abilityCooldown = Main.CONFIG.abilities.abilityCooldown();
                 }
             }
         });

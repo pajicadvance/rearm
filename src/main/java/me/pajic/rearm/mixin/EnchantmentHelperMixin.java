@@ -15,14 +15,14 @@ public class EnchantmentHelperMixin {
 
     @WrapMethod(method = "filterCompatibleEnchantments")
     private static void allowMultipleProtectionEnchantments(List<EnchantmentInstance> dataList, EnchantmentInstance data, Operation<Void> original) {
-        if (Main.CONFIG.protection.allowMultipleProtectionEnchantments() && data.enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+        if (Main.CONFIG.allowMultipleProtectionEnchantments() && data.enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
             int itemProtEnchants = 0;
             for (EnchantmentInstance ei : dataList) {
                 if (!ei.enchantment.equals(data.enchantment) && ei.enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
                     itemProtEnchants++;
                 }
             }
-            if (itemProtEnchants >= Main.CONFIG.protection.maxProtectionEnchantments()) {
+            if (itemProtEnchants >= Main.CONFIG.maxProtectionEnchantments()) {
                 original.call(dataList, data);
             }
         }

@@ -17,7 +17,7 @@ public class MultishotAbility implements Ability {
 
     @Override
     public boolean configCondition() {
-        return Main.CONFIG.abilities.multishotAbility();
+        return Main.CONFIG.multishot.multishotAbility();
     }
 
     @Override

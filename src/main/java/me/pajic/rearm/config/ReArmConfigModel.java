@@ -9,23 +9,72 @@ import io.wispforest.owo.config.annotation.*;
 @SuppressWarnings("unused")
 public class ReArmConfigModel {
 
-    @Nest public Abilities abilities = new Abilities();
+    @SectionHeader("abilities")
+    @PredicateConstraint("greaterThanZero") public int abilityCooldown = 200;
+    @Nest public Multishot multishot = new Multishot();
+    @Nest public PiercingShot piercingShot = new PiercingShot();
+    @Nest public SweepingEdge sweepingEdge = new SweepingEdge();
+    @Nest public CripplingBlow cripplingBlow = new CripplingBlow();
+
+    @SectionHeader("ranged")
     @Nest public Bow bow = new Bow();
     @Nest public Crossbow crossbow = new Crossbow();
+
+    @SectionHeader("melee")
     @Nest public Sword sword = new Sword();
     @Nest public Axe axe = new Axe();
-    @Nest public Protection protection = new Protection();
-    @Nest public Tweaks tweaks = new Tweaks();
 
-    public static class Abilities {
-        @PredicateConstraint("greaterThanZero") public int abilityCooldown = 200;
+    @SectionHeader("protection")
+    @RestartRequired public boolean meleeProtection = true;
+    @RestartRequired public boolean elementalProtection = true;
+    @RestartRequired public boolean magicProtection = true;
+    public boolean allowMultipleProtectionEnchantments = true;
+    @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 2;
+
+    @SectionHeader("tweaks")
+    public boolean infinityFix = true;
+    @RestartRequired public boolean infinimending = true;
+    @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
+
+    public static class Multishot {
         @RestartRequired public boolean multishotAbility = true;
         @RestartRequired @PredicateConstraint("greaterThanZero") public int multishotAdditionalArrows = 6;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class PiercingShot {
         @RestartRequired public boolean piercingShotAbility = true;
+    }
+
+    public static class SweepingEdge {
         @RestartRequired public boolean sweepingEdgeAbility = true;
         @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.5F;
         @Nest public SweepingEdgeRange sweepingEdgeRange = new SweepingEdgeRange();
+
+        public static class SweepingEdgeRange {
+            @PredicateConstraint("greaterThanZero") public double x = 3.0;
+            @PredicateConstraint("greaterThanZero") public double y = 1.0;
+            @PredicateConstraint("greaterThanZero") public double z = 3.0;
+
+            public static boolean greaterThanZero(double value) {
+                return value > 0;
+            }
+        }
+
+        public static boolean greaterThanZero(float value) {
+            return Predicates.greaterThanZero(value);
+        }
+    }
+
+    public static class CripplingBlow {
         @RestartRequired public boolean cripplingBlowAbility = true;
+        @PredicateConstraint("greaterThanZero") public float cripplingBlowBleedingDuration = 6.0F;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowBleedingDPS = 1;
+        @PredicateConstraint("greaterThanZero") public float cripplingBlowSlownessDuration = 2.0F;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowSlownessAmplifier = 5;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);
@@ -33,12 +82,6 @@ public class ReArmConfigModel {
         public static boolean greaterThanZero(float value) {
             return Predicates.greaterThanZero(value);
         }
-    }
-
-    public static class SweepingEdgeRange {
-        public double x = 3.0;
-        public double y = 1.0;
-        public double z = 3.0;
     }
 
     public static class Bow {
@@ -104,22 +147,8 @@ public class ReArmConfigModel {
         public boolean acceptKnockback = true;
     }
 
-    public static class Protection {
-        @RestartRequired public boolean meleeProtection = true;
-        @RestartRequired public boolean elementalProtection = true;
-        @RestartRequired public boolean magicProtection = true;
-        public boolean allowMultipleProtectionEnchantments = true;
-        @PredicateConstraint("greaterThanZero") public int maxProtectionEnchantments = 2;
-
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
-    }
-
-    public static class Tweaks {
-        public boolean infinityFix = true;
-        @RestartRequired public boolean infinimending = true;
-        @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
+    public static boolean greaterThanZero(int value) {
+        return Predicates.greaterThanZero(value);
     }
 
     public static class Predicates {
@@ -128,6 +157,9 @@ public class ReArmConfigModel {
             return value > 0;
         }
         public static boolean greaterThanZero(float value) {
+            return value > 0;
+        }
+        public static boolean greaterThanZero(double value) {
             return value > 0;
         }
         public static boolean positive(int value) {

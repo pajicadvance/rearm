@@ -14,5 +14,11 @@ public class ReArmEffects {
             new BackstepEffect()
     );
 
+    public static final Holder<MobEffect> BLEEDING = Registry.registerForHolder(
+            BuiltInRegistries.MOB_EFFECT,
+            ResourceLocation.fromNamespaceAndPath("rearm", "bleeding"),
+            new BleedingEffect()
+    );
+
     public static void initEffects() {}
 }

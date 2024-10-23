@@ -15,6 +15,11 @@ public class ReArmEnchantments {
             ResourceLocation.fromNamespaceAndPath("rearm", "backstep")
     );
 
+    public static final ResourceKey<Enchantment> CRIPPLING_BLOW = ResourceKey.create(
+            Registries.ENCHANTMENT,
+            ResourceLocation.fromNamespaceAndPath("rearm", "crippling_blow")
+    );
+
     public static void updateProtectionEnchantments(ItemEnchantments.Mutable existing, ItemEnchantments addition) {
         for (Holder<Enchantment> enchantment : addition.keySet()) {
             if (enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {

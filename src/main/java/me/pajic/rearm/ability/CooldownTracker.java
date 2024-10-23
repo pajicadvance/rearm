@@ -6,7 +6,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class CooldownTracker {
 
-    public static int abilityCooldown = Main.CONFIG.abilities.abilityCooldown();
+    public static int abilityCooldown = Main.CONFIG.abilityCooldown();
     public static int backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
     public static boolean abilityUsed = true;
     public static ItemStack activeItemClient;

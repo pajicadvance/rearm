@@ -1,0 +1,5 @@
+@version "1";
+@target "minecraft:tags/enchantment/tooltip_order.json";
+
+var targetIndex = arrays.indexOf($values, "minecraft:bane_of_arthropods");
+$values = arrays.insert($values, targetIndex, "rearm:crippling_blow");

@@ -37,7 +37,7 @@ public class TippedArrowRecipeMixin {
 
     @Unique
     private Item setRequiredPotionType(Item item) {
-        if (Main.CONFIG.tweaks.craftTippedArrowsWithRegularPotions()) {
+        if (Main.CONFIG.craftTippedArrowsWithRegularPotions()) {
             return Items.POTION;
         }
         return item;

@@ -29,7 +29,7 @@ public class EnchantCommandMixin {
                                                                @Local(argsOnly = true) Holder<Enchantment> enchantment,
                                                                @Local(argsOnly = true) int level
     ) {
-        if (Main.CONFIG.protection.allowMultipleProtectionEnchantments() && enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+        if (Main.CONFIG.allowMultipleProtectionEnchantments() && enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
             ItemEnchantments.Mutable protectionEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
             ReArmEnchantments.updateProtectionEnchantments(protectionEnchantments, EnchantmentHelper.getEnchantmentsForCrafting(itemStack));
             if (protectionEnchantments.getLevel(enchantment) == 0) {
@@ -38,7 +38,7 @@ public class EnchantCommandMixin {
             else {
                 protectionEnchantments.upgrade(enchantment, level);
             }
-            if (protectionEnchantments.keySet().size() <= Main.CONFIG.protection.maxProtectionEnchantments()) {
+            if (protectionEnchantments.keySet().size() <= Main.CONFIG.maxProtectionEnchantments()) {
                 return true;
             }
         }

@@ -30,7 +30,7 @@ public class ProjectileWeaponItemMixin {
             )
     )
     private float multishotAbility_shoot(ServerLevel level, ItemStack weapon, Entity entity, float projectileSpread, Operation<Float> original) {
-        if (Main.CONFIG.abilities.multishotAbility()) {
+        if (Main.CONFIG.multishot.multishotAbility()) {
             if (AbilityManager.multishotAbility.shouldTriggerAbility(weapon, entity)) {
                 if (entity instanceof ServerPlayer player) {
                     AbilityManager.setPlayerAbilityUsed(player);
@@ -50,7 +50,7 @@ public class ProjectileWeaponItemMixin {
             )
     )
     private static int multishotAbility_modifyArrowAmount(ServerLevel level, ItemStack weapon, Entity entity, int projectileCount, Operation<Integer> original) {
-        if (Main.CONFIG.abilities.multishotAbility()) {
+        if (Main.CONFIG.multishot.multishotAbility()) {
             if (AbilityManager.multishotAbility.shouldTriggerAbility(weapon, entity)) {
                 return original.call(level, weapon, entity, projectileCount);
             }
@@ -65,6 +65,7 @@ public class ProjectileWeaponItemMixin {
     )
     private void resetDataOnUse(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, @Nullable LivingEntity target, CallbackInfo ci) {
         if (
+                Main.CONFIG.multishot.multishotAbility() &&
                 shooter instanceof ServerPlayer player &&
                 AbilityManager.multishotAbility.shouldTriggerAbility(weapon, player)
         ) {

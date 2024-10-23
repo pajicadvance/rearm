@@ -17,7 +17,7 @@ public class LivingEntityMixin {
             )
     )
     private byte modifyBlockCondition(byte original) {
-        if (Main.CONFIG.abilities.piercingShotAbility()) {
+        if (Main.CONFIG.piercingShot.piercingShotAbility()) {
             return 0;
         }
         return original;

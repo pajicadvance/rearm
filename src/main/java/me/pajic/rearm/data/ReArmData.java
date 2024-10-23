@@ -19,7 +19,15 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.protection.magicProtection()) {
+            if (Main.CONFIG.cripplingBlow.cripplingBlowAbility()) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        ResourceLocation.parse("rearm:crippling_blow"),
+                        modContainer,
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
+
+            if (Main.CONFIG.magicProtection()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:magic_protection"),
                         modContainer,
@@ -27,7 +35,7 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.protection.meleeProtection()) {
+            if (Main.CONFIG.meleeProtection()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:melee_protection"),
                         modContainer,
@@ -35,7 +43,7 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.tweaks.infinimending()) {
+            if (Main.CONFIG.infinimending()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:infinimending"),
                         modContainer,

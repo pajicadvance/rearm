@@ -16,7 +16,7 @@ public class SweepingEdgeAbility implements Ability {
 
     @Override
     public boolean configCondition() {
-        return Main.CONFIG.abilities.sweepingEdgeAbility();
+        return Main.CONFIG.sweepingEdge.sweepingEdgeAbility();
     }
 
     @Override

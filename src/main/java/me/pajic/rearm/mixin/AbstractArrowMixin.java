@@ -106,7 +106,7 @@ public abstract class AbstractArrowMixin extends Projectile {
     )
     private DamageSource piercingShotAbility_modifyDamageSource(DamageSource original) {
         if (
-                Main.CONFIG.abilities.piercingShotAbility() &&
+                Main.CONFIG.piercingShot.piercingShotAbility() &&
                 getOwner() instanceof ServerPlayer player &&
                 getWeaponItem() != null &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), player)
@@ -126,6 +126,7 @@ public abstract class AbstractArrowMixin extends Projectile {
     )
     private void resetDataOnGroundHit(CallbackInfo ci) {
         if (
+                Main.CONFIG.piercingShot.piercingShotAbility() &&
                 getOwner() instanceof ServerPlayer player && inGround &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), getOwner())
         ) {

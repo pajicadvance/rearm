@@ -24,7 +24,8 @@ public class AbilityManager {
     public static final MultishotAbility multishotAbility = new MultishotAbility();
     public static final PiercingShotAbility piercingShotAbility = new PiercingShotAbility();
     public static final SweepingEdgeAbility sweepingEdgeAbility = new SweepingEdgeAbility();
-    public static final ImmutableList<Ability> abilities = ImmutableList.of(multishotAbility, piercingShotAbility, sweepingEdgeAbility);
+    public static final CripplingBlowAbility cripplingBlowAbility = new CripplingBlowAbility();
+    public static final ImmutableList<Ability> abilities = ImmutableList.of(multishotAbility, piercingShotAbility, sweepingEdgeAbility, cripplingBlowAbility);
 
     public static final ResourceLocation TRIGGER_ABILITY = ResourceLocation.fromNamespaceAndPath("rearm", "trigger_ability");
     public static final ResourceLocation RESET_ABILITY_TYPE = ResourceLocation.fromNamespaceAndPath("rearm", "reset_ability_type");

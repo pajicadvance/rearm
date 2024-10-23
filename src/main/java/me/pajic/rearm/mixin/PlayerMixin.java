@@ -7,8 +7,12 @@ import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityManager;
+import me.pajic.rearm.effect.ReArmEffects;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,7 +48,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private double sweepingEdgeAbility_removeVanillaDamage(double original) {
-        if (Main.CONFIG.abilities.sweepingEdgeAbility()) {
+        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
             return 0;
         }
         return original;
@@ -59,7 +63,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private float sweepingEdgeAbility_removeEnchantmentDamage(float original) {
-        if (Main.CONFIG.abilities.sweepingEdgeAbility()) {
+        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
             if (AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)) {
                 return original;
             }
@@ -77,12 +81,12 @@ public abstract class PlayerMixin extends LivingEntity {
     )
     private void sweepingEdgeAbility_increaseAttackRadius(Args args) {
         if (
-                Main.CONFIG.abilities.sweepingEdgeAbility() &&
+                Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
                 AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
         ) {
-            args.set(0, Main.CONFIG.abilities.sweepingEdgeRange.x());
-            args.set(1, Main.CONFIG.abilities.sweepingEdgeRange.y());
-            args.set(2, Main.CONFIG.abilities.sweepingEdgeRange.z());
+            args.set(0, Main.CONFIG.sweepingEdge.sweepingEdgeRange.x());
+            args.set(1, Main.CONFIG.sweepingEdge.sweepingEdgeRange.y());
+            args.set(2, Main.CONFIG.sweepingEdge.sweepingEdgeRange.z());
         }
     }
 
@@ -96,7 +100,9 @@ public abstract class PlayerMixin extends LivingEntity {
     private <T extends Entity> List<T> sweepingEdgeAbility_getHitEntities(
             List<T> original, @Share("original") LocalRef<List<T>> hitEntityList
     ) {
-        hitEntityList.set(original);
+        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
+            hitEntityList.set(original);
+        }
         return original;
     }
 
@@ -112,10 +118,10 @@ public abstract class PlayerMixin extends LivingEntity {
             float damage, @Share("original") LocalRef<List<T>> hitEntityList
     ) {
         if (
-                Main.CONFIG.abilities.sweepingEdgeAbility() &&
+                Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
                 AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
         ) {
-            return damage + Main.CONFIG.abilities.sweepingEdgeAdditionalDamagePerMob() * hitEntityList.get().size();
+            return damage + Main.CONFIG.sweepingEdge.sweepingEdgeAdditionalDamagePerMob() * hitEntityList.get().size();
         }
         return damage;
     }
@@ -129,6 +135,7 @@ public abstract class PlayerMixin extends LivingEntity {
     )
     private void sweepingEdgeAbility_abilityUsed(Entity target, CallbackInfo ci) {
         if (
+                Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
                 AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
         ) {
@@ -136,16 +143,42 @@ public abstract class PlayerMixin extends LivingEntity {
         }
     }
 
+    @ModifyExpressionValue(
+            method = "attack",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
+            )
+    )
+    private boolean cripplingBlowAbility_applyStatusEffects(boolean original, @Local(argsOnly = true) Entity target) {
+        if (
+                Main.CONFIG.cripplingBlow.cripplingBlowAbility() &&
+                original && (Player) (Object) this instanceof ServerPlayer serverPlayer &&
+                AbilityManager.cripplingBlowAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
+        ) {
+            if (target instanceof LivingEntity livingEntity) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 5), serverPlayer);
+                livingEntity.addEffect(new MobEffectInstance(ReArmEffects.BLEEDING, 120, 1), serverPlayer);
+                AbilityManager.setPlayerAbilityUsed(serverPlayer);
+            }
+        }
+        return original;
+    }
+
     @Inject(
             method = "attack",
             at = @At("TAIL")
     )
-    private void sweepingEdgeAbility_resetDataAfterUse(Entity target, CallbackInfo ci) {
-        if (
-                (Player) (Object) this instanceof ServerPlayer serverPlayer &&
-                AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
-        ) {
-            AbilityManager.resetPlayerAbilityData(serverPlayer);
+    private void resetDataAfterUse(Entity target, CallbackInfo ci) {
+        if ((Player) (Object) this instanceof ServerPlayer serverPlayer) {
+            if (
+                    Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
+                    AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer) ||
+                    Main.CONFIG.cripplingBlow.cripplingBlowAbility() &&
+                    AbilityManager.cripplingBlowAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
+            ) {
+                AbilityManager.resetPlayerAbilityData(serverPlayer);
+            }
         }
     }
 
@@ -155,7 +188,7 @@ public abstract class PlayerMixin extends LivingEntity {
             ordinal = 2
     )
     private boolean modifyCritCondition(boolean original) {
-        if (Main.CONFIG.sword.disableCriticalHits()) {
+        if (Main.CONFIG.sword.disableCriticalHits() && getWeaponItem().is(ItemTags.SWORDS)) {
             return false;
         }
         return original;
@@ -169,7 +202,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private boolean onlyCritIfAllowed(Player instance, Entity entityHit) {
-        return !Main.CONFIG.sword.disableCriticalHits();
+        return !Main.CONFIG.sword.disableCriticalHits() || !getWeaponItem().is(ItemTags.SWORDS);
     }
 
     @ModifyExpressionValue(
@@ -180,7 +213,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private boolean infinityFix(boolean original, @Local(argsOnly = true) ItemStack weaponStack) {
-        if (Main.CONFIG.tweaks.infinityFix()) {
+        if (Main.CONFIG.infinityFix()) {
             int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
                             .getHolderOrThrow(Enchantments.INFINITY),

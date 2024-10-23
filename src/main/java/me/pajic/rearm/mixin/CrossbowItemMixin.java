@@ -40,13 +40,12 @@ public class CrossbowItemMixin {
             )
     )
     private void piercingShotAbility_shoot(Level level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, float velocity, float inaccuracy, LivingEntity target, CallbackInfo ci) {
-        if (Main.CONFIG.abilities.piercingShotAbility()) {
-            if (
-                    shooter instanceof ServerPlayer player &&
-                    AbilityManager.piercingShotAbility.shouldTriggerAbility(weapon, player)
-            ) {
-                AbilityManager.setPlayerAbilityUsed(player);
-            }
+        if (
+                Main.CONFIG.piercingShot.piercingShotAbility() &&
+                shooter instanceof ServerPlayer player &&
+                AbilityManager.piercingShotAbility.shouldTriggerAbility(weapon, player)
+        ) {
+            AbilityManager.setPlayerAbilityUsed(player);
         }
     }
 }

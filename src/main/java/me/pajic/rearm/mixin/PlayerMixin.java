@@ -8,6 +8,7 @@ import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityManager;
 import me.pajic.rearm.effect.ReArmEffects;
+import me.pajic.rearm.enchantment.ReArmEnchantments;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
@@ -84,9 +85,16 @@ public abstract class PlayerMixin extends LivingEntity {
                 Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
                 AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
         ) {
-            args.set(0, Main.CONFIG.sweepingEdge.sweepingEdgeRange.x());
-            args.set(1, Main.CONFIG.sweepingEdge.sweepingEdgeRange.y());
-            args.set(2, Main.CONFIG.sweepingEdge.sweepingEdgeRange.z());
+            int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
+                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
+                            .getHolderOrThrow(Enchantments.SWEEPING_EDGE),
+                    getWeaponItem()
+            );
+            args.set(0, (double) args.get(0) * sweepingEdgeLevel);
+            args.set(2, (double) args.get(2) * sweepingEdgeLevel);
+            if (sweepingEdgeLevel == 3) {
+                args.set(1, 1.0);
+            }
         }
     }
 
@@ -157,8 +165,28 @@ public abstract class PlayerMixin extends LivingEntity {
                 AbilityManager.cripplingBlowAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
         ) {
             if (target instanceof LivingEntity livingEntity) {
-                livingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 5), serverPlayer);
-                livingEntity.addEffect(new MobEffectInstance(ReArmEffects.BLEEDING, 120, 1), serverPlayer);
+                int cripplingBlowLevel = EnchantmentHelper.getItemEnchantmentLevel(
+                        level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
+                                .getHolderOrThrow(ReArmEnchantments.CRIPPLING_BLOW),
+                        getWeaponItem()
+                );
+                livingEntity.addEffect(
+                        new MobEffectInstance(
+                                MobEffects.MOVEMENT_SLOWDOWN,
+                                Main.CONFIG.cripplingBlow.cripplingBlowSlownessDuration(),
+                                Main.CONFIG.cripplingBlow.cripplingBlowBaseSlownessAmplifier() +
+                                        (cripplingBlowLevel - 1) * Main.CONFIG.cripplingBlow.cripplingBlowSlownessAmplifierIncreasePerLevel()
+                        ),
+                        serverPlayer
+                );
+                livingEntity.addEffect(
+                        new MobEffectInstance(
+                                ReArmEffects.BLEEDING,
+                                Main.CONFIG.cripplingBlow.cripplingBlowBleedingDuration(),
+                                cripplingBlowLevel
+                        ),
+                        serverPlayer
+                );
                 AbilityManager.setPlayerAbilityUsed(serverPlayer);
             }
         }

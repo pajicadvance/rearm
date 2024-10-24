@@ -52,17 +52,6 @@ public class ReArmConfigModel {
     public static class SweepingEdge {
         @RestartRequired public boolean sweepingEdgeAbility = true;
         @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.5F;
-        @Nest public SweepingEdgeRange sweepingEdgeRange = new SweepingEdgeRange();
-
-        public static class SweepingEdgeRange {
-            @PredicateConstraint("greaterThanZero") public double x = 3.0;
-            @PredicateConstraint("greaterThanZero") public double y = 1.0;
-            @PredicateConstraint("greaterThanZero") public double z = 3.0;
-
-            public static boolean greaterThanZero(double value) {
-                return value > 0;
-            }
-        }
 
         public static boolean greaterThanZero(float value) {
             return Predicates.greaterThanZero(value);
@@ -71,10 +60,12 @@ public class ReArmConfigModel {
 
     public static class CripplingBlow {
         @RestartRequired public boolean cripplingBlowAbility = true;
-        @PredicateConstraint("greaterThanZero") public float cripplingBlowBleedingDuration = 6.0F;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowBleedingDPS = 1;
-        @PredicateConstraint("greaterThanZero") public float cripplingBlowSlownessDuration = 2.0F;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowSlownessAmplifier = 5;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowBleedingDuration = 120;
+        @PredicateConstraint("greaterThanZero") public float cripplingBlowBaseBleedingDPS = 1.0F;
+        @PredicateConstraint("greaterThanZero") public float cripplingBlowBleedingDPSIncreasePerLevel = 0.5F;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowSlownessDuration = 20;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowBaseSlownessAmplifier = 3;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowSlownessAmplifierIncreasePerLevel = 1;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);

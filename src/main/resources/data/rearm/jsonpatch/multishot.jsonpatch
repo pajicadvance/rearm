@@ -3,7 +3,7 @@
 
 $supported_items = "#minecraft:enchantable/multishot_enchantable";
 
-if (rearm_config.abilities.multishotAbility) {
-    $effects.'minecraft:projectile_count'[0].effect.value.base = rearm_config.abilities.multishotAdditionalArrows;
-    $effects.'minecraft:projectile_spread'[0].effect.value.base = rearm_config.abilities.multishotAdditionalArrows * 5;
+if (rearm_config.multishot.multishotAbility) {
+    $effects.'minecraft:projectile_count'[0].effect.value.base = rearm_config.multishot.multishotAdditionalArrows;
+    $effects.'minecraft:projectile_spread'[0].effect.value.base = rearm_config.multishot.multishotAdditionalArrows * 5;
 }

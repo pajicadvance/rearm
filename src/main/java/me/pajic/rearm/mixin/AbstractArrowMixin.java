@@ -19,6 +19,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,8 +36,6 @@ public abstract class AbstractArrowMixin extends Projectile {
     @Shadow public abstract boolean isCritArrow();
     @Shadow public abstract boolean shotFromCrossbow();
     @Shadow public abstract ItemStack getWeaponItem();
-
-    @Shadow protected boolean inGround;
 
     @ModifyExpressionValue(
             method = "shotFromCrossbow",
@@ -111,7 +110,6 @@ public abstract class AbstractArrowMixin extends Projectile {
                 getWeaponItem() != null &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), player)
         ) {
-            AbilityManager.resetPlayerAbilityData(player);
             return damageSources().source(ResourceKey.create(
                     Registries.DAMAGE_TYPE,
                     ResourceLocation.fromNamespaceAndPath("rearm", "piercing_arrow"))
@@ -120,14 +118,50 @@ public abstract class AbstractArrowMixin extends Projectile {
         return original;
     }
 
-    @Inject(
-            method = "tick",
-            at = @At("TAIL")
+    @ModifyExpressionValue(
+            method = "onHitEntity",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;getPierceLevel()B"
+            )
     )
-    private void resetDataOnGroundHit(CallbackInfo ci) {
+    private byte preventPiercingIfAbilityOff(byte original) {
         if (
                 Main.CONFIG.piercingShot.piercingShotAbility() &&
-                getOwner() instanceof ServerPlayer player && inGround &&
+                getOwner() instanceof ServerPlayer player &&
+                !AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), player)
+        ) {
+            return 0;
+        }
+        return original;
+    }
+
+    @Inject(
+            method = "onHitEntity",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;discard()V",
+                    ordinal = 0
+            )
+    )
+    private void resetDataOnDiscardAfterPiercing(EntityHitResult result, CallbackInfo ci) {
+        if (
+                Main.CONFIG.piercingShot.piercingShotAbility() &&
+                getOwner() instanceof ServerPlayer player &&
+                AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), getOwner())
+        ) {
+            AbilityManager.resetPlayerAbilityData(player);
+        }
+    }
+
+    @Inject(
+            method = "onHitBlock",
+            at = @At("TAIL")
+    )
+    private void resetDataOnHitBlock(CallbackInfo ci) {
+        if (
+                Main.CONFIG.piercingShot.piercingShotAbility() &&
+                getOwner() instanceof ServerPlayer player &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), getOwner())
         ) {
             AbilityManager.resetPlayerAbilityData(player);

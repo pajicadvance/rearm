@@ -1,5 +1,6 @@
 package me.pajic.rearm.effect;
 
+import me.pajic.rearm.Main;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,11 @@ public class BleedingEffect extends MobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
-        livingEntity.hurt(livingEntity.damageSources().magic(), amplifier);
+        livingEntity.hurt(
+                livingEntity.damageSources().magic(),
+                Main.CONFIG.cripplingBlow.cripplingBlowBaseBleedingDPS() +
+                        (amplifier - 1) * Main.CONFIG.cripplingBlow.cripplingBlowBleedingDPSIncreasePerLevel()
+        );
         return true;
     }
 

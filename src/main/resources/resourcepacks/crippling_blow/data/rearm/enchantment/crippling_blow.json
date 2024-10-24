@@ -5,13 +5,13 @@
   },
   "effects": {},
   "max_cost": {
-    "base": 50,
-    "per_level_above_first": 0
-  },
-  "max_level": 1,
-  "min_cost": {
     "base": 20,
-    "per_level_above_first": 0
+    "per_level_above_first": 9
+  },
+  "max_level": 3,
+  "min_cost": {
+    "base": 5,
+    "per_level_above_first": 9
   },
   "slots": [
     "mainhand"

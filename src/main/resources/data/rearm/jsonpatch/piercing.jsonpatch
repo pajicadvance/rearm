@@ -1,9 +1,0 @@
-@version "1";
-@target "minecraft:enchantment/piercing.json";
-
-if (rearm_config.abilities.piercingShotAbility) {
-    $max_level = 1;
-    if ("minecraft:projectile_piercing" in $effects) {
-        delete $effects.'minecraft:projectile_piercing';
-    }
-}

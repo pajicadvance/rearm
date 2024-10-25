@@ -1,0 +1,6 @@
+@version "1";
+@target "minecraft:enchantment/looting.json";
+
+if (rearm_config.axe.acceptLooting) {
+    $supported_items = "#minecraft:enchantable/sharp_weapon";
+}

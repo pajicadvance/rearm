@@ -129,7 +129,8 @@ public abstract class PlayerMixin extends LivingEntity {
                 Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
                 AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
         ) {
-            return damage + Main.CONFIG.sweepingEdge.sweepingEdgeAdditionalDamagePerMob() * hitEntityList.get().size();
+            return damage + Main.CONFIG.sweepingEdge.sweepingEdgeAdditionalDamagePerMob() *
+                    Math.min(hitEntityList.get().size(), Main.CONFIG.sweepingEdge.maxMobAmountUsedForDamageIncrease());
         }
         return damage;
     }

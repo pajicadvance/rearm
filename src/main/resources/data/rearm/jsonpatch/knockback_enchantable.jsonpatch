@@ -1,0 +1,9 @@
+@version "1";
+@target "minecraft:tags/item/enchantable/knockback_enchantable.json";
+
+if (rearm_config.axe.acceptKnockback) {
+    $values = arrays.push($values, "#minecraft:enchantable/axe");
+}
+if (rearm_config.sword.rejectKnockback) {
+    $values = arrays.remove($values, "#minecraft:enchantable/sword");
+}

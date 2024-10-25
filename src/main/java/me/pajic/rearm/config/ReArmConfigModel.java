@@ -52,6 +52,7 @@ public class ReArmConfigModel {
     public static class SweepingEdge {
         @RestartRequired public boolean sweepingEdgeAbility = true;
         @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.5F;
+        @PredicateConstraint("greaterThanZero") public int maxMobAmountUsedForDamageIncrease = 6;
 
         public static boolean greaterThanZero(float value) {
             return Predicates.greaterThanZero(value);
@@ -119,23 +120,17 @@ public class ReArmConfigModel {
     }
 
     public static class Sword {
-        public boolean enableLethalTempo = true;
-        @PredicateConstraint("greaterThanZero") public int lethalTempoAdditionalDamagePerHit = 1;
-        @PredicateConstraint("greaterThanZero") public float lethalTempoTimeframe = 0.1F;
-        @PredicateConstraint("greaterThanZero") public int lethalTempoMaxStacks = 1;
         public boolean disableCriticalHits = true;
         @RestartRequired public boolean rejectKnockback = true;
 
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);
         }
-        public static boolean greaterThanZero(float value) {
-            return Predicates.greaterThanZero(value);
-        }
     }
 
     public static class Axe {
         public boolean acceptKnockback = true;
+        public boolean acceptLooting = true;
     }
 
     public static boolean greaterThanZero(int value) {
@@ -143,7 +138,6 @@ public class ReArmConfigModel {
     }
 
     public static class Predicates {
-
         public static boolean greaterThanZero(int value) {
             return value > 0;
         }

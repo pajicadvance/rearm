@@ -39,6 +39,10 @@ repositories {
     }
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/rearm.accesswidener")
+}
+
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -53,6 +57,13 @@ dependencies {
     // MixinExtras 0.5 beta
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}"))
     include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")
+
+    // Fabric ASM (enum extension)
+    modImplementation("com.github.Chocohead:Fabric-ASM:v2.3") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+
+    include("com.github.Chocohead:Fabric-ASM:v2.3")
 
     // MixinConstraints
     include(implementation("com.moulberry:mixinconstraints:${project.mixinconstraints_version}"))

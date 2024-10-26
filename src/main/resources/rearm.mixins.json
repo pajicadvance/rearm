@@ -24,6 +24,7 @@
   "client": [
     "GuiGraphicsMixin",
     "GuiMixin",
+    "HeartTypeMixin",
     "ItemInHandRendererMixin",
     "PlayerRendererMixin",
     "base.PackSelectionModelMixin"

@@ -17,11 +17,15 @@
     ],
     "client": [
       "me.pajic.rearm.ClientMain"
+    ],
+    "mm:early_risers": [
+      "me.pajic.rearm.EarlyRiser"
     ]
   },
   "mixins": [
     "rearm.mixins.json"
   ],
+  "accessWidener": "rearm.accesswidener",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",

@@ -2,17 +2,20 @@ package me.pajic.rearm;
 
 import com.chocohead.mm.api.ClassTinkerers;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.Supplier;
 
 public class EarlyRiser implements Runnable {
 
+    private static final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
+
     private static final String targetType =
-            FabricLoader.getInstance().getMappingResolver().mapClassName("intermediary", "net.minecraft.class_329$class_6411");
+            mappingResolver.mapClassName("intermediary", "net.minecraft.class_329$class_6411");
 
     private static final String paramType =
-            "L" + FabricLoader.getInstance().getMappingResolver().mapClassName("intermediary", "net.minecraft.class_2960");
+            "L" + mappingResolver.mapClassName("intermediary", "net.minecraft.class_2960") + ";";
 
     @Override
     public void run() {

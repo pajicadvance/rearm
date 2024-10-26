@@ -65,7 +65,7 @@
   "text.config.rearm.option.sweepingEdge.maxMobAmountUsedForDamageIncrease": "Maximum mob count for damage increase",
   "text.config.rearm.option.cripplingBlow.cripplingBlowAbility": "Enable Crippling Blow ability",
   "text.config.rearm.option.cripplingBlow.cripplingBlowCooldown": "Crippling Blow cooldown (ticks)",
-  "text.config.rearm.option.cripplingBlow.cripplingBlowAbility.tooltip": "Press the Press the Prepare Ability key while holding an axe\nenchanted with Crippling Blow to prepare this ability:\nThe next attack will briefly slow down the enemy\nand apply Bleeding for several seconds.",
+  "text.config.rearm.option.cripplingBlow.cripplingBlowAbility.tooltip": "Press the Press the Prepare Ability key while holding an axe\nenchanted with Crippling Blow to prepare this ability:\nThe next attack will briefly slow down the enemy\nand apply Bleeding for several seconds.\nSkeletal enemies are immune to Bleeding.",
   "text.config.rearm.option.cripplingBlow.cripplingBlowBleedingDuration": "Bleeding duration (ticks)",
   "text.config.rearm.option.cripplingBlow.cripplingBlowBaseBleedingDPS": "Base bleed damage per second",
   "text.config.rearm.option.cripplingBlow.cripplingBlowBleedingDPSIncreasePerLevel": "Bleed DPS increase per level",

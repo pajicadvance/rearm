@@ -1,6 +1,7 @@
 package me.pajic.rearm.mixin;
 
 import me.pajic.rearm.ability.AbilityManager;
+import me.pajic.rearm.ability.CriticalCounterManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,9 +17,10 @@ public class ServerGamePacketListenerImplMixin {
 
     @Inject(
             method = "removePlayerFromWorld",
-            at = @At("HEAD")
+            at = @At("TAIL")
     )
-    private void removePlayerAbilityData(CallbackInfo ci) {
+    private void removePlayerData(CallbackInfo ci) {
         AbilityManager.removePlayerAbilityData(player.getUUID());
+        CriticalCounterManager.removePlayerCounterConditionData(player.getUUID());
     }
 }

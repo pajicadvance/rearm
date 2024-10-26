@@ -12,6 +12,7 @@ import me.pajic.rearm.enchantment.ReArmEnchantments;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -181,14 +182,16 @@ public abstract class PlayerMixin extends LivingEntity {
                         ),
                         serverPlayer
                 );
-                livingEntity.addEffect(
-                        new MobEffectInstance(
-                                ReArmEffects.BLEEDING,
-                                Main.CONFIG.cripplingBlow.cripplingBlowBleedingDuration(),
-                                cripplingBlowLevel
-                        ),
-                        serverPlayer
-                );
+                if (!livingEntity.getType().is(EntityTypeTags.SKELETONS)) {
+                    livingEntity.addEffect(
+                            new MobEffectInstance(
+                                    ReArmEffects.BLEEDING,
+                                    Main.CONFIG.cripplingBlow.cripplingBlowBleedingDuration(),
+                                    cripplingBlowLevel
+                            ),
+                            serverPlayer
+                    );
+                }
                 AbilityManager.setPlayerAbilityUsed(serverPlayer);
             }
         }

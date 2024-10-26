@@ -62,6 +62,10 @@ public class CriticalCounterManager {
         return false;
     }
 
+    public static void removePlayerCounterConditionData(UUID playerUUID) {
+        playerCounterConditions.removeBoolean(playerUUID);
+    }
+
     public static void init() {
         PayloadTypeRegistry.playC2S().register(C2SUpdatePlayerCounterCondition.TYPE, C2SUpdatePlayerCounterCondition.CODEC);
         PayloadTypeRegistry.playS2C().register(S2CStartCriticalCounterTimer.TYPE, S2CStartCriticalCounterTimer.CODEC);

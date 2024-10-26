@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.pajic.rearm.Main;
-import me.pajic.rearm.ability.AbilityManager;
+import me.pajic.rearm.ability.AbilityManagerClient;
 import me.pajic.rearm.ability.CooldownTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -32,11 +32,11 @@ public class GuiGraphicsMixin {
                                           @Local LocalFloatRef f,
                                           @Local LocalPlayer localPlayer
     ) {
-        if (AbilityManager.shouldRenderHotbarActiveIndicator(stack, localPlayer)) {
+        if (AbilityManagerClient.shouldRenderHotbarActiveIndicator(stack, localPlayer)) {
             f.set(1);
             return minecraft.level != null && minecraft.level.getGameTime() % 10 > 0 && minecraft.level.getGameTime() % 10 < 5;
         }
-        if (AbilityManager.shouldRenderHotbarCooldownIndicator(stack, minecraft)) {
+        if (AbilityManagerClient.shouldRenderHotbarCooldownIndicator(stack, minecraft)) {
             f.set(Mth.clamp((float) CooldownTracker.abilityCooldown / Main.CONFIG.abilityCooldown(), 0.0F, 1.0F));
             return true;
         }

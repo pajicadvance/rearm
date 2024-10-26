@@ -1,6 +1,7 @@
 package me.pajic.rearm;
 
 import me.pajic.rearm.ability.AbilityManager;
+import me.pajic.rearm.ability.CriticalCounterManager;
 import me.pajic.rearm.config.ReArmConfig;
 import me.pajic.rearm.data.ReArmData;
 import me.pajic.rearm.effect.ReArmEffects;
@@ -16,6 +17,7 @@ public class Main implements ModInitializer {
         ReArmEffects.initEffects();
         ReArmData.initData();
         ReArmItems.initItems();
-        AbilityManager.initServer();
+        AbilityManager.init();
+        CriticalCounterManager.init();
     }
 }

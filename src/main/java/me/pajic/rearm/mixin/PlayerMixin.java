@@ -1,14 +1,15 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.AbilityManager;
+import me.pajic.rearm.ability.CriticalCounterManager;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.ItemTags;
@@ -194,44 +195,38 @@ public abstract class PlayerMixin extends LivingEntity {
         return original;
     }
 
-    @Inject(
-            method = "attack",
-            at = @At("TAIL")
-    )
-    private void resetDataAfterUse(Entity target, CallbackInfo ci) {
-        if ((Player) (Object) this instanceof ServerPlayer serverPlayer) {
-            if (
-                    Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
-                    AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer) ||
-                    Main.CONFIG.cripplingBlow.cripplingBlowAbility() &&
-                    AbilityManager.cripplingBlowAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
-            ) {
-                AbilityManager.resetPlayerAbilityData(serverPlayer);
-            }
-        }
-    }
-
     @ModifyVariable(
             method = "attack",
             at = @At("STORE"),
             ordinal = 2
     )
-    private boolean modifyCritCondition(boolean original) {
-        if (Main.CONFIG.sword.disableCriticalHits() && getWeaponItem().is(ItemTags.SWORDS)) {
-            return false;
+    private boolean criticalCounter_critOnlyIfCriticalCounter(boolean original) {
+        if (
+                (Player) (Object) this instanceof ServerPlayer serverPlayer &&
+                Main.CONFIG.sword.enableCriticalCounter() &&
+                getWeaponItem().is(ItemTags.SWORDS)
+        ) {
+            return CriticalCounterManager.getPlayerCounterCondition(serverPlayer.getUUID());
         }
         return original;
     }
 
-    @WrapWithCondition(
-            method = "attack",
+    @Inject(
+            method = "hurtCurrentlyUsedShield",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/player/Player;crit(Lnet/minecraft/world/entity/Entity;)V"
+                    target = "Lnet/minecraft/world/entity/player/Player;level()Lnet/minecraft/world/level/Level;",
+                    ordinal = 0
             )
     )
-    private boolean onlyCritIfAllowed(Player instance, Entity entityHit) {
-        return !Main.CONFIG.sword.disableCriticalHits() || !getWeaponItem().is(ItemTags.SWORDS);
+    private void criticalCounter_startTimer(float damageAmount, CallbackInfo ci) {
+        if (
+                (Player) (Object) this instanceof ServerPlayer serverPlayer &&
+                Main.CONFIG.sword.enableCriticalCounter() &&
+                getWeaponItem().is(ItemTags.SWORDS)
+        ) {
+            ServerPlayNetworking.send(serverPlayer, new CriticalCounterManager.S2CStartCriticalCounterTimer());
+        }
     }
 
     @ModifyExpressionValue(
@@ -251,5 +246,22 @@ public abstract class PlayerMixin extends LivingEntity {
             return original || infinityLevel > 0;
         }
         return original;
+    }
+
+    @Inject(
+            method = "attack",
+            at = @At("TAIL")
+    )
+    private void resetDataAfterUse(Entity target, CallbackInfo ci) {
+        if ((Player) (Object) this instanceof ServerPlayer serverPlayer) {
+            if (
+                    Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
+                    AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer) ||
+                    Main.CONFIG.cripplingBlow.cripplingBlowAbility() &&
+                            AbilityManager.cripplingBlowAbility.shouldTriggerAbility(getWeaponItem(), serverPlayer)
+            ) {
+                AbilityManager.resetPlayerAbilityData(serverPlayer);
+            }
+        }
     }
 }

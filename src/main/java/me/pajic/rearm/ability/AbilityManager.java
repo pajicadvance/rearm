@@ -2,12 +2,8 @@ package me.pajic.rearm.ability;
 
 import com.google.common.collect.ImmutableList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -25,7 +21,9 @@ public class AbilityManager {
     public static final PiercingShotAbility piercingShotAbility = new PiercingShotAbility();
     public static final SweepingEdgeAbility sweepingEdgeAbility = new SweepingEdgeAbility();
     public static final CripplingBlowAbility cripplingBlowAbility = new CripplingBlowAbility();
-    public static final ImmutableList<Ability> abilities = ImmutableList.of(multishotAbility, piercingShotAbility, sweepingEdgeAbility, cripplingBlowAbility);
+    public static final ImmutableList<Ability> abilities = ImmutableList.of(
+            multishotAbility, piercingShotAbility, sweepingEdgeAbility, cripplingBlowAbility
+    );
 
     public static final ResourceLocation TRIGGER_ABILITY = ResourceLocation.fromNamespaceAndPath("rearm", "trigger_ability");
     public static final ResourceLocation RESET_ABILITY_TYPE = ResourceLocation.fromNamespaceAndPath("rearm", "reset_ability_type");
@@ -102,7 +100,7 @@ public class AbilityManager {
     }
 
     public static void resetPlayerAbilityData(ServerPlayer serverPlayer) {
-        ServerPlayNetworking.send(serverPlayer, new S2CResetAbilityTypePayload());
+        ServerPlayNetworking.send(serverPlayer, new AbilityManager.S2CResetAbilityTypePayload());
         setPlayerAbilityData(serverPlayer.getUUID(), ItemStack.EMPTY, AbilityType.NONE);
     }
 
@@ -110,49 +108,13 @@ public class AbilityManager {
         ServerPlayNetworking.send(player, new AbilityManager.S2CSignalAbilityUsedPayload());
     }
 
-    public static boolean tryAbilities(KeyMapping abilityKey, Minecraft client) {
-        for (Ability ability : abilities) {
-            if (ability.tryAbility(abilityKey, client)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean shouldRenderHotbarActiveIndicator(ItemStack stack, LocalPlayer player) {
-        for (Ability ability : abilities) {
-            if (ability.shouldRenderHotbarActiveIndicator(stack, player)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean shouldRenderHotbarCooldownIndicator(ItemStack stack, Minecraft client) {
-        for (Ability ability : abilities) {
-            if (ability.shouldRenderHotbarCooldownIndicator(stack, client)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void initServer() {
+    public static void init() {
         PayloadTypeRegistry.playC2S().register(C2STriggerAbilityPayload.TYPE, C2STriggerAbilityPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(S2CResetAbilityTypePayload.TYPE, S2CResetAbilityTypePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(S2CSignalAbilityUsedPayload.TYPE, S2CSignalAbilityUsedPayload.CODEC);
 
-        ServerPlayNetworking.registerGlobalReceiver(C2STriggerAbilityPayload.TYPE, (payload, context) ->
-                setPlayerAbilityData(payload.activePlayerUUID, payload.activeItem.copy(), payload.abilityType)
-        );
-    }
-
-    public static void initClient() {
-        ClientPlayNetworking.registerGlobalReceiver(S2CResetAbilityTypePayload.TYPE, (payload, context) ->
-                CooldownTracker.abilityType = AbilityType.NONE
-        );
-        ClientPlayNetworking.registerGlobalReceiver(S2CSignalAbilityUsedPayload.TYPE, (payload, context) ->
-                CooldownTracker.abilityUsed = true
+        ServerPlayNetworking.registerGlobalReceiver(AbilityManager.C2STriggerAbilityPayload.TYPE, (payload, context) ->
+                setPlayerAbilityData(payload.activePlayerUUID(), payload.activeItem().copy(), payload.abilityType())
         );
     }
 }

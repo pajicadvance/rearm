@@ -36,7 +36,7 @@ public class ReArmKeybinds {
                 }
             }
             if (CooldownTracker.abilityCooldown == 0) {
-                if (AbilityManager.tryAbilities(ABILITY_KEY, client)) {
+                if (AbilityManagerClient.tryAbilities(ABILITY_KEY, client)) {
                     CooldownTracker.abilityCooldown = Main.CONFIG.abilityCooldown();
                 }
             }

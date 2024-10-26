@@ -57,6 +57,9 @@ public class ReArmConfigModel {
         public static boolean greaterThanZero(float value) {
             return Predicates.greaterThanZero(value);
         }
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static class CripplingBlow {
@@ -120,7 +123,8 @@ public class ReArmConfigModel {
     }
 
     public static class Sword {
-        public boolean disableCriticalHits = true;
+        public boolean enableCriticalCounter = true;
+        @PredicateConstraint("greaterThanZero") public int criticalCounterTimeframe = 10;
         @RestartRequired public boolean rejectKnockback = true;
 
         public static boolean greaterThanZero(int value) {

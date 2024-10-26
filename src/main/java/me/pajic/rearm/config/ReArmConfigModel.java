@@ -10,7 +10,6 @@ import io.wispforest.owo.config.annotation.*;
 public class ReArmConfigModel {
 
     @SectionHeader("abilities")
-    @PredicateConstraint("greaterThanZero") public int abilityCooldown = 200;
     @Nest public Multishot multishot = new Multishot();
     @Nest public PiercingShot piercingShot = new PiercingShot();
     @Nest public SweepingEdge sweepingEdge = new SweepingEdge();
@@ -38,6 +37,7 @@ public class ReArmConfigModel {
 
     public static class Multishot {
         @RestartRequired public boolean multishotAbility = true;
+        @PredicateConstraint("greaterThanZero") public int multishotCooldown = 120;
         @RestartRequired @PredicateConstraint("greaterThanZero") public int multishotAdditionalArrows = 6;
 
         public static boolean greaterThanZero(int value) {
@@ -47,10 +47,16 @@ public class ReArmConfigModel {
 
     public static class PiercingShot {
         @RestartRequired public boolean piercingShotAbility = true;
+        @PredicateConstraint("greaterThanZero") public int piercingShotCooldown = 160;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static class SweepingEdge {
         @RestartRequired public boolean sweepingEdgeAbility = true;
+        @PredicateConstraint("greaterThanZero") public int sweepingEdgeCooldown = 160;
         @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.5F;
         @PredicateConstraint("greaterThanZero") public int maxMobAmountUsedForDamageIncrease = 6;
 
@@ -64,6 +70,7 @@ public class ReArmConfigModel {
 
     public static class CripplingBlow {
         @RestartRequired public boolean cripplingBlowAbility = true;
+        @PredicateConstraint("greaterThanZero") public int cripplingBlowCooldown = 200;
         @PredicateConstraint("greaterThanZero") public int cripplingBlowBleedingDuration = 120;
         @PredicateConstraint("greaterThanZero") public float cripplingBlowBaseBleedingDPS = 1.0F;
         @PredicateConstraint("greaterThanZero") public float cripplingBlowBleedingDPSIncreasePerLevel = 0.5F;

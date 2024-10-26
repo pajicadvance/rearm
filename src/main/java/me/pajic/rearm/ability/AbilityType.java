@@ -1,16 +1,17 @@
 package me.pajic.rearm.ability;
 
+import me.pajic.rearm.Main;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import org.jetbrains.annotations.NotNull;
 
 public enum AbilityType {
-    MULTISHOT,
-    PIERCING_SHOT,
-    SWEEPING_EDGE,
-    CRIPPLING_BLOW,
-    VOID_STRIKE,
-    NONE;
+    MULTISHOT(Main.CONFIG.multishot.multishotCooldown()),
+    PIERCING_SHOT(Main.CONFIG.piercingShot.piercingShotCooldown()),
+    SWEEPING_EDGE(Main.CONFIG.sweepingEdge.sweepingEdgeCooldown()),
+    CRIPPLING_BLOW(Main.CONFIG.cripplingBlow.cripplingBlowCooldown()),
+    VOID_STRIKE(160),
+    NONE(0);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AbilityType> STREAM_CODEC = new StreamCodec<>() {
         @Override
@@ -23,4 +24,14 @@ public enum AbilityType {
             return buf.readEnum(AbilityType.class);
         }
     };
+
+    private final int cooldown;
+
+    AbilityType(int cooldown) {
+        this.cooldown = cooldown;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
 }

@@ -35,9 +35,11 @@ public class ReArmKeybinds {
                     CooldownTracker.backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
                 }
             }
-            if (CooldownTracker.abilityCooldown == 0) {
-                if (AbilityManagerClient.tryAbilities(ABILITY_KEY, client)) {
-                    CooldownTracker.abilityCooldown = Main.CONFIG.abilityCooldown();
+            if (CooldownTracker.currentAbilityCooldown == 0) {
+                AbilityType abilityType = AbilityManagerClient.tryAbilities(ABILITY_KEY, client);
+                if (abilityType != AbilityType.NONE) {
+                    CooldownTracker.currentAbilityCooldown = abilityType.getCooldown();
+                    CooldownTracker.abilityCooldown = abilityType.getCooldown();
                 }
             }
         });

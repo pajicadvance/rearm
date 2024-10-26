@@ -8,13 +8,13 @@ import net.minecraft.world.item.ItemStack;
 
 public class AbilityManagerClient {
 
-    public static boolean tryAbilities(KeyMapping abilityKey, Minecraft client) {
+    public static AbilityType tryAbilities(KeyMapping abilityKey, Minecraft client) {
         for (Ability ability : AbilityManager.abilities) {
             if (ability.tryAbility(abilityKey, client)) {
-                return true;
+                return ability.abilityType();
             }
         }
-        return false;
+        return AbilityType.NONE;
     }
 
     public static boolean shouldRenderHotbarActiveIndicator(ItemStack stack, LocalPlayer player) {

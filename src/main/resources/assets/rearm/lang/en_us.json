@@ -60,7 +60,7 @@
   "text.config.rearm.option.piercingShot.piercingShotAbility.tooltip": "Replaces Piercing.\nPress the Prepare Ability key while holding a crossbow\nenchanted with Piercing Shot to prepare this ability:\nThe next arrow shot will pierce through enemies\nand ignore their armor.",
   "text.config.rearm.option.sweepingEdge.sweepingEdgeAbility": "Enable Sweeping Edge ability",
   "text.config.rearm.option.sweepingEdge.sweepingEdgeCooldown": "Sweeping Edge cooldown (ticks)",
-  "text.config.rearm.option.sweepingEdge.sweepingEdgeAbility.tooltip": "Replaces Sweeping Edge.\nPress the Prepare Ability key while holding a sword\nenchanted with Sweeping Edge to prepare this ability:\nThe next attack will strike all enemies in a moderate radius around you\nand deal increased damage to all enemies based on the amount of enemies hit.",
+  "text.config.rearm.option.sweepingEdge.sweepingEdgeAbility.tooltip": "Replaces Sweeping Edge.\nPress the Prepare Ability key while holding a sword\nenchanted with Sweeping Edge to prepare this ability:\nThe next attack will strike all enemies in a moderate radius around you\nincreasing with enchantment level and deal increased damage\nto all enemies based on the amount of enemies hit.",
   "text.config.rearm.option.sweepingEdge.sweepingEdgeAdditionalDamagePerMob": "Additional damage per hit mob",
   "text.config.rearm.option.sweepingEdge.maxMobAmountUsedForDamageIncrease": "Maximum mob count for damage increase",
   "text.config.rearm.option.cripplingBlow.cripplingBlowAbility": "Enable Crippling Blow ability",

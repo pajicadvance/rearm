@@ -32,7 +32,7 @@ public class ReArmConfigModel {
 
     @SectionHeader("tweaks")
     public boolean infinityFix = true;
-    @RestartRequired public boolean infinimending = true;
+    @RestartRequired public boolean infinimending = false;
     @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
 
     public static class Multishot {

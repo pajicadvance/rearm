@@ -14,7 +14,7 @@ public class ReArmKeybinds {
             new KeyMapping(
                     "key.rearm.ability",
                     InputConstants.Type.KEYSYM,
-                    GLFW.GLFW_KEY_X,
+                    GLFW.GLFW_KEY_G,
                     "category.rearm.keybindings"
             )
     );

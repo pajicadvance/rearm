@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.List;
 
-@Mixin(Player.class)
+@Mixin(value = Player.class, priority = 250)
 public abstract class PlayerMixin extends LivingEntity {
 
     @Shadow public abstract @NotNull ItemStack getWeaponItem();

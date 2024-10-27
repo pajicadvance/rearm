@@ -10,7 +10,6 @@ public enum AbilityType {
     PIERCING_SHOT(Main.CONFIG.piercingShot.piercingShotCooldown()),
     SWEEPING_EDGE(Main.CONFIG.sweepingEdge.sweepingEdgeCooldown()),
     CRIPPLING_BLOW(Main.CONFIG.cripplingBlow.cripplingBlowCooldown()),
-    VOID_STRIKE(160),
     NONE(0);
 
     public static final StreamCodec<RegistryFriendlyByteBuf, AbilityType> STREAM_CODEC = new StreamCodec<>() {

@@ -16,6 +16,6 @@
   "slots": [
     "mainhand"
   ],
-  "supported_items": "#rearm:enchantable/axe",
+  "supported_items": "#minecraft:enchantable/axe",
   "weight": 2
 }

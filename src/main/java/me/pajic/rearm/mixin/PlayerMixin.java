@@ -51,7 +51,10 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private double sweepingEdgeAbility_removeVanillaDamage(double original) {
-        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
+        if (
+                Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
+                !AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
+        ) {
             return 0;
         }
         return original;
@@ -66,10 +69,10 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private float sweepingEdgeAbility_removeEnchantmentDamage(float original) {
-        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
-            if (AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)) {
-                return original;
-            }
+        if (
+                Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
+                !AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
+        ) {
             return 1;
         }
         return original;
@@ -125,14 +128,15 @@ public abstract class PlayerMixin extends LivingEntity {
             index = 1
     )
     private <T extends Entity> float sweepingEdgeAbility_increaseDamage(
-            float damage, @Share("original") LocalRef<List<T>> hitEntityList
+            float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float h
     ) {
         if (
                 Main.CONFIG.sweepingEdge.sweepingEdgeAbility() &&
                 AbilityManager.sweepingEdgeAbility.shouldTriggerAbility(getWeaponItem(), (Player) (Object) this)
         ) {
-            return damage + Main.CONFIG.sweepingEdge.sweepingEdgeAdditionalDamagePerMob() *
-                    Math.min(hitEntityList.get().size(), Main.CONFIG.sweepingEdge.maxMobAmountUsedForDamageIncrease());
+            float additionalDamage = Main.CONFIG.sweepingEdge.sweepingEdgeAdditionalDamagePerMob() *
+                    Math.min(hitEntityList.get().size() - 1, Main.CONFIG.sweepingEdge.maxMobAmountUsedForDamageIncrease());
+            return damage + additionalDamage * h;
         }
         return damage;
     }

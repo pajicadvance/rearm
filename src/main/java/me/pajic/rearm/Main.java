@@ -6,6 +6,7 @@ import me.pajic.rearm.config.ReArmConfig;
 import me.pajic.rearm.data.ReArmData;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
+import me.pajic.rearm.mixson.ResourceModifications;
 import net.fabricmc.api.ModInitializer;
 
 public class Main implements ModInitializer {
@@ -14,8 +15,9 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ReArmEffects.initEffects();
         ReArmData.initData();
+        ResourceModifications.init();
+        ReArmEffects.initEffects();
         ReArmItems.initItems();
         AbilityManager.init();
         CriticalCounterManager.init();

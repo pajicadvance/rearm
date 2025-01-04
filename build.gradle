@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.8-SNAPSHOT'
+    id 'fabric-loom' version '1.9-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -71,12 +71,8 @@ dependencies {
     // owo-lib
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 
-    // JsonPatcher
-    modImplementation(include("com.github.mattidragon:jsonpatcher:${project.jsonpatcher_version + "-mc." + project.minecraft_version}"))
-    modCompileOnly "com.github.MattiDragon:JsonPatcherLang:v1.0.0"
-
-    // Disable Custom Worlds Advice
-    modImplementation(include("maven.modrinth:dcwa:${project.dcwa_version}"))
+    // Mixson
+    modImplementation(include("com.github.ramixin:mixson:${project.mixson_version}"))
 
     // ModMenu
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")

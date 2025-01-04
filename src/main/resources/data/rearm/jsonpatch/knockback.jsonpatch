@@ -1,4 +1,0 @@
-@version "1";
-@target "minecraft:enchantment/knockback.json";
-
-$supported_items = "#minecraft:enchantable/knockback_enchantable";

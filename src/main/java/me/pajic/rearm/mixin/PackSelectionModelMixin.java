@@ -1,4 +1,4 @@
-package me.pajic.rearm.mixin.base;
+package me.pajic.rearm.mixin;
 
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import net.minecraft.server.packs.repository.Pack;

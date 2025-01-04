@@ -34,22 +34,6 @@ public class ReArmData {
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
             }
-
-            if (Main.CONFIG.meleeProtection()) {
-                ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("rearm:melee_protection"),
-                        modContainer,
-                        ResourcePackActivationType.ALWAYS_ENABLED
-                );
-            }
-
-            if (Main.CONFIG.infinimending()) {
-                ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("rearm:infinimending"),
-                        modContainer,
-                        ResourcePackActivationType.ALWAYS_ENABLED
-                );
-            }
         });
     }
 }

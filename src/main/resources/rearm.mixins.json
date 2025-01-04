@@ -18,7 +18,6 @@
     "RangedBowAttackGoalMixin",
     "ServerGamePacketListenerImplMixin",
     "TippedArrowRecipeMixin",
-    "base.jsonpatcher.PatcherMixin",
     "compat.emi.VanillaPluginMixin"
   ],
   "client": [
@@ -26,8 +25,8 @@
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",
-    "PlayerRendererMixin",
-    "base.PackSelectionModelMixin"
+    "PackSelectionModelMixin",
+    "PlayerRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,6 +1,0 @@
-@version "1";
-@target "minecraft:tags/enchantment/exclusive_set/bow.json";
-
-if ("minecraft:infinity" in $values && "minecraft:mending" in $values) {
-    $values = arrays.removeIf($values, (value) -> value == "minecraft:infinity" || value == "minecraft:mending");
-}

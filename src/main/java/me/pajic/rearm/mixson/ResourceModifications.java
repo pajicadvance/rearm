@@ -14,6 +14,11 @@ import java.util.List;
 
 public class ResourceModifications {
 
+    private static final List<String> ENCHANTMENT_DESCRIPTION_MODS = List.of(
+            "enchdesc",
+            "idwtialsimmoedm"
+    );
+
     public static void init() {
 
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) Mixson.setDebugMode(DebugMode.EXPORT);
@@ -344,38 +349,22 @@ public class ResourceModifications {
                 }
         );
 
-        // Language file
+        // Language files
         Mixson.registerModificationEvent(
                 ResourceLocation.withDefaultNamespace("lang/en_us"),
                 ResourceLocation.fromNamespaceAndPath("rearm", "modify_lang"),
 
                 jsonElement -> {
-                    if (Main.CONFIG.multishot.multishotAbility()) jsonElement.getAsJsonObject().addProperty(
-                            "enchantment.minecraft.multishot.desc",
-                            "Ability: The next shot will fire multiple spread out arrows."
-                    );
                     if (Main.CONFIG.piercingShot.piercingShotAbility()) {
                         jsonElement.getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing",
                                 "Piercing Shot"
                         );
-                        jsonElement.getAsJsonObject().addProperty(
-                                "enchantment.minecraft.piercing.desc",
-                                "Ability: The next arrow shot will pierce through enemies and ignore their armor."
-                        );
                     }
-                    if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) jsonElement.getAsJsonObject().addProperty(
-                            "enchantment.minecraft.sweeping_edge.desc",
-                            "Ability: The next attack will strike all enemies in a moderate radius around you and deal increased damage to all enemies based on the amount of enemies hit."
-                    );
                     if (Main.CONFIG.elementalProtection()) {
                         jsonElement.getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection",
                                 "Elemental Protection"
-                        );
-                        jsonElement.getAsJsonObject().addProperty(
-                                "enchantment.minecraft.fire_protection.desc",
-                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze"
                         );
                     }
                     if (Main.CONFIG.meleeProtection()) {
@@ -383,13 +372,39 @@ public class ResourceModifications {
                                 "enchantment.minecraft.protection",
                                 "Melee Protection"
                         );
-                        jsonElement.getAsJsonObject().addProperty(
-                                "enchantment.minecraft.protection.desc",
-                                "Moderate damage resistance to most close-up physical damage sources"
-                        );
                     }
                     return jsonElement;
                 }
         );
+        ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> {
+            if (FabricLoader.getInstance().isModLoaded(mod)) Mixson.registerModificationEvent(
+                    ResourceLocation.fromNamespaceAndPath(mod,"lang/en_us"),
+                    ResourceLocation.fromNamespaceAndPath("rearm", "modify_lang_" + mod),
+
+                    jsonElement -> {
+                        if (Main.CONFIG.multishot.multishotAbility()) jsonElement.getAsJsonObject().addProperty(
+                                "enchantment.minecraft.multishot.desc",
+                                "Ability: The next shot will fire multiple spread out arrows."
+                        );
+                        if (Main.CONFIG.piercingShot.piercingShotAbility()) jsonElement.getAsJsonObject().addProperty(
+                                "enchantment.minecraft.piercing.desc",
+                                "Ability: The next arrow shot will pierce through enemies and ignore their armor."
+                        );
+                        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) jsonElement.getAsJsonObject().addProperty(
+                                "enchantment.minecraft.sweeping_edge.desc",
+                                "Ability: The next attack will strike all enemies in a moderate radius around you and deal increased damage to all enemies based on the amount of enemies hit."
+                        );
+                        if (Main.CONFIG.elementalProtection()) jsonElement.getAsJsonObject().addProperty(
+                                "enchantment.minecraft.fire_protection.desc",
+                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze"
+                        );
+                        if (Main.CONFIG.meleeProtection()) jsonElement.getAsJsonObject().addProperty(
+                                "enchantment.minecraft.protection.desc",
+                                "Moderate damage resistance to most close-up physical damage sources"
+                        );
+                        return jsonElement;
+                    }
+            );
+        });
     }
 }

@@ -28,11 +28,7 @@ public class BackstepAbility {
                     player.getAttributeValue(Attributes.JUMP_STRENGTH),
                     -look.z / (4 - backstepLevel)
             );
-            if (player.isSprinting()) {
-                player.causeFoodExhaustion(0.2F);
-            } else {
-                player.causeFoodExhaustion(0.05F);
-            }
+            player.causeFoodExhaustion(5.0F);
             backstepKey.setDown(false);
             return true;
         }

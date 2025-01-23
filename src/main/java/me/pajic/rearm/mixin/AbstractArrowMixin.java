@@ -110,9 +110,11 @@ public abstract class AbstractArrowMixin extends Projectile {
                 getWeaponItem() != null &&
                 AbilityManager.piercingShotAbility.shouldTriggerAbility(getWeaponItem(), player)
         ) {
+            AbstractArrow arrow = (AbstractArrow) (Object) this;
             return damageSources().source(ResourceKey.create(
                     Registries.DAMAGE_TYPE,
-                    ResourceLocation.fromNamespaceAndPath("rearm", "piercing_arrow"))
+                    ResourceLocation.fromNamespaceAndPath("rearm", "piercing_arrow")),
+                    arrow, getOwner() != null ? getOwner() : arrow
             );
         }
         return original;

@@ -6,9 +6,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import me.pajic.rearm.Main;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.ResourceLocation;
-import net.ramixin.mixson.DebugMode;
-import net.ramixin.mixson.Mixson;
+import net.ramixin.mixson.debug.DebugMode;
+import net.ramixin.mixson.inline.Mixson;
 
 import java.util.List;
 
@@ -24,100 +23,86 @@ public class ResourceModifications {
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) Mixson.setDebugMode(DebugMode.EXPORT);
 
         // Enchantments
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/infinity"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_infinity"),
-
-                jsonElement -> {
-                    jsonElement.getAsJsonObject()
-                            .addProperty("supported_items", "#minecraft:enchantable/infinity_enchantable");
-                    return jsonElement;
-                }
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/infinity",
+                "rearm:modify_infinity",
+                context -> context.getFile().getAsJsonObject()
+                        .addProperty("supported_items", "#minecraft:enchantable/infinity_enchantable")
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/knockback"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_knockback"),
-
-                jsonElement -> {
-                    jsonElement.getAsJsonObject()
-                            .addProperty("supported_items", "#minecraft:enchantable/knockback_enchantable");
-                    return jsonElement;
-                }
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/knockback",
+                "rearm:modify_knockback",
+                context -> context.getFile().getAsJsonObject()
+                        .addProperty("supported_items", "#minecraft:enchantable/knockback_enchantable")
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/looting"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_looting"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/looting",
+                "rearm:modify_looting",
+                context -> {
                     if (Main.CONFIG.axe.acceptLooting()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .addProperty("supported_items", "#minecraft:enchantable/sharp_weapon");
                     }
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/multishot"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_multishot"),
-
-                jsonElement -> {
-                    jsonElement.getAsJsonObject()
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/multishot",
+                "rearm:modify_multishot",
+                context -> {
+                    context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/multishot_enchantable");
-
                     if (Main.CONFIG.multishot.multishotAbility()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:projectile_count").get(0).getAsJsonObject()
                                 .getAsJsonObject("effect")
                                 .getAsJsonObject("value")
                                 .addProperty("base", Main.CONFIG.multishot.multishotAdditionalArrows());
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:projectile_spread").get(0).getAsJsonObject()
                                 .getAsJsonObject("effect")
                                 .getAsJsonObject("value")
                                 .addProperty("base", Main.CONFIG.multishot.multishotAdditionalArrows() * 5);
                     }
-
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/power"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_power"),
-
-                jsonElement -> {
-                    jsonElement.getAsJsonObject()
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/power",
+                "rearm:modify_power",
+                context -> {
+                    context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/power_enchantable");
-
-                    jsonElement.getAsJsonObject()
+                    context.getFile().getAsJsonObject()
                             .getAsJsonObject("effects")
                             .getAsJsonArray("minecraft:damage").get(0).getAsJsonObject()
                             .getAsJsonObject("effect")
                             .getAsJsonObject("value")
                             .addProperty("base", 1.0);
-
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/sweeping_edge"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_sweeping_edge"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/sweeping_edge",
+                "rearm:modify_sweeping_edge",
+                context -> {
                     if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .remove("minecraft:attributes");
                     }
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/projectile_protection"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_projectile_protection"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/projectile_protection",
+                "rearm:modify_projectile_protection",
+                context -> {
                     if (Main.CONFIG.piercingShot.piercingShotAbility()) {
                         JsonObject condition = new JsonObject();
                         condition.addProperty("condition", "minecraft:damage_source_properties");
@@ -141,26 +126,25 @@ public class ResourceModifications {
                         JsonObject requirements = new JsonObject();
                         requirements.addProperty("condition", "minecraft:any_of");
                         JsonArray termArray = new JsonArray();
-                        termArray.add(jsonElement.getAsJsonObject()
+                        termArray.add(context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
                                 .getAsJsonObject("requirements"));
                         termArray.add(condition);
                         requirements.add("terms", termArray);
 
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
                                 .add("requirements", requirements);
                     }
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/fire_protection"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_fire_protection"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/fire_protection",
+                "rearm:modify_fire_protection",
+                context -> {
                     if (Main.CONFIG.elementalProtection()) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
@@ -172,7 +156,7 @@ public class ResourceModifications {
                         tags.add(tag1);
                         tags.add(tag2);
 
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
                                 .getAsJsonObject("requirements")
@@ -180,15 +164,14 @@ public class ResourceModifications {
                                 .getAsJsonObject("predicate")
                                 .add("tags", tags);
                     }
-
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("enchantment/protection"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "protection"),
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/protection",
+                "rearm:protection",
 
-                jsonElement -> {
+                context -> {
                     if (Main.CONFIG.meleeProtection()) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
@@ -212,109 +195,100 @@ public class ResourceModifications {
                         tags.add(tag4);
                         tags.add(tag5);
 
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
                                 .getAsJsonObject("requirements")
                                 .getAsJsonObject("predicate")
                                 .add("tags", tags);
                     }
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.fromNamespaceAndPath("rearm", "enchantment/backstep"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_backstep"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "rearm:enchantment/backstep",
+                "rearm:modify_backstep",
+                context -> {
                     if (Main.CONFIG.bow.enableBackstep()) {
-                        JsonObject postAttackEffect = jsonElement.getAsJsonObject()
+                        JsonObject postAttackEffect = context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:post_attack").get(0).getAsJsonObject()
                                 .getAsJsonObject("effect");
                         postAttackEffect.addProperty("min_duration", Main.CONFIG.bow.backstepTimeframe() / 20.0F);
                         postAttackEffect.addProperty("max_duration", Main.CONFIG.bow.backstepTimeframe() / 20.0F);
                     }
-                    return jsonElement;
                 }
         );
 
         // Enchantable tags
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("tags/item/enchantable/infinity_enchantable"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_infinity_enchantable"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:tags/item/enchantable/infinity_enchantable",
+                "rearm:modify_infinity_enchantable",
+                context -> {
                     if (Main.CONFIG.crossbow.acceptInfinity()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/crossbow");
                     }
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("tags/item/enchantable/knockback_enchantable"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_knockback_enchantable"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:tags/item/enchantable/knockback_enchantable",
+                "rearm:modify_knockback_enchantable",
+                context -> {
                     if (Main.CONFIG.axe.acceptKnockback()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/axe");
                     }
-
                     if (Main.CONFIG.sword.rejectKnockback()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .remove(new JsonPrimitive("#minecraft:enchantable/sword"));
                     }
-
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("tags/item/enchantable/multishot_enchantable"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_multishot_enchantable"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:tags/item/enchantable/multishot_enchantable",
+                "rearm:modify_multishot_enchantable",
+                context -> {
                     if (Main.CONFIG.bow.acceptMultishot()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/bow");
                     }
 
                     if (Main.CONFIG.crossbow.rejectMultishot()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .remove(new JsonPrimitive("#minecraft:enchantable/crossbow"));
                     }
-
-                    return jsonElement;
                 }
         );
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("tags/item/enchantable/power_enchantable"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_power_enchantable"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:tags/item/enchantable/power_enchantable",
+                "rearm:modify_power_enchantable",
+                context -> {
                     if (Main.CONFIG.crossbow.acceptPower()) {
-                        jsonElement.getAsJsonObject()
+                        context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/crossbow");
                     }
-                    return jsonElement;
                 }
         );
 
         // Enchantment exclusive set tags
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("tags/enchantment/exclusive_set/bow"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_bow_exclusive_set"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:tags/enchantment/exclusive_set/bow",
+                "rearm:modify_bow_exclusive_set",
+                context -> {
                     if (Main.CONFIG.infinimending()) {
-                        List<JsonElement> values = jsonElement.getAsJsonObject().getAsJsonArray("values").asList();
+                        List<JsonElement> values = context.getFile().getAsJsonObject().getAsJsonArray("values").asList();
                         JsonElement infinity = new JsonPrimitive("minecraft:infinity");
                         JsonElement mending = new JsonPrimitive("minecraft:mending");
                         if (values.contains(infinity) && values.contains(mending)) {
@@ -323,19 +297,18 @@ public class ResourceModifications {
                         }
                         JsonArray newValues = new JsonArray();
                         values.forEach(newValues::add);
-                        jsonElement.getAsJsonObject().add("values", newValues);
+                        context.getFile().getAsJsonObject().add("values", newValues);
                     }
-                    return jsonElement;
                 }
         );
 
         // Enchantment tooltip order
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("tags/enchantment/tooltip_order"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_enchantment_tooltip_order"),
-
-                jsonElement -> {
-                    List<JsonElement> values = jsonElement.getAsJsonObject().getAsJsonArray("values").asList();
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:tags/enchantment/tooltip_order",
+                "rearm:modify_enchantment_tooltip_order",
+                context -> {
+                    List<JsonElement> values = context.getFile().getAsJsonObject().getAsJsonArray("values").asList();
                     int multishotIndex = values.indexOf(new JsonPrimitive("minecraft:multishot"));
                     values.add(multishotIndex + 1, new JsonPrimitive("rearm:backstep"));
                     int baneOfArthropodsIndex = values.indexOf(new JsonPrimitive("minecraft:bane_of_arthropods"));
@@ -344,65 +317,62 @@ public class ResourceModifications {
                     values.add(projectileProtectionIndex + 1, new JsonPrimitive("rearm:magic_protection"));
                     JsonArray newValues = new JsonArray();
                     values.forEach(newValues::add);
-                    jsonElement.getAsJsonObject().add("values", newValues);
-                    return jsonElement;
+                    context.getFile().getAsJsonObject().add("values", newValues);
                 }
         );
 
         // Language files
-        Mixson.registerModificationEvent(
-                ResourceLocation.withDefaultNamespace("lang/en_us"),
-                ResourceLocation.fromNamespaceAndPath("rearm", "modify_lang"),
-
-                jsonElement -> {
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:lang/en_us",
+                "rearm:modify_lang",
+                context -> {
                     if (Main.CONFIG.piercingShot.piercingShotAbility()) {
-                        jsonElement.getAsJsonObject().addProperty(
+                        context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing",
                                 "Piercing Shot"
                         );
                     }
                     if (Main.CONFIG.elementalProtection()) {
-                        jsonElement.getAsJsonObject().addProperty(
+                        context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection",
                                 "Elemental Protection"
                         );
                     }
                     if (Main.CONFIG.meleeProtection()) {
-                        jsonElement.getAsJsonObject().addProperty(
+                        context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.protection",
                                 "Melee Protection"
                         );
                     }
-                    return jsonElement;
                 }
         );
         ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> {
-            if (FabricLoader.getInstance().isModLoaded(mod)) Mixson.registerModificationEvent(
-                    ResourceLocation.fromNamespaceAndPath(mod,"lang/en_us"),
-                    ResourceLocation.fromNamespaceAndPath("rearm", "modify_lang_" + mod),
-
-                    jsonElement -> {
-                        if (Main.CONFIG.multishot.multishotAbility()) jsonElement.getAsJsonObject().addProperty(
+            if (FabricLoader.getInstance().isModLoaded(mod)) Mixson.registerEvent(
+                    Mixson.DEFAULT_PRIORITY,
+                    mod + ":lang/en_us",
+                    "rearm:modify_lang_" + mod,
+                    context -> {
+                        if (Main.CONFIG.multishot.multishotAbility()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.multishot.desc",
                                 "Ability: The next shot will fire multiple spread out arrows."
                         );
-                        if (Main.CONFIG.piercingShot.piercingShotAbility()) jsonElement.getAsJsonObject().addProperty(
+                        if (Main.CONFIG.piercingShot.piercingShotAbility()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing.desc",
                                 "Ability: The next arrow shot will pierce through enemies and ignore their armor."
                         );
-                        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) jsonElement.getAsJsonObject().addProperty(
+                        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.sweeping_edge.desc",
                                 "Ability: The next attack will strike all enemies in a moderate radius around you and deal increased damage to all enemies based on the amount of enemies hit."
                         );
-                        if (Main.CONFIG.elementalProtection()) jsonElement.getAsJsonObject().addProperty(
+                        if (Main.CONFIG.elementalProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection.desc",
                                 "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze"
                         );
-                        if (Main.CONFIG.meleeProtection()) jsonElement.getAsJsonObject().addProperty(
+                        if (Main.CONFIG.meleeProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.protection.desc",
                                 "Moderate damage resistance to most close-up physical damage sources"
                         );
-                        return jsonElement;
                     }
             );
         });

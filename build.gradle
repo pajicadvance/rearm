@@ -72,7 +72,7 @@ dependencies {
     annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
 
     // Mixson
-    modImplementation(include("com.github.ramixin:mixson:${project.mixson_version}"))
+    modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}"))
 
     // ModMenu
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")

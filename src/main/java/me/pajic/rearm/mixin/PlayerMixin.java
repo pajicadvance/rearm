@@ -145,7 +145,7 @@ public abstract class PlayerMixin extends LivingEntity {
             method = "attack",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/player/Player;sweepAttack()V"
+                    target = "Lnet/minecraft/world/entity/player/Player;setLastHurtMob(Lnet/minecraft/world/entity/Entity;)V"
             )
     )
     private void sweepingEdgeAbility_abilityUsed(Entity target, CallbackInfo ci) {

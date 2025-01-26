@@ -20,6 +20,9 @@
     ],
     "mm:early_risers": [
       "me.pajic.rearm.EarlyRiser"
+    ],
+    "emi": [
+      "me.pajic.rearm.compat.EmiCompat"
     ]
   },
   "mixins": [

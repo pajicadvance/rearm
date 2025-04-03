@@ -35,6 +35,7 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.List;
 
+@SuppressWarnings("ConstantConditions")
 @Mixin(value = Player.class, priority = 250)
 public abstract class PlayerMixin extends LivingEntity {
 

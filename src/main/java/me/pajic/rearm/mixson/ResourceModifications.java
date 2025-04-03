@@ -355,23 +355,35 @@ public class ResourceModifications {
                     context -> {
                         if (Main.CONFIG.multishot.multishotAbility()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.multishot.desc",
-                                "Ability: The next shot will fire multiple spread out arrows."
+                                "§dAbility§r: The next shot will fire multiple spread out arrows."
                         );
                         if (Main.CONFIG.piercingShot.piercingShotAbility()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing.desc",
-                                "Ability: The next arrow shot will pierce through enemies and ignore their armor."
+                                "§dAbility§r: The next arrow shot will pierce through enemies and ignore their armor."
                         );
                         if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.sweeping_edge.desc",
-                                "Ability: The next attack will strike all enemies in a moderate radius around you and deal increased damage to all enemies based on the amount of enemies hit."
+                                "§dAbility§r: The next attack will strike all enemies in a moderate radius around you and deal increased damage to all enemies based on the amount of enemies hit."
                         );
                         if (Main.CONFIG.elementalProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection.desc",
-                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze"
+                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze."
                         );
                         if (Main.CONFIG.meleeProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.protection.desc",
-                                "Moderate damage resistance to most close-up physical damage sources"
+                                "Moderate damage resistance to most close-up physical damage sources."
+                        );
+                        if (Main.CONFIG.infinityFix()) context.getFile().getAsJsonObject().addProperty(
+                                "enchantment.minecraft.infinity.desc",
+                                "Allows the weapon to fire normal arrows for free."
+                        );
+                        if (Main.CONFIG.crossbow.acceptPower()) context.getFile().getAsJsonObject().addProperty(
+                                "enchantment.minecraft.power.desc",
+                                "Increases the damage of projectiles fired from the weapon."
+                        );
+                        context.getFile().getAsJsonObject().addProperty(
+                                "enchdesc.activate.message",
+                                "Shift for info"
                         );
                     }
             );

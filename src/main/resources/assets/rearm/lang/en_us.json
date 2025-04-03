@@ -2,7 +2,7 @@
   "enchantment.rearm.backstep": "Backstep",
   "enchantment.rearm.backstep.desc": "Press the Perform Backstep key shortly after shooting an enemy to perform a backwards dash.",
   "enchantment.rearm.crippling_blow": "Crippling Blow",
-  "enchantment.rearm.crippling_blow.desc": "Ability: The next attack will briefly slow down the enemy and apply Bleeding for several seconds.",
+  "enchantment.rearm.crippling_blow.desc": "§dAbility§r: The next attack will briefly slow down the enemy and apply Bleeding for several seconds.",
   "enchantment.rearm.magic_protection": "Magic Protection",
   "enchantment.rearm.magic_protection.desc": "High resistance to magic attacks",
 

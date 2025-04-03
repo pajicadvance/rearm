@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.9-SNAPSHOT'
+    id 'fabric-loom' version '1.10-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -26,17 +26,6 @@ repositories {
         name = "Terraformers"
         url = "https://maven.terraformersmc.com/"
     }
-    exclusiveContent {
-        forRepository {
-            maven {
-                name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
-            }
-        }
-        filter {
-            includeGroup "maven.modrinth"
-        }
-    }
 }
 
 loom {
@@ -55,14 +44,12 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     // MixinExtras 0.5 beta
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}"))
-    include("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")))
 
     // Fabric ASM (enum extension)
     modImplementation("com.github.Chocohead:Fabric-ASM:v2.3") {
         exclude(group: "net.fabricmc.fabric-api")
     }
-
     include("com.github.Chocohead:Fabric-ASM:v2.3")
 
     // MixinConstraints
@@ -78,7 +65,7 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
 
     // EMI
-    modImplementation "dev.emi:emi-fabric:${emi_version}"
+    modImplementation "dev.emi:emi-fabric:${project.emi_version}"
 }
 
 processResources {

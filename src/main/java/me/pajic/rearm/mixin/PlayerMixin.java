@@ -1,6 +1,8 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
@@ -218,16 +220,12 @@ public abstract class PlayerMixin extends LivingEntity {
         return original;
     }
 
-    @Inject(
-            method = "hurtCurrentlyUsedShield",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/player/Player;level()Lnet/minecraft/world/level/Level;",
-                    ordinal = 0
-            )
-    )
-    private void criticalCounter_startTimer(float damageAmount, CallbackInfo ci) {
+    @WrapMethod(method = "hurtCurrentlyUsedShield")
+    private void criticalCounter_startTimer(float damageAmount, Operation<Void> original) {
+        original.call(damageAmount);
         if (
+                damageAmount >= 3.0F &&
+                !useItem.isEmpty() &&
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
                 Main.CONFIG.sword.enableCriticalCounter() &&
                 getWeaponItem().is(ItemTags.SWORDS)

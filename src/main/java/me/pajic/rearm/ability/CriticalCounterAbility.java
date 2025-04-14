@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-public class CriticalCounterManager {
+public class CriticalCounterAbility {
 
     public static final ResourceLocation COUNTER_START_TIMER = ResourceLocation.fromNamespaceAndPath("rearm", "counter_start_timer");
     public static final ResourceLocation UPDATE_PLAYER_COUNTER_CONDITION = ResourceLocation.fromNamespaceAndPath("rearm", "update_player_counter_condition");

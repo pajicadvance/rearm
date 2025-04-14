@@ -55,19 +55,15 @@ public class ResourceModifications {
                 context -> {
                     context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/multishot_enchantable");
-                    if (Main.CONFIG.multishot.multishotAbility()) {
+                    if (Main.CONFIG.bow.improvedMultishot()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:projectile_count").get(0).getAsJsonObject()
                                 .getAsJsonObject("effect")
                                 .getAsJsonObject("value")
-                                .addProperty("base", Main.CONFIG.multishot.multishotAdditionalArrows());
+                                .addProperty("per_level_above_first", Main.CONFIG.bow.additionalArrowsPerLevel());
                         context.getFile().getAsJsonObject()
-                                .getAsJsonObject("effects")
-                                .getAsJsonArray("minecraft:projectile_spread").get(0).getAsJsonObject()
-                                .getAsJsonObject("effect")
-                                .getAsJsonObject("value")
-                                .addProperty("base", Main.CONFIG.multishot.multishotAdditionalArrows() * 5);
+                                .addProperty("max_level", Main.CONFIG.bow.maxMultishotLevel());
                     }
                 }
         );
@@ -84,60 +80,6 @@ public class ResourceModifications {
                             .getAsJsonObject("effect")
                             .getAsJsonObject("value")
                             .addProperty("base", 1.0);
-                }
-        );
-        Mixson.registerEvent(
-                Mixson.DEFAULT_PRIORITY,
-                "minecraft:enchantment/sweeping_edge",
-                "rearm:modify_sweeping_edge",
-                context -> {
-                    if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) {
-                        context.getFile().getAsJsonObject()
-                                .getAsJsonObject("effects")
-                                .remove("minecraft:attributes");
-                    }
-                }
-        );
-        Mixson.registerEvent(
-                Mixson.DEFAULT_PRIORITY,
-                "minecraft:enchantment/projectile_protection",
-                "rearm:modify_projectile_protection",
-                context -> {
-                    if (Main.CONFIG.piercingShot.piercingShotAbility()) {
-                        JsonObject condition = new JsonObject();
-                        condition.addProperty("condition", "minecraft:damage_source_properties");
-                        JsonObject tags = new JsonObject();
-                        JsonArray tagArray = new JsonArray();
-                        JsonObject tag1 = new JsonObject();
-                        tag1.addProperty("expected", true);
-                        tag1.addProperty("id", "rearm:is_piercing_arrow");
-                        JsonObject tag2 = new JsonObject();
-                        tag2.addProperty("expected", true);
-                        tag2.addProperty("id", "minecraft:bypasses_armor");
-                        JsonObject tag3 = new JsonObject();
-                        tag3.addProperty("expected", false);
-                        tag3.addProperty("id", "minecraft:bypasses_invulnerability");
-                        tagArray.add(tag1);
-                        tagArray.add(tag2);
-                        tagArray.add(tag3);
-                        tags.add("tags", tagArray);
-                        condition.add("predicate", tags);
-
-                        JsonObject requirements = new JsonObject();
-                        requirements.addProperty("condition", "minecraft:any_of");
-                        JsonArray termArray = new JsonArray();
-                        termArray.add(context.getFile().getAsJsonObject()
-                                .getAsJsonObject("effects")
-                                .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
-                                .getAsJsonObject("requirements"));
-                        termArray.add(condition);
-                        requirements.add("terms", termArray);
-
-                        context.getFile().getAsJsonObject()
-                                .getAsJsonObject("effects")
-                                .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
-                                .add("requirements", requirements);
-                    }
                 }
         );
         Mixson.registerEvent(
@@ -327,12 +269,6 @@ public class ResourceModifications {
                 "minecraft:lang/en_us",
                 "rearm:modify_lang",
                 context -> {
-                    if (Main.CONFIG.piercingShot.piercingShotAbility()) {
-                        context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.piercing",
-                                "Piercing Shot"
-                        );
-                    }
                     if (Main.CONFIG.elementalProtection()) {
                         context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection",
@@ -353,21 +289,21 @@ public class ResourceModifications {
                     mod + ":lang/en_us",
                     "rearm:modify_lang_" + mod,
                     context -> {
-                        if (Main.CONFIG.multishot.multishotAbility()) context.getFile().getAsJsonObject().addProperty(
+                        if (Main.CONFIG.bow.improvedMultishot()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.multishot.desc",
-                                "§dAbility§r: The next shot will fire multiple spread out arrows."
+                                "Fires additional arrows in similar directions based on level."
                         );
-                        if (Main.CONFIG.piercingShot.piercingShotAbility()) context.getFile().getAsJsonObject().addProperty(
+                        if (Main.CONFIG.crossbow.improvedPiercing()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing.desc",
-                                "§dAbility§r: The next arrow shot will pierce through enemies and ignore their armor."
+                                "Allows projectiles to pierce through mobs and\nignore a percentage of their armor based on level."
                         );
-                        if (Main.CONFIG.sweepingEdge.sweepingEdgeAbility()) context.getFile().getAsJsonObject().addProperty(
+                        if (Main.CONFIG.sword.improvedSweepingEdge()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.sweeping_edge.desc",
-                                "§dAbility§r: The next attack will strike all enemies in a moderate radius around you and deal increased damage to all enemies based on the amount of enemies hit."
+                                "Increases the damage and range of sweeping attacks\nbased on level and the amount of enemies hit."
                         );
                         if (Main.CONFIG.elementalProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection.desc",
-                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze."
+                                "High resistance to fire, lightning and freeze damage\nand reduced burn time if you're set ablaze."
                         );
                         if (Main.CONFIG.meleeProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.protection.desc",

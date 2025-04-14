@@ -2,26 +2,39 @@ package me.pajic.rearm.ability;
 
 import me.pajic.rearm.Main;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.world.item.ItemStack;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 public class CooldownTracker {
 
-    public static int abilityCooldown;
-    public static int currentAbilityCooldown;
     public static int backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
-    public static boolean abilityUsed = true;
-    public static ItemStack activeItemClient;
-    public static AbilityType abilityType = AbilityType.NONE;
+    public static int counterTimer = Main.CONFIG.sword.criticalCounterTimeframe();
+    public static boolean counterTimerActive;
 
-    public static void initClientTracker() {
+    public static void init() {
+        ClientPlayNetworking.registerGlobalReceiver(CriticalCounterAbility.S2CStartCriticalCounterTimer.TYPE, (payload, context) ->
+                CooldownTracker.counterTimerActive = true
+        );
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.level != null && !client.isPaused()) {
-                if (currentAbilityCooldown > 0 && abilityUsed) currentAbilityCooldown--;
-                if (currentAbilityCooldown == 0) {
-                    abilityUsed = false;
-                    activeItemClient = ItemStack.EMPTY;
-                }
+            if (client.level != null && client.player != null && !client.isPaused()) {
                 if (backstepCooldown > 0) backstepCooldown--;
+                if (counterTimer == 0) {
+                    ClientPlayNetworking.send(new CriticalCounterAbility.C2SUpdatePlayerCounterCondition(
+                            client.player.getUUID(),
+                            false
+                    ));
+                    counterTimerActive = false;
+                    counterTimer = Main.CONFIG.sword.criticalCounterTimeframe();
+                }
+                if (counterTimerActive) {
+                    if (counterTimer == Main.CONFIG.sword.criticalCounterTimeframe()) {
+                        ClientPlayNetworking.send(new CriticalCounterAbility.C2SUpdatePlayerCounterCondition(
+                                client.player.getUUID(),
+                                true
+                        ));
+                    }
+                    counterTimer--;
+                }
             }
         });
     }

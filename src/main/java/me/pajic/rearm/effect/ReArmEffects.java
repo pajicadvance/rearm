@@ -20,5 +20,5 @@ public class ReArmEffects {
             new BleedingEffect()
     );
 
-    public static void initEffects() {}
+    public static void init() {}
 }

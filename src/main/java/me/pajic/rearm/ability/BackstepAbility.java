@@ -41,11 +41,10 @@ public class BackstepAbility {
                 client.player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)
         ) {
             Player player = client.player;
-            int backstepLevel = EnchantmentHelper.getItemEnchantmentLevel(
+            int backstepLevel = Math.min(EnchantmentHelper.getItemEnchantmentLevel(
                     client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
                     player.getMainHandItem()
-            );
-            if (backstepLevel > 3) backstepLevel = 3;
+            ), 3);
             Vec3 look = player.getViewVector(1);
             player.setDeltaMovement(
                     -look.x / (4 - backstepLevel),
@@ -61,6 +60,7 @@ public class BackstepAbility {
 
     public static void init() {
         PayloadTypeRegistry.playC2S().register(C2SCauseBackstepExhaustionPayload.TYPE, C2SCauseBackstepExhaustionPayload.CODEC);
+
         ServerPlayNetworking.registerGlobalReceiver(
                 C2SCauseBackstepExhaustionPayload.TYPE,
                 (payload, context) -> context.player().causeFoodExhaustion(payload.exhaustion)

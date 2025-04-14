@@ -14,14 +14,12 @@
     "FireworkRocketEntityMixin",
     "LivingEntityMixin",
     "PlayerMixin",
-    "ProjectileWeaponItemMixin",
     "RangedBowAttackGoalMixin",
     "ServerGamePacketListenerImplMixin",
     "TippedArrowRecipeMixin",
     "compat.emi.VanillaPluginMixin"
   ],
   "client": [
-    "GuiGraphicsMixin",
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",

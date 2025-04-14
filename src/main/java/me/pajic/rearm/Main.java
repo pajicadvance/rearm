@@ -1,8 +1,7 @@
 package me.pajic.rearm;
 
-import me.pajic.rearm.ability.AbilityManager;
 import me.pajic.rearm.ability.BackstepAbility;
-import me.pajic.rearm.ability.CriticalCounterManager;
+import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.config.ReArmConfig;
 import me.pajic.rearm.data.ReArmData;
 import me.pajic.rearm.effect.ReArmEffects;
@@ -16,12 +15,11 @@ public class Main implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        ReArmData.initData();
+        ReArmData.init();
         ResourceModifications.init();
-        ReArmEffects.initEffects();
+        ReArmEffects.init();
         ReArmItems.initItems();
-        AbilityManager.init();
-        CriticalCounterManager.init();
+        CriticalCounterAbility.init();
         BackstepAbility.init();
     }
 }

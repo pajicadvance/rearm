@@ -1,7 +1,7 @@
 {
   "anvil_cost": 4,
   "description": {
-    "translate": "enchantment.rearm.crippling_blow"
+    "translate": "enchantment.rearm.crippling_throw"
   },
   "effects": {},
   "max_cost": {

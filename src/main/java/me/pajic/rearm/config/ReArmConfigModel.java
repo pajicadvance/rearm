@@ -8,18 +8,9 @@ import io.wispforest.owo.config.annotation.*;
 @Sync(Option.SyncMode.OVERRIDE_CLIENT)
 @SuppressWarnings("unused")
 public class ReArmConfigModel {
-
-    @SectionHeader("abilities")
-    @Nest public Multishot multishot = new Multishot();
-    @Nest public PiercingShot piercingShot = new PiercingShot();
-    @Nest public SweepingEdge sweepingEdge = new SweepingEdge();
-    @Nest public CripplingBlow cripplingBlow = new CripplingBlow();
-
-    @SectionHeader("ranged")
+    @SectionHeader("weapons")
     @Nest public Bow bow = new Bow();
     @Nest public Crossbow crossbow = new Crossbow();
-
-    @SectionHeader("melee")
     @Nest public Sword sword = new Sword();
     @Nest public Axe axe = new Axe();
 
@@ -35,63 +26,15 @@ public class ReArmConfigModel {
     @RestartRequired public boolean infinimending = false;
     @RestartRequired public boolean craftTippedArrowsWithRegularPotions = true;
 
-    public static class Multishot {
-        @RestartRequired public boolean multishotAbility = true;
-        @PredicateConstraint("greaterThanZero") public int multishotCooldown = 120;
-        @RestartRequired @PredicateConstraint("greaterThanZero") public int multishotAdditionalArrows = 6;
-
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
-    }
-
-    public static class PiercingShot {
-        @RestartRequired public boolean piercingShotAbility = true;
-        @PredicateConstraint("greaterThanZero") public int piercingShotCooldown = 160;
-
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
-    }
-
-    public static class SweepingEdge {
-        @RestartRequired public boolean sweepingEdgeAbility = true;
-        @PredicateConstraint("greaterThanZero") public int sweepingEdgeCooldown = 160;
-        @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.5F;
-        @PredicateConstraint("greaterThanZero") public int maxMobAmountUsedForDamageIncrease = 6;
-
-        public static boolean greaterThanZero(float value) {
-            return Predicates.greaterThanZero(value);
-        }
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
-    }
-
-    public static class CripplingBlow {
-        @RestartRequired public boolean cripplingBlowAbility = true;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowCooldown = 200;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowBleedingDuration = 120;
-        @PredicateConstraint("greaterThanZero") public float cripplingBlowBaseBleedingDPS = 1.0F;
-        @PredicateConstraint("greaterThanZero") public float cripplingBlowBleedingDPSIncreasePerLevel = 0.5F;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowSlownessDuration = 20;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowBaseSlownessAmplifier = 3;
-        @PredicateConstraint("greaterThanZero") public int cripplingBlowSlownessAmplifierIncreasePerLevel = 1;
-
-        public static boolean greaterThanZero(int value) {
-            return Predicates.greaterThanZero(value);
-        }
-        public static boolean greaterThanZero(float value) {
-            return Predicates.greaterThanZero(value);
-        }
-    }
-
     public static class Bow {
         public boolean enablePerfectShot = true;
         @PredicateConstraint("greaterThanZero") public int perfectShotAdditionalDamage = 2;
         @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.1F;
         @RestartRequired public boolean enableBackstep = true;
         @RestartRequired @PredicateConstraint("greaterThanZero") public int backstepTimeframe = 5;
+        @RestartRequired public boolean improvedMultishot = true;
+        @RestartRequired @PredicateConstraint("greaterThanZero") public int maxMultishotLevel = 3;
+        @RestartRequired @PredicateConstraint("greaterThanZero") public int additionalArrowsPerLevel = 1;
         public boolean playerDrawingSounds = true;
         public boolean mobDrawingSounds = true;
         @RestartRequired public boolean acceptMultishot = true;
@@ -106,6 +49,8 @@ public class ReArmConfigModel {
     }
 
     public static class Crossbow {
+        @RestartRequired public boolean improvedPiercing = true;
+        @RestartRequired @PredicateConstraint("greaterThanZero") public int percentArmorIgnoredPerLevel = 15;
         public boolean fixedArrowDamage = true;
         @PredicateConstraint("greaterThanZero") public int fixedArrowDamageAmount = 10;
         public boolean modifyFireworkDamage = true;
@@ -132,6 +77,9 @@ public class ReArmConfigModel {
     public static class Sword {
         public boolean enableCriticalCounter = true;
         @PredicateConstraint("greaterThanZero") public int criticalCounterTimeframe = 10;
+        @RestartRequired public boolean improvedSweepingEdge = true;
+        @PredicateConstraint("greaterThanZero") public float sweepingEdgeAdditionalDamagePerMob = 1.0F;
+        @PredicateConstraint("greaterThanZero") public int maxMobAmountUsedForDamageIncrease = 10;
         @RestartRequired public boolean rejectKnockback = true;
 
         public static boolean greaterThanZero(int value) {
@@ -140,11 +88,20 @@ public class ReArmConfigModel {
     }
 
     public static class Axe {
+        @RestartRequired public boolean cripplingThrow = true;
+        @PredicateConstraint("greaterThanZero") public int cripplingThrowBleedingDuration = 120;
+        @PredicateConstraint("greaterThanZero") public float cripplingThrowBaseBleedingDPS = 1.0F;
+        @PredicateConstraint("greaterThanZero") public float cripplingThrowBleedingDPSIncreasePerLevel = 0.5F;
+        @PredicateConstraint("greaterThanZero") public int cripplingThrowBaseSlownessAmplifier = 3;
+        @PredicateConstraint("greaterThanZero") public int cripplingThrowSlownessAmplifierIncreasePerLevel = 1;
         public boolean acceptKnockback = true;
         public boolean acceptLooting = true;
     }
 
     public static boolean greaterThanZero(int value) {
+        return Predicates.greaterThanZero(value);
+    }
+    public static boolean greaterThanZero(float value) {
         return Predicates.greaterThanZero(value);
     }
 

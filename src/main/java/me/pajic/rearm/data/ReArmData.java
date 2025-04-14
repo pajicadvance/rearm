@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class ReArmData {
 
-    public static void initData() {
+    public static void init() {
         FabricLoader.getInstance().getModContainer("rearm").ifPresent(modContainer -> {
 
             if (Main.CONFIG.bow.enableBackstep()) {
@@ -19,9 +19,9 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.cripplingBlow.cripplingBlowAbility()) {
+            if (Main.CONFIG.axe.cripplingThrow()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("rearm:crippling_blow"),
+                        ResourceLocation.parse("rearm:crippling_throw"),
                         modContainer,
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );

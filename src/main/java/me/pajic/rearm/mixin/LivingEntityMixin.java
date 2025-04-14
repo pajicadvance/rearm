@@ -24,7 +24,7 @@ public abstract class LivingEntityMixin extends Entity {
             method = "getDamageAfterArmorAbsorb",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;getArmorValue()I"
+                    target = "Lnet/minecraft/world/damagesource/CombatRules;getDamageAfterAbsorb(Lnet/minecraft/world/entity/LivingEntity;FLnet/minecraft/world/damagesource/DamageSource;FF)F"
             ),
             index = 3
     )

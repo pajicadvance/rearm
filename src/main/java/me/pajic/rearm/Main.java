@@ -1,6 +1,7 @@
 package me.pajic.rearm;
 
 import me.pajic.rearm.ability.BackstepAbility;
+import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.config.ReArmConfig;
 import me.pajic.rearm.data.ReArmData;
@@ -21,5 +22,6 @@ public class Main implements ModInitializer {
         ReArmItems.initItems();
         CriticalCounterAbility.init();
         BackstepAbility.init();
+        CripplingThrowAbility.init();
     }
 }

@@ -254,7 +254,7 @@ public class ResourceModifications {
                     int multishotIndex = values.indexOf(new JsonPrimitive("minecraft:multishot"));
                     values.add(multishotIndex + 1, new JsonPrimitive("rearm:backstep"));
                     int baneOfArthropodsIndex = values.indexOf(new JsonPrimitive("minecraft:bane_of_arthropods"));
-                    values.add(baneOfArthropodsIndex + 1, new JsonPrimitive("rearm:crippling_blow"));
+                    values.add(baneOfArthropodsIndex + 1, new JsonPrimitive("rearm:crippling_throw"));
                     int projectileProtectionIndex = values.indexOf(new JsonPrimitive("minecraft:projectile_protection"));
                     values.add(projectileProtectionIndex + 1, new JsonPrimitive("rearm:magic_protection"));
                     JsonArray newValues = new JsonArray();

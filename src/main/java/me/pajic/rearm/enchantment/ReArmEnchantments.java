@@ -15,9 +15,9 @@ public class ReArmEnchantments {
             ResourceLocation.fromNamespaceAndPath("rearm", "backstep")
     );
 
-    public static final ResourceKey<Enchantment> CRIPPLING_BLOW = ResourceKey.create(
+    public static final ResourceKey<Enchantment> CRIPPLING_THROW = ResourceKey.create(
             Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath("rearm", "crippling_blow")
+            ResourceLocation.fromNamespaceAndPath("rearm", "crippling_throw")
     );
 
     public static void updateProtectionEnchantments(ItemEnchantments.Mutable existing, ItemEnchantments addition) {

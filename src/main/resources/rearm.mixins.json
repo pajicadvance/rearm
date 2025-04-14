@@ -7,11 +7,13 @@
   "mixins": [
     "AbstractArrowMixin",
     "AnvilMenuMixin",
+    "AxeItemMixin",
     "BowItemMixin",
     "CrossbowItemMixin",
     "EnchantCommandMixin",
     "EnchantmentHelperMixin",
     "FireworkRocketEntityMixin",
+    "ItemMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "RangedBowAttackGoalMixin",

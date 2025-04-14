@@ -85,6 +85,9 @@ public class ReArmConfigModel {
         public static boolean greaterThanZero(int value) {
             return Predicates.greaterThanZero(value);
         }
+        public static boolean greaterThanZero(float value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static class Axe {
@@ -92,16 +95,20 @@ public class ReArmConfigModel {
         @PredicateConstraint("greaterThanZero") public int cripplingThrowBleedingDuration = 120;
         @PredicateConstraint("greaterThanZero") public float cripplingThrowBaseBleedingDPS = 1.0F;
         @PredicateConstraint("greaterThanZero") public float cripplingThrowBleedingDPSIncreasePerLevel = 0.5F;
-        @PredicateConstraint("greaterThanZero") public int cripplingThrowBaseSlownessAmplifier = 3;
+        @PredicateConstraint("greaterThanZero") public int cripplingThrowBaseSlownessAmplifier = 1;
         @PredicateConstraint("greaterThanZero") public int cripplingThrowSlownessAmplifierIncreasePerLevel = 1;
         public boolean acceptKnockback = true;
         public boolean acceptLooting = true;
+
+        public static boolean greaterThanZero(int value) {
+            return Predicates.greaterThanZero(value);
+        }
+        public static boolean greaterThanZero(float value) {
+            return Predicates.greaterThanZero(value);
+        }
     }
 
     public static boolean greaterThanZero(int value) {
-        return Predicates.greaterThanZero(value);
-    }
-    public static boolean greaterThanZero(float value) {
         return Predicates.greaterThanZero(value);
     }
 

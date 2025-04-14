@@ -35,11 +35,8 @@ public class BackstepAbility {
         }
     }
 
-    public static boolean tryBackstep(KeyMapping backstepKey, Minecraft client) {
-        if (
-                backstepKey.isDown() && client.level != null && client.player != null &&
-                client.player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)
-        ) {
+    public static boolean tryBackstep(KeyMapping actionKey, Minecraft client) {
+        if (client.player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)) {
             Player player = client.player;
             int backstepLevel = Math.min(EnchantmentHelper.getItemEnchantmentLevel(
                     client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
@@ -52,7 +49,7 @@ public class BackstepAbility {
                     -look.z / (4 - backstepLevel)
             );
             ClientPlayNetworking.send(new C2SCauseBackstepExhaustionPayload(5.0F));
-            backstepKey.setDown(false);
+            actionKey.setDown(false);
             return true;
         }
         return false;

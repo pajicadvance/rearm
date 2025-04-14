@@ -1,5 +1,6 @@
 package me.pajic.rearm.mixin;
 
+import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -20,5 +21,6 @@ public class ServerGamePacketListenerImplMixin {
     )
     private void removePlayerData(CallbackInfo ci) {
         CriticalCounterAbility.removePlayerCounterConditionData(player.getUUID());
+        CripplingThrowAbility.recallSignals.remove(player.getUUID());
     }
 }

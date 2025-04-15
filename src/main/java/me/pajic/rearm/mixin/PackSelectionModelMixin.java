@@ -14,11 +14,8 @@ import java.util.List;
 @Mixin(PackSelectionModel.class)
 public class PackSelectionModelMixin {
 
-    @Shadow @Final
-    List<Pack> selected;
-
-    @Shadow @Final
-    List<Pack> unselected;
+    @Shadow @Final List<Pack> selected;
+    @Shadow @Final List<Pack> unselected;
 
     @Inject(
             method = "findNewPacks",

@@ -37,9 +37,6 @@ dependencies {
 
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-    // MixinExtras 0.5 beta
-    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")))
-
     // Fabric ASM (enum extension)
     modImplementation("com.github.Chocohead:Fabric-ASM:v2.3") {
         exclude(group: "net.fabricmc.fabric-api")

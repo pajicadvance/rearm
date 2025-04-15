@@ -29,7 +29,7 @@ public class ReArmConfigModel {
     public static class Bow {
         public boolean enablePerfectShot = true;
         @PredicateConstraint("greaterThanZero") public int perfectShotAdditionalDamage = 2;
-        @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.1F;
+        @PredicateConstraint("greaterThanZero") public float perfectShotTimeframe = 0.2F;
         @RestartRequired public boolean enableBackstep = true;
         @RestartRequired @PredicateConstraint("greaterThanZero") public int backstepTimeframe = 5;
         @RestartRequired public boolean improvedMultishot = true;

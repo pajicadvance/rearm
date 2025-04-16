@@ -1,6 +1,5 @@
 package me.pajic.rearm.ability;
 
-import com.mojang.serialization.Codec;
 import me.pajic.rearm.projectile.ThrownAxe;
 import me.pajic.rearm.projectile.ThrownAxeRenderer;
 import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
@@ -13,7 +12,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -53,13 +51,6 @@ public class CripplingThrowAbility {
                     .clientTrackingRange(4)
                     .updateInterval(20)
                     .build()
-    );
-    public static final AttachmentType<Long> THROWN_AXE_TICKS_ACTIVE = AttachmentRegistry.create(
-            ResourceLocation.fromNamespaceAndPath("rearm", "thrown_axe_ticks_active"),
-            builder -> builder
-                    .initializer(() -> 0L)
-                    .persistent(Codec.LONG)
-                    .syncWith(ByteBufCodecs.VAR_LONG, AttachmentSyncPredicate.all())
     );
     public static final AttachmentType<ItemStack> THROWN_AXE_ITEM_STACK = AttachmentRegistry.create(
             ResourceLocation.fromNamespaceAndPath("rearm", "thrown_axe_item_stack"),

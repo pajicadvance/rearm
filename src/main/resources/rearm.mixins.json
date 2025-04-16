@@ -6,7 +6,6 @@
   "mixins": [
     "AbstractArrowMixin",
     "AnvilMenuMixin",
-    "AxeItemMixin",
     "BowItemMixin",
     "CrossbowItemMixin",
     "EnchantCommandMixin",

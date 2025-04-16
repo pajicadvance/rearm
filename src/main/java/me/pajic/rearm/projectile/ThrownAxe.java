@@ -30,30 +30,35 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 @SuppressWarnings("UnstableApiUsage")
 public class ThrownAxe extends AbstractArrow {
     private boolean dealtDamage;
     private LivingEntity stuckEntity;
+    private UUID stuckEntityId;
+    private float damage;
     public static final EntityDataAccessor<Boolean> STUCK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
 
     public ThrownAxe(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
     }
 
-    public ThrownAxe(Level level, LivingEntity shooter, ItemStack axe) {
+    public ThrownAxe(Level level, LivingEntity shooter, ItemStack axe, float damage) {
         super(CripplingThrowAbility.AXE, shooter, level, axe, axe);
-        setAttached(CripplingThrowAbility.THROWN_AXE_TICKS_ACTIVE, 0L);
         setAttached(CripplingThrowAbility.THROWN_AXE_ITEM_STACK, axe);
         entityData.set(STUCK, false);
         CripplingThrowAbility.recallSignals.remove(shooter.getUUID());
-    }
-
-    public ThrownAxe(Level level, double x, double y, double z, ItemStack axe) {
-        super(CripplingThrowAbility.AXE, x, y, z, level, axe, axe);
+        this.damage = damage;
     }
 
     @Override
     public void tick() {
+        if (stuckEntity == null && level() instanceof ServerLevel sl && stuckEntityId != null && !stuckEntityId.equals(new UUID(0, 0))) {
+            stuckEntity = (LivingEntity) sl.getEntity(stuckEntityId);
+            setNoGravity(true);
+            entityData.set(STUCK, true);
+        }
         if (inGroundTime > 4) dealtDamage = true;
         if (inGround) entityData.set(STUCK, true);
 
@@ -85,13 +90,13 @@ public class ThrownAxe extends AbstractArrow {
                     setDeltaMovement(getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
                 }
                 stuckEntity = null;
+                setNoGravity(false);
                 entityData.set(STUCK, false);
             }
         }
 
         if (stuckEntity != null) {
             setPos(stuckEntity.getX(), stuckEntity.getY() + stuckEntity.getBbHeight() / 2, stuckEntity.getZ());
-            setDeltaMovement(stuckEntity.getDeltaMovement().reverse());
             stuckEntity.addEffect(
                     new MobEffectInstance(
                             MobEffects.MOVEMENT_SLOWDOWN,
@@ -102,12 +107,9 @@ public class ThrownAxe extends AbstractArrow {
             );
             if (!stuckEntity.isAlive()) {
                 stuckEntity = null;
+                setNoGravity(false);
                 entityData.set(STUCK, false);
             }
-        }
-
-        if (!onGround() && inGroundTime <= 0 && !horizontalCollision && !verticalCollision) {
-            setAttached(CripplingThrowAbility.THROWN_AXE_TICKS_ACTIVE, getAttachedOrCreate(CripplingThrowAbility.THROWN_AXE_TICKS_ACTIVE) + 1);
         }
 
         super.tick();
@@ -121,15 +123,16 @@ public class ThrownAxe extends AbstractArrow {
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         Entity entity = result.getEntity();
-        float f = 8.0F;
         Entity entity2 = getOwner();
         DamageSource damageSource = damageSources().thrown(this, entity2 == null ? this : entity2);
+        float f = damage;
+        float g = 0;
         if (level() instanceof ServerLevel serverLevel) {
-            f = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), entity, damageSource, f);
+            g = EnchantmentHelper.modifyDamage(serverLevel, getWeaponItem(), entity, damageSource, f) - f;
         }
 
         dealtDamage = true;
-        if (entity.hurt(damageSource, f)) {
+        if (entity.hurt(damageSource, f + g)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
@@ -140,11 +143,12 @@ public class ThrownAxe extends AbstractArrow {
                 doKnockback(livingEntity, damageSource);
                 doPostHurtEffects(livingEntity);
                 stuckEntity = livingEntity;
+                setNoGravity(true);
                 entityData.set(STUCK, true);
             }
         }
 
-        setDeltaMovement(getDeltaMovement().multiply(-0.01, -0.1, -0.01));
+        setDeltaMovement(getDeltaMovement().multiply(0.01, 0.1, 0.01));
         playSound(SoundEvents.TRIDENT_HIT, 1.0F, 1.0F);
     }
 
@@ -213,13 +217,15 @@ public class ThrownAxe extends AbstractArrow {
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.dealtDamage = compound.getBoolean("DealtDamage");
+        dealtDamage = compound.getBoolean("DealtDamage");
+        stuckEntityId = compound.getUUID("StuckEntityId");
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("DealtDamage", this.dealtDamage);
+        compound.putBoolean("DealtDamage", dealtDamage);
+        compound.putUUID("StuckEntityId", stuckEntity == null ? new UUID(0, 0) : stuckEntity.getUUID());
     }
 
     public void tickDespawn() {

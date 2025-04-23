@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -38,18 +39,20 @@ public class ThrownAxe extends AbstractArrow {
     private LivingEntity stuckEntity;
     private UUID stuckEntityId;
     private float damage;
+    private InteractionHand hand;
     public static final EntityDataAccessor<Boolean> STUCK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
 
     public ThrownAxe(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
     }
 
-    public ThrownAxe(Level level, LivingEntity shooter, ItemStack axe, float damage) {
+    public ThrownAxe(Level level, LivingEntity shooter, ItemStack axe, float damage, InteractionHand hand) {
         super(CripplingThrowAbility.AXE, shooter, level, axe, axe);
         setAttached(CripplingThrowAbility.THROWN_AXE_ITEM_STACK, axe);
         entityData.set(STUCK, false);
         CripplingThrowAbility.recallSignals.remove(shooter.getUUID());
         this.damage = damage;
+        this.hand = hand;
     }
 
     @Override
@@ -165,12 +168,12 @@ public class ThrownAxe extends AbstractArrow {
         EnchantmentHelper.onHitBlock(
                 level,
                 stack,
-                this.getOwner() instanceof LivingEntity livingEntity ? livingEntity : null,
+                getOwner() instanceof LivingEntity livingEntity ? livingEntity : null,
                 this,
                 null,
                 vec3,
                 level.getBlockState(hitResult.getBlockPos()),
-                item -> this.kill()
+                item -> kill()
         );
     }
 
@@ -187,18 +190,29 @@ public class ThrownAxe extends AbstractArrow {
 
     @Override
     protected EntityHitResult findHitEntity(@NotNull Vec3 startVec, @NotNull Vec3 endVec) {
-        return this.dealtDamage ? null : super.findHitEntity(startVec, endVec);
+        return dealtDamage ? null : super.findHitEntity(startVec, endVec);
     }
 
     @Override
     public @NotNull ItemStack getWeaponItem() {
-        return this.getPickupItemStackOrigin();
+        return getPickupItemStackOrigin();
     }
 
     @Override
     protected boolean tryPickup(@NotNull Player player) {
-        boolean result = super.tryPickup(player) || this.isNoPhysics() && this.ownedBy(player) && player.getInventory().add(this.getPickupItem());
-        if (result) CripplingThrowAbility.recallSignals.remove(player.getUUID());
+        boolean result = switch (pickup) {
+            case DISALLOWED -> false;
+            case ALLOWED -> isNoPhysics() && ownedBy(player);
+            case CREATIVE_ONLY -> player.hasInfiniteMaterials();
+        };
+        if (result) {
+            if (player.getItemInHand(hand).isEmpty()) {
+                player.setItemInHand(hand, getPickupItem());
+            } else {
+                player.getInventory().add(getPickupItem());
+            }
+            CripplingThrowAbility.recallSignals.remove(player.getUUID());
+        }
         return result;
     }
 
@@ -209,8 +223,11 @@ public class ThrownAxe extends AbstractArrow {
 
     @Override
     public void playerTouch(@NotNull Player player) {
-        if (this.ownedBy(player) || this.getOwner() == null) {
-            super.playerTouch(player);
+        if (ownedBy(player) || getOwner() == null && !level().isClientSide && (inGround || isNoPhysics()) && shakeTime <= 0) {
+            if (tryPickup(player)) {
+                player.take(this, 1);
+                discard();
+            }
         }
     }
 
@@ -229,7 +246,7 @@ public class ThrownAxe extends AbstractArrow {
     }
 
     public void tickDespawn() {
-        if (this.pickup != AbstractArrow.Pickup.ALLOWED) {
+        if (pickup != AbstractArrow.Pickup.ALLOWED) {
             super.tickDespawn();
         }
     }

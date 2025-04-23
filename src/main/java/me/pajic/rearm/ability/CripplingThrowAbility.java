@@ -91,15 +91,15 @@ public class CripplingThrowAbility {
 
     public static void throwAxe(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, int useDuration) {
         if (livingEntity instanceof Player player) {
-            int i = useDuration - timeCharged;
-            if (i >= 10 && !(stack.getDamageValue() >= stack.getMaxDamage() - 1) && !level.isClientSide) {
-                stack.hurtAndBreak(2, player, LivingEntity.getSlotForHand(livingEntity.getUsedItemHand()));
-                float damage = (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
-                ThrownAxe thrownAxe = new ThrownAxe(level, player, stack, damage);
+            if (useDuration - timeCharged >= 10 && !(stack.getDamageValue() >= stack.getMaxDamage() - 1) && !level.isClientSide) {
+                stack.hurtAndBreak(2, player, Player.getSlotForHand(player.getUsedItemHand()));
+                ThrownAxe thrownAxe = new ThrownAxe(
+                        level, player, stack,
+                        (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE),
+                        player.getUsedItemHand()
+                );
                 thrownAxe.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 2.5F, 1.0F);
-                if (player.hasInfiniteMaterials()) {
-                    thrownAxe.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-                }
+                if (player.hasInfiniteMaterials()) thrownAxe.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 level.addFreshEntity(thrownAxe);
                 level.playSound(null, thrownAxe, SoundEvents.TRIDENT_THROW.value(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.hasInfiniteMaterials()) {

@@ -40,6 +40,7 @@ public class ThrownAxe extends AbstractArrow {
     private UUID stuckEntityId;
     private float damage;
     private InteractionHand hand;
+    private int timeInTarget;
     public static final EntityDataAccessor<Boolean> STUCK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
 
     public ThrownAxe(EntityType<? extends AbstractArrow> entityType, Level level) {
@@ -95,6 +96,7 @@ public class ThrownAxe extends AbstractArrow {
                 stuckEntity = null;
                 setNoGravity(false);
                 entityData.set(STUCK, false);
+                timeInTarget = 0;
             }
         }
 
@@ -108,10 +110,12 @@ public class ThrownAxe extends AbstractArrow {
                                     (getCripplingThrowLevel() - 1) * Main.CONFIG.axe.cripplingThrowSlownessAmplifierIncreasePerLevel()
                     ), entity
             );
-            if (!stuckEntity.isAlive()) {
+            timeInTarget++;
+            if (!stuckEntity.isAlive() || timeInTarget > Main.CONFIG.axe.maxTimeStuckInTarget()) {
                 stuckEntity = null;
                 setNoGravity(false);
                 entityData.set(STUCK, false);
+                timeInTarget = 0;
             }
         }
 

@@ -1,0 +1,6 @@
+{
+    "parent": "rearm:item/netherite_bow",
+    "textures": {
+        "layer0": "rearm:item/netherite_bow_pulling_1"
+    }
+}

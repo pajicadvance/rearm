@@ -1,0 +1,123 @@
+plugins {
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle.userdev' version '7.0.184'
+}
+
+version = mod_version + "+" + stonecutter.current.version
+group = mod_group_id
+
+repositories {
+    mavenLocal()
+    maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://jitpack.io" }
+    maven { url = "https://maven.wispforest.io/releases/" }
+    maven { url = "https://maven.su5ed.dev/releases" }
+}
+
+base {
+    archivesName = mod_id
+}
+
+subsystems {
+    parchment {
+        minecraftVersion = property("neogradle.subsystems.parchment.minecraftVersion")
+        mappingsVersion = property("neogradle.subsystems.parchment.mappingsVersion")
+    }
+}
+
+minecraft {
+    accessTransformers {
+        file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        modSource project.sourceSets.main
+    }
+    client {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+    server {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        argument '--nogui'
+    }
+    gameTestServer {
+        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+jarJar.enable()
+jar {
+    archiveClassifier = "slim"
+}
+tasks.named('jarJar') {
+    archiveClassifier = ""
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:${property("neo_version")}"
+    implementation(jarJar("com.moulberry:mixinconstraints:${project.mixinconstraints_version}")) {
+        jarJar.ranged(it, "[1.0.8,)")
+    }
+    implementation(jarJar("com.github.ramixin:mixson-neoforge:${project.mixson_version}")) {
+        jarJar.ranged(it, "[v1.3.1,)")
+    }
+    implementation "org.sinytra.forgified-fabric-api:forgified-fabric-api:${property("fabricapi_version")}"
+    jarJar("org.sinytra.forgified-fabric-api:fabric-resource-loader-v0:${property("fresloader_version")}") {
+        jarJar.ranged(it, "[1.3.1+4ea8954419,)")
+    }
+    implementation "io.wispforest:owo-lib-neoforge:${property("owo_version")}"
+    accessTransformer "io.wispforest:owo-lib-neoforge:${property("owo_version")}"
+    //interfaceInjectionData "io.wispforest:owo-lib-neoforge:${property("owo_version")}"
+    annotationProcessor "io.wispforest:owo-lib-neoforge:${property("owo_version")}"
+    compileOnly "dev.emi:emi-neoforge:${property("emi_version")}"
+    if (stonecutter.eval(stonecutter.current.version, "1.21.1")) {
+        implementation "dev.emi:emi-neoforge:${property("emi_version")}"
+    }
+}
+
+tasks.withType(ProcessResources).configureEach {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            neo_version_range      : neo_version_range,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/neoforge.mods.toml']) {
+        expand replaceProperties
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

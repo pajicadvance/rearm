@@ -33,7 +33,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-@SuppressWarnings("UnstableApiUsage")
 public class ThrownAxe extends AbstractArrow {
     private boolean dealtDamage;
     private LivingEntity stuckEntity;
@@ -42,6 +41,8 @@ public class ThrownAxe extends AbstractArrow {
     private InteractionHand hand;
     private int timeInTarget;
     public static final EntityDataAccessor<Boolean> STUCK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> ALLOW_PICKUP = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<ItemStack> THROWN_AXE_ITEM_STACK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.ITEM_STACK);
 
     public ThrownAxe(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
@@ -49,8 +50,9 @@ public class ThrownAxe extends AbstractArrow {
 
     public ThrownAxe(Level level, LivingEntity shooter, ItemStack axe, float damage, InteractionHand hand) {
         super(CripplingThrowAbility.AXE, shooter, level, axe, axe);
-        setAttached(CripplingThrowAbility.THROWN_AXE_ITEM_STACK, axe);
         entityData.set(STUCK, false);
+        entityData.set(ALLOW_PICKUP, false);
+        entityData.set(THROWN_AXE_ITEM_STACK, axe);
         CripplingThrowAbility.recallSignals.remove(shooter.getUUID());
         this.damage = damage;
         this.hand = hand;
@@ -64,7 +66,10 @@ public class ThrownAxe extends AbstractArrow {
             entityData.set(STUCK, true);
         }
         if (inGroundTime > 4) dealtDamage = true;
-        if (inGround) entityData.set(STUCK, true);
+        if (inGround) {
+            entityData.set(STUCK, true);
+            entityData.set(ALLOW_PICKUP, true);
+        }
 
         Entity entity = getOwner();
         if (entity != null) {
@@ -86,6 +91,7 @@ public class ThrownAxe extends AbstractArrow {
                     discard();
                 } else {
                     setNoPhysics(true);
+                    entityData.set(ALLOW_PICKUP, true);
                     Vec3 vec3 = entity.getEyePosition().subtract(position());
                     setPosRaw(getX(), getY() + vec3.y * 0.045, getZ());
                     if (level().isClientSide) {
@@ -162,7 +168,7 @@ public class ThrownAxe extends AbstractArrow {
     private int getCripplingThrowLevel() {
         return EnchantmentHelper.getItemEnchantmentLevel(
                 registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
-                getAttachedOrElse(CripplingThrowAbility.THROWN_AXE_ITEM_STACK, ItemStack.EMPTY)
+                entityData.get(THROWN_AXE_ITEM_STACK)
         );
     }
 
@@ -190,6 +196,8 @@ public class ThrownAxe extends AbstractArrow {
     protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
         super.defineSynchedData(builder);
         builder.define(STUCK, false);
+        builder.define(ALLOW_PICKUP, false);
+        builder.define(THROWN_AXE_ITEM_STACK, ItemStack.EMPTY);
     }
 
     @Override
@@ -206,11 +214,11 @@ public class ThrownAxe extends AbstractArrow {
     protected boolean tryPickup(@NotNull Player player) {
         boolean result = switch (pickup) {
             case DISALLOWED -> false;
-            case ALLOWED -> isNoPhysics() && ownedBy(player);
+            case ALLOWED -> entityData.get(ALLOW_PICKUP) && ownedBy(player);
             case CREATIVE_ONLY -> player.hasInfiniteMaterials();
         };
         if (result) {
-            if (player.getItemInHand(hand).isEmpty()) {
+            if (hand != null && player.getItemInHand(hand).isEmpty()) {
                 player.setItemInHand(hand, getPickupItem());
             } else {
                 player.getInventory().add(getPickupItem());

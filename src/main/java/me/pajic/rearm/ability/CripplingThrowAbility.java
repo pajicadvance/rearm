@@ -3,9 +3,6 @@ package me.pajic.rearm.ability;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
 import me.pajic.rearm.projectile.ThrownAxe;
 import me.pajic.rearm.projectile.ThrownAxeRenderer;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentSyncPredicate;
-import net.fabricmc.fabric.api.attachment.v1.AttachmentType;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -36,7 +33,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings("UnstableApiUsage")
 public class CripplingThrowAbility {
 
     public static final ResourceLocation RECALL_AXE = ResourceLocation.fromNamespaceAndPath("rearm", "recall_axe");
@@ -60,16 +56,8 @@ public class CripplingThrowAbility {
             EntityType.Builder.<ThrownAxe>of(ThrownAxe::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F)
                     .eyeHeight(0.13F)
-                    .clientTrackingRange(4)
-                    .updateInterval(20)
+                    .updateInterval(1)
                     .build()
-    );
-    public static final AttachmentType<ItemStack> THROWN_AXE_ITEM_STACK = AttachmentRegistry.create(
-            ResourceLocation.fromNamespaceAndPath("rearm", "thrown_axe_item_stack"),
-            builder -> builder
-                    .initializer(() -> ItemStack.EMPTY)
-                    .persistent(ItemStack.OPTIONAL_CODEC)
-                    .syncWith(ItemStack.OPTIONAL_STREAM_CODEC, AttachmentSyncPredicate.all())
     );
 
     public static final Set<UUID> recallSignals = new HashSet<>();

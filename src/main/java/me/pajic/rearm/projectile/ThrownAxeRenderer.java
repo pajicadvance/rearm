@@ -2,7 +2,6 @@ package me.pajic.rearm.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import me.pajic.rearm.ability.CripplingThrowAbility;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,11 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
 
-@SuppressWarnings("UnstableApiUsage")
 @Environment(EnvType.CLIENT)
 public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe> {
     private final ItemRenderer itemRenderer;
@@ -41,7 +37,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe> {
         }
         itemRenderer.renderStatic(
                 (LivingEntity) entity.getOwner(),
-                entity.getAttachedOrElse(CripplingThrowAbility.THROWN_AXE_ITEM_STACK, new ItemStack(Items.DIAMOND_AXE)).copy(),
+                entity.getEntityData().get(ThrownAxe.THROWN_AXE_ITEM_STACK),
                 ItemDisplayContext.FIXED, false, poseStack, bufferSource,
                 entity.level(), packedLight, OverlayTexture.NO_OVERLAY, 0
         );

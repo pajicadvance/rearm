@@ -1,6 +1,7 @@
 package me.pajic.rearm.ability;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
+import me.pajic.rearm.Main;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.UUIDUtil;
@@ -9,6 +10,8 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -73,5 +76,10 @@ public class CriticalCounterAbility {
         ServerPlayNetworking.registerGlobalReceiver(C2SUpdatePlayerCounterCondition.TYPE, (payload, context) ->
                 setPlayerCounterCondition(payload.activePlayerUUID(), payload.shouldCounter())
         );
+    }
+
+    public static boolean canCounter(ItemStack stack) {
+        return Main.CONFIG.sword.enableCriticalCounter() && stack.is(ItemTags.SWORDS) ||
+                Main.CONFIG.axe.enableCriticalCounter() && stack.is(ItemTags.AXES);
     }
 }

@@ -98,6 +98,7 @@ public class ReArmConfigModel {
         @PredicateConstraint("greaterThanZero") public int cripplingThrowBaseSlownessAmplifier = 1;
         @PredicateConstraint("greaterThanZero") public int cripplingThrowSlownessAmplifierIncreasePerLevel = 1;
         @PredicateConstraint("greaterThanZero") public int maxTimeStuckInTarget = 240;
+        public boolean enableCriticalCounter = false;
         public boolean acceptKnockback = true;
         public boolean acceptLooting = true;
 

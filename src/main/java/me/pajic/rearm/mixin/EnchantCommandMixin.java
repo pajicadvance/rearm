@@ -24,10 +24,11 @@ public class EnchantCommandMixin {
                     target = "Lnet/minecraft/world/item/enchantment/EnchantmentHelper;isEnchantmentCompatible(Ljava/util/Collection;Lnet/minecraft/core/Holder;)Z"
             )
     )
-    private static boolean allowMultipleProtectionEnchantments(boolean original,
-                                                               @Local ItemStack itemStack,
-                                                               @Local(argsOnly = true) Holder<Enchantment> enchantment,
-                                                               @Local(argsOnly = true) int level
+    private static boolean allowMultipleProtectionEnchantments(
+            boolean original,
+            @Local ItemStack itemStack,
+            @Local(argsOnly = true) Holder<Enchantment> enchantment,
+            @Local(argsOnly = true) int level
     ) {
         if (Main.CONFIG.allowMultipleProtectionEnchantments() && enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
             ItemEnchantments.Mutable protectionEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);

@@ -34,9 +34,10 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             ),
             index = 7
     )
-    private boolean modifyIsCrit(boolean isCrit,
-                                 @Share("isCrit") LocalBooleanRef isPerfectShot,
-                                 @Local(ordinal = 1) int i
+    private boolean modifyIsCrit(
+            boolean isCrit,
+            @Share("isCrit") LocalBooleanRef isPerfectShot,
+            @Local(ordinal = 1) int i
     ) {
         if (Main.CONFIG.bow.enablePerfectShot()) {
             if (i >= 20 && i <= 20 + Main.CONFIG.bow.perfectShotTimeframe() * 20) {

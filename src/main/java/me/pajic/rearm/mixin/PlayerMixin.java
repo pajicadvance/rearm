@@ -51,10 +51,12 @@ public abstract class PlayerMixin extends LivingEntity {
                             .getHolderOrThrow(Enchantments.SWEEPING_EDGE),
                     getWeaponItem()
             );
-            args.set(0, (double) args.get(0) * sweepingEdgeLevel);
-            args.set(2, (double) args.get(2) * sweepingEdgeLevel);
-            if (sweepingEdgeLevel >= 3) {
-                args.set(1, 1.0);
+            if (sweepingEdgeLevel > 0) {
+                args.set(0, (double) args.get(0) * sweepingEdgeLevel);
+                args.set(2, (double) args.get(2) * sweepingEdgeLevel);
+                if (sweepingEdgeLevel >= 3) {
+                    args.set(1, 1.0);
+                }
             }
         }
     }

@@ -11,7 +11,6 @@ import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.network.ReArmNetworking;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,7 +54,7 @@ public abstract class PlayerMixin extends LivingEntity {
                             .getHolderOrThrow(Enchantments.SWEEPING_EDGE),
                     getWeaponItem()
             );
-            return target.getBoundingBox().inflate(sweepingEdgeLevel, sweepingEdgeLevel == 3 ? 1.0 : 0.25, sweepingEdgeLevel);
+            return target.getBoundingBox().inflate(sweepingEdgeLevel, sweepingEdgeLevel >= 3 ? 1.0 : 0.25, sweepingEdgeLevel);
         }
         return original;
     }
@@ -103,8 +102,7 @@ public abstract class PlayerMixin extends LivingEntity {
     private boolean criticalCounter_critOnlyIfCriticalCounter(boolean original) {
         if (
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
-                Main.CONFIG.sword.enableCriticalCounter() &&
-                getWeaponItem().is(ItemTags.SWORDS)
+                CriticalCounterAbility.canCounter(getWeaponItem())
         ) {
             return CriticalCounterAbility.getPlayerCounterCondition(serverPlayer.getUUID());
         }
@@ -115,11 +113,9 @@ public abstract class PlayerMixin extends LivingEntity {
     private void criticalCounter_startTimer(float damageAmount, Operation<Void> original) {
         original.call(damageAmount);
         if (
-                damageAmount >= 3.0F &&
-                !useItem.isEmpty() &&
+                damageAmount >= 3.0F && !useItem.isEmpty() &&
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
-                Main.CONFIG.sword.enableCriticalCounter() &&
-                getWeaponItem().is(ItemTags.SWORDS)
+                CriticalCounterAbility.canCounter(getWeaponItem())
         ) {
             PacketDistributor.sendToPlayer(serverPlayer, new ReArmNetworking.S2CStartCriticalCounterTimer());
         }

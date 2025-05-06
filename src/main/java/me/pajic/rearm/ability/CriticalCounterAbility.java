@@ -1,6 +1,9 @@
 package me.pajic.rearm.ability;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
+import me.pajic.rearm.Main;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.UUID;
 
@@ -26,5 +29,10 @@ public class CriticalCounterAbility {
 
     public static void removePlayerCounterConditionData(UUID playerUUID) {
         playerCounterConditions.removeBoolean(playerUUID);
+    }
+
+    public static boolean canCounter(ItemStack stack) {
+        return Main.CONFIG.sword.enableCriticalCounter() && stack.is(ItemTags.SWORDS) ||
+                Main.CONFIG.axe.enableCriticalCounter() && stack.is(ItemTags.AXES);
     }
 }

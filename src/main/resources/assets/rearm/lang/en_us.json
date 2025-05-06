@@ -2,7 +2,7 @@
   "enchantment.rearm.backstep": "Backstep",
   "enchantment.rearm.backstep.desc": "Press the Action key shortly after shooting an enemy to perform a backwards dash.",
   "enchantment.rearm.crippling_throw": "Crippling Throw",
-  "enchantment.rearm.crippling_throw.desc": "Allows throwing the axe to slow down enemies and recalling\n it to deal bleeding damage with the Action key.",
+  "enchantment.rearm.crippling_throw.desc": "Allows throwing the axe to slow down enemies and recalling it to deal bleeding damage with the Action key.",
   "enchantment.rearm.magic_protection": "Magic Protection",
   "enchantment.rearm.magic_protection.desc": "High resistance to magic damage sources.",
 
@@ -74,6 +74,7 @@
   "text.config.rearm.option.axe.cripplingThrowBaseSlownessAmplifier": "Base slowness amplifier",
   "text.config.rearm.option.axe.cripplingThrowSlownessAmplifierIncreasePerLevel": "Slowness amplifier increase per level",
   "text.config.rearm.option.axe.maxTimeStuckInTarget": "Max time stuck in target (ticks)",
+  "text.config.rearm.option.axe.enableCriticalCounter": "Enable Critical Counter",
   "text.config.rearm.option.axe.acceptKnockback": "Accept Knockback enchantment",
   "text.config.rearm.option.axe.acceptLooting": "Accept Looting enchantment",
   "text.config.rearm.option.meleeProtection": "Melee Protection",

@@ -46,6 +46,7 @@
   "text.config.rearm.option.crossbow.improvedPiercing": "Improved Piercing",
   "text.config.rearm.option.crossbow.improvedPiercing.tooltip": "Allows Piercing to ignore a percentage\nof the enemies armor based on level.",
   "text.config.rearm.option.crossbow.percentArmorIgnoredPerLevel": "Armor ignored per level (%)",
+  "text.config.rearm.option.crossbow.stopPiercingOnArmoredEntity": "Stop piercing on armored entites",
   "text.config.rearm.option.crossbow.fixedArrowDamage": "Consistent arrow damage",
   "text.config.rearm.option.crossbow.fixedArrowDamage.tooltip": "Arrows fired from crossbows will deal\nconsistent damage instead of a variable amount.",
   "text.config.rearm.option.crossbow.fixedArrowDamageAmount": "Consistent damage value",

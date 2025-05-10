@@ -51,6 +51,7 @@ public class ReArmConfigModel {
     public static class Crossbow {
         @RestartRequired public boolean improvedPiercing = true;
         @RestartRequired @PredicateConstraint("greaterThanZero") public int percentArmorIgnoredPerLevel = 15;
+        public boolean stopPiercingOnArmoredEntity = true;
         public boolean fixedArrowDamage = true;
         @PredicateConstraint("greaterThanZero") public int fixedArrowDamageAmount = 10;
         public boolean modifyFireworkDamage = true;

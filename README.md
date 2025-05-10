@@ -18,7 +18,7 @@ The bow is meant for **high mobility** and **skill dependent combat**. With a fu
 
 The crossbow is meant for **low mobility**, but **high and consistent damage output**. With a fully enchanted crossbow, you'll be taking down enemies in one hit by ignoring their defenses, and obliterating hordes of enemies with fireworks. 
 
-- Improved **Piercing** enchantment - Piercing now also ignores a percentage of the enemies armor based on level.
+- Improved **Piercing** enchantment - Piercing now also ignores a percentage of the enemies armor based on level, however, piercing arrows won't go through armored enemies.
 - **Consistent damage** - Arrows shot from crossbows will now deal a consistent amount of damage, instead of picking a random number from a range like in vanilla. On default settings, this is an overall buff to damage dealt, and makes it easier to adapt to the damage.
 - **Increased firework damage** - Firework explosion damage has been increased significantly to make them viable for use in combat with crossbows. On default settings, a firework with one firework star will already deal slightly more damage than an arrow fired from the crossbow, and a maxed out firework with seven firework stars will deal more damage than even an arrow fired from the crossbow enchanted with Power 5.
 - **Increased crossbow charge time** - On default settings, loading the crossbow takes noticeably longer, in order to counterbalance the general power increase of crossbows. The Quick Charge enchantment will still decrease the loading time.

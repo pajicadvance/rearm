@@ -295,15 +295,15 @@ public class ResourceModifications {
                         );
                         if (Main.CONFIG.crossbow.improvedPiercing()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing.desc",
-                                "Allows projectiles to pierce through mobs and\nignore a percentage of their armor based on level."
+                                "Allows projectiles to pierce through mobs and ignore a percentage of their armor based on level."
                         );
                         if (Main.CONFIG.sword.improvedSweepingEdge()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.sweeping_edge.desc",
-                                "Increases the damage and range of sweeping attacks\nbased on level and the amount of enemies hit."
+                                "Increases the damage and range of sweeping attacks based on level and the amount of enemies hit."
                         );
                         if (Main.CONFIG.elementalProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection.desc",
-                                "High resistance to fire, lightning and freeze damage\nand reduced burn time if you're set ablaze."
+                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze."
                         );
                         if (Main.CONFIG.meleeProtection()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.protection.desc",

@@ -35,6 +35,7 @@ import java.util.UUID;
 
 public class ThrownAxe extends AbstractArrow {
     private boolean dealtDamage;
+    private boolean failedPickup;
     private LivingEntity stuckEntity;
     private UUID stuckEntityId;
     private float damage;
@@ -73,7 +74,7 @@ public class ThrownAxe extends AbstractArrow {
 
         Entity entity = getOwner();
         if (entity != null) {
-            if (((dealtDamage || isNoPhysics()) && CripplingThrowAbility.recallSignals.contains(entity.getUUID())) || getY() < -65) {
+            if (((dealtDamage || isNoPhysics()) && (CripplingThrowAbility.recallSignals.contains(entity.getUUID())) || getY() < -65) && !failedPickup) {
                 if (stuckEntity != null && !stuckEntity.getType().is(EntityTypeTags.SKELETONS)) {
                     stuckEntity.addEffect(
                             new MobEffectInstance(
@@ -221,7 +222,16 @@ public class ThrownAxe extends AbstractArrow {
             if (hand != null && player.getItemInHand(hand).isEmpty()) {
                 player.setItemInHand(hand, getPickupItem());
             } else {
-                player.getInventory().add(getPickupItem());
+                boolean added = player.getInventory().add(getPickupItem());
+                if (!added) {
+                    failedPickup = true;
+                    stuckEntity = null;
+                    setNoGravity(false);
+                    setNoPhysics(false);
+                    entityData.set(STUCK, false);
+                    timeInTarget = 0;
+                    return false;
+                }
             }
             CripplingThrowAbility.recallSignals.remove(player.getUUID());
         }

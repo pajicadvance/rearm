@@ -257,14 +257,30 @@ public class ThrownAxe extends AbstractArrow {
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         dealtDamage = compound.getBoolean("DealtDamage");
+        failedPickup = compound.getBoolean("FailedPickup");
         stuckEntityId = compound.getUUID("StuckEntityId");
+        timeInTarget = compound.getInt("TimeInTarget");
+        hand = compound.getBoolean("Hand") ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+        entityData.set(STUCK, compound.getBoolean("Stuck"));
+        entityData.set(ALLOW_PICKUP, compound.getBoolean("AllowPickup"));
+        if (compound.contains("ThrownAxeItemStack")) {
+            entityData.set(THROWN_AXE_ITEM_STACK, ItemStack.parseOptional(registryAccess(), compound.getCompound("ThrownAxeItemStack")));
+        }
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("DealtDamage", dealtDamage);
+        compound.putBoolean("FailedPickup", failedPickup);
         compound.putUUID("StuckEntityId", stuckEntity == null ? new UUID(0, 0) : stuckEntity.getUUID());
+        compound.putInt("TimeInTarget", timeInTarget);
+        compound.putBoolean("Hand", hand == InteractionHand.MAIN_HAND);
+        compound.putBoolean("Stuck", entityData.get(STUCK));
+        compound.putBoolean("AllowPickup", entityData.get(ALLOW_PICKUP));
+        if (!entityData.get(THROWN_AXE_ITEM_STACK).isEmpty()) {
+            compound.put("ThrownAxeItemStack", entityData.get(THROWN_AXE_ITEM_STACK).save(registryAccess()));
+        }
     }
 
     public void tickDespawn() {

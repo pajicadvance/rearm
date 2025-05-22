@@ -20,7 +20,7 @@
             "tags": [
               {
                 "expected": true,
-                "id": "rearm:is_magic"
+                "id": "minecraft:is_magic"
               },
               {
                 "expected": false,

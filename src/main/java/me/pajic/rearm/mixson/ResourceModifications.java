@@ -91,7 +91,7 @@ public class ResourceModifications {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
                         tag1.addProperty("expected", true);
-                        tag1.addProperty("id", "rearm:is_elemental");
+                        tag1.addProperty("id", "minecraft:is_elemental");
                         JsonObject tag2 = new JsonObject();
                         tag2.addProperty("expected", false);
                         tag2.addProperty("id", "minecraft:bypasses_invulnerability");
@@ -121,7 +121,7 @@ public class ResourceModifications {
                         tag1.addProperty("id", "minecraft:bypasses_invulnerability");
                         JsonObject tag2 = new JsonObject();
                         tag2.addProperty("expected", false);
-                        tag2.addProperty("id", "rearm:is_elemental");
+                        tag2.addProperty("id", "minecraft:is_elemental");
                         JsonObject tag3 = new JsonObject();
                         tag3.addProperty("expected", false);
                         tag3.addProperty("id", "minecraft:is_explosion");

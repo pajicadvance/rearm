@@ -7,10 +7,8 @@ import me.pajic.rearm.Main;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,6 +16,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//? if 1.21.1 {
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.ItemStack;
+//?}
+//? if 1.21.7
+/*import net.minecraft.world.InteractionResult;*/
 
 @Mixin(BowItem.class)
 public abstract class BowItemMixin extends ProjectileWeaponItem {
@@ -53,7 +57,10 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             method = "releaseUsing",
             at = @At(
                     value = "INVOKE",
+                    //? if 1.21.1
                     target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"
+                    //? if 1.21.7
+                    /*target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"*/
             ),
             index = 7
     )
@@ -71,7 +78,12 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
                     target = "Lnet/minecraft/world/entity/player/Player;startUsingItem(Lnet/minecraft/world/InteractionHand;)V"
             )
     )
-    private void playPlayerBowDrawingSound(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
+    private void playPlayerBowDrawingSound(Level level, Player player, InteractionHand interactionHand,
+                                           //? if 1.21.1
+                                           CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir
+                                           //? if 1.21.7
+                                           /*CallbackInfoReturnable<InteractionResult> cir*/
+    ) {
         if (Main.CONFIG.bow.playerDrawingSounds.get() && !player.getProjectile(player.getItemInHand(interactionHand)).isEmpty()) {
             level.playSound(
                     null, player.getX(), player.getY(), player.getZ(),

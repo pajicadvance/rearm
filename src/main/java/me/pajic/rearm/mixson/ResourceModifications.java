@@ -9,6 +9,7 @@ import me.pajic.rearm.Main;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.ramixin.mixson.debug.DebugMode;
+import net.ramixin.mixson.inline.EventContext;
 import net.ramixin.mixson.inline.Mixson;
 import net.ramixin.mixson.util.MixsonUtil;
 
@@ -86,6 +87,7 @@ public class ResourceModifications {
                 "minecraft:enchantment/fire_protection",
                 "rearm:modify_fire_protection",
                 context -> {
+                    normalizeEnchantmentCosts(context);
                     if (Main.CONFIG.protection.elementalProtection.get()) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
@@ -110,9 +112,9 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/protection",
-                "rearm:protection",
-
+                "rearm:modify_protection",
                 context -> {
+                    normalizeEnchantmentCosts(context);
                     if (Main.CONFIG.protection.meleeProtection.get()) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
@@ -144,6 +146,18 @@ public class ResourceModifications {
                                 .add("tags", tags);
                     }
                 }
+        );
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/projectile_protection",
+                "rearm:modify_projectile_protection",
+                ResourceModifications::normalizeEnchantmentCosts
+        );
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/blast_protection",
+                "rearm:modify_blast_protection",
+                ResourceModifications::normalizeEnchantmentCosts
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
@@ -327,5 +341,22 @@ public class ResourceModifications {
                 },
                 true
         ));
+    }
+
+    private static void normalizeEnchantmentCosts(EventContext<JsonElement> context) {
+        if (Main.CONFIG.protection.normalizeEnchantmentCosts.get()) {
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("max_cost")
+                    .addProperty("base", 12);
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("max_cost")
+                    .addProperty("per_level_above_first", 11);
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("min_cost")
+                    .addProperty("base", 5);
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("min_cost")
+                    .addProperty("per_level_above_first", 10);
+        }
     }
 }

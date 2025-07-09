@@ -47,8 +47,7 @@ public abstract class PlayerMixin extends LivingEntity {
     private void sweepingEdge_increaseAttackRadius(Args args) {
         if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
             int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                            .getHolderOrThrow(Enchantments.SWEEPING_EDGE),
+                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SWEEPING_EDGE),
                     getWeaponItem()
             );
             if (sweepingEdgeLevel > 0) {

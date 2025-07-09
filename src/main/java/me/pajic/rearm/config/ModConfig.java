@@ -27,6 +27,7 @@ public class ModConfig extends Config {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean meleeProtection = new ValidatedBoolean(true);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean elementalProtection = new ValidatedBoolean(true);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean magicProtection = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean normalizeEnchantmentCosts = new ValidatedBoolean(false);
         public ValidatedBoolean allowMultipleProtectionEnchantments = new ValidatedBoolean(true);
         public ValidatedInt maxProtectionEnchantments = new ValidatedInt(2, Integer.MAX_VALUE, 1);
     }

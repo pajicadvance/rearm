@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
@@ -29,6 +28,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+//? if 1.21.1
+import net.minecraft.world.InteractionResultHolder;
+//? if 1.21.7
+/*import net.minecraft.world.InteractionResult;*/
 
 import java.util.HashSet;
 import java.util.Set;
@@ -63,19 +66,34 @@ public class CripplingThrowAbility {
 
     public static final Set<UUID> recallSignals = new HashSet<>();
 
-    public static InteractionResultHolder<ItemStack> useAxe(Level level, Player player, InteractionHand usedHand, ItemStack stack) {
+    public static /*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?}*//*? if 1.21.7 {*//*InteractionResult*//*?}*/ useAxe(
+            Level level, Player player, InteractionHand usedHand, ItemStack stack
+    ) {
         int cripplingThrowLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW), stack
+                //? if 1.21.1
+                level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
+                //? if 1.21.7
+                /*level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW),*/
+                stack
         );
         if (cripplingThrowLevel > 0) {
             if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
+                //? if 1.21.1
                 return InteractionResultHolder.fail(stack);
+                //? if 1.21.7
+                /*return InteractionResult.FAIL;*/
             } else {
                 player.startUsingItem(usedHand);
+                //? if 1.21.1
                 return InteractionResultHolder.consume(stack);
+                //? if 1.21.7
+                /*return InteractionResult.CONSUME;*/
             }
         }
+        //? if 1.21.1
         return InteractionResultHolder.fail(stack);
+        //? if 1.21.7
+        /*return InteractionResult.FAIL;*/
     }
 
     public static void throwAxe(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, int useDuration) {

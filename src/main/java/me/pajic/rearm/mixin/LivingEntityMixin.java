@@ -32,7 +32,10 @@ public abstract class LivingEntityMixin extends Entity {
         if (Main.CONFIG.crossbow.improvedPiercing.get()) {
             int piercingLevel = source.getWeaponItem() != null ?
                     EnchantmentHelper.getItemEnchantmentLevel(
+                            //? if 1.21.1
                             registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING),
+                            //? if 1.21.7
+                            /*registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.PIERCING),*/
                             source.getWeaponItem()
                     ) : 0;
             return original * (1 - ((float) (Main.CONFIG.crossbow.percentArmorIgnoredPerLevel.get() * piercingLevel) / 100));

@@ -1,5 +1,6 @@
 package me.pajic.rearm.effect;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,8 +16,17 @@ public class BackstepEffect extends MobEffect {
         return true;
     }
 
+    //? if 1.21.1 {
     @Override
     public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
         return super.applyEffectTick(livingEntity, amplifier);
     }
+    //?}
+
+    //? if 1.21.7 {
+    /*@Override
+    public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
+        return super.applyEffectTick(level, entity, amplifier);
+    }
+    *///?}
 }

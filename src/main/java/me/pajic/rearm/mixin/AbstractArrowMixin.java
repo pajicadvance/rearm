@@ -8,9 +8,7 @@ import me.pajic.rearm.item.ReArmItems;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -102,6 +100,7 @@ public abstract class AbstractArrowMixin extends Projectile {
     )
     private byte stopPiercingArrowOnArmoredEntity(byte original, @Local(argsOnly = true) EntityHitResult result) {
         if (Main.CONFIG.crossbow.stopPiercingOnArmoredEntity.get() && original > 0 && result.getEntity() instanceof LivingEntity entity) {
+            //? if 1.21.1 {
             for (ItemStack stack : entity.getArmorSlots()) {
                 if (
                         stack.is(ItemTags.HEAD_ARMOR) ||
@@ -112,6 +111,17 @@ public abstract class AbstractArrowMixin extends Projectile {
                     return 0;
                 }
             }
+            //?}
+            //? if 1.21.7 {
+            /*if (
+                    !entity.equipment.get(EquipmentSlot.HEAD).isEmpty() ||
+                    !entity.equipment.get(EquipmentSlot.CHEST).isEmpty() ||
+                    !entity.equipment.get(EquipmentSlot.LEGS).isEmpty() ||
+                    !entity.equipment.get(EquipmentSlot.FEET).isEmpty()
+            ) {
+                return 0;
+            }
+            *///?}
         }
         return original;
     }

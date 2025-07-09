@@ -85,6 +85,8 @@
   "rearm.config.protection.elementalProtection.desc": "Changes Fire Protection to work against lightning and freeze damage on top of fire damage and renames it to Elemental Protection.",
   "rearm.config.protection.magicProtection": "Magic Protection",
   "rearm.config.protection.magicProtection.desc": "Adds a new armor enchantment that protects against magic damage.",
+  "rearm.config.protection.normalizeEnchantmentCosts": "Normalize enchantment costs",
+  "rearm.config.protection.normalizeEnchantmentCosts.desc": "When enabled, all protection enchantments obtained from the enchanting table will have similar levels for the same enchanting power.",
   "rearm.config.protection.allowMultipleProtectionEnchantments": "Allow multiple protection types",
   "rearm.config.protection.allowMultipleProtectionEnchantments.desc": "Allows multiple different types of protection enchantments on the same item.",
   "rearm.config.protection.maxProtectionEnchantments": "Max protection types",

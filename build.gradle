@@ -1,9 +1,9 @@
 plugins {
     id 'fabric-loom' version '1.10-SNAPSHOT'
-    id 'maven-publish'
+    id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
-version = project.mod_version + "+" + project.minecraft_version
+version = project.mod_version + "+" + stonecutter.current.version
 group = project.maven_group
 
 base {
@@ -11,16 +11,10 @@ base {
 }
 
 repositories {
-    maven {
-        name = 'ParchmentMC'
-        url = 'https://maven.parchmentmc.org'
-    }
-    maven { url 'https://maven.wispforest.io/releases/' }
-    maven { url "https://jitpack.io/" }
-    maven {
-        name = "Terraformers"
-        url = "https://maven.terraformersmc.com/"
-    }
+    maven { url = "https://maven.parchmentmc.org" }
+    maven { url = "https://maven.terraformersmc.com/" }
+    maven { url = "https://maven.fzzyhmstrs.me/" }
+    maven { url = "https://jitpack.io" }
 }
 
 loom {
@@ -28,46 +22,34 @@ loom {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    minecraft "com.mojang:minecraft:${stonecutter.current.project}"
     mappings loom.layered() {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-${project.parchment_version}@zip")
+        parchment("org.parchmentmc.data:parchment-${property("parchment_version")}@zip")
     }
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-
-    // Fabric ASM (enum extension)
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}"
     modImplementation("com.github.Chocohead:Fabric-ASM:v2.3") {
         exclude(group: "net.fabricmc.fabric-api")
     }
     include("com.github.Chocohead:Fabric-ASM:v2.3")
-
-    // MixinConstraints
     include(implementation("com.moulberry:mixinconstraints:${project.mixinconstraints_version}"))
-
-    // owo-lib
-    annotationProcessor modImplementation("io.wispforest:owo-lib:${project.owo_version}")
-
-    // Mixson
+    modImplementation "me.fzzyhmstrs:fzzy_config:${property("fzzy_version")}"
     modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}"))
-
-    // ModMenu
-    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
-
-    // EMI
-    modImplementation "dev.emi:emi-fabric:${project.emi_version}"
+    modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
+    modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
 }
 
 processResources {
     inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft_version
+    inputs.property "minecraft_version", stonecutter.current.version
     inputs.property "loader_version", project.loader_version
     filteringCharset "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand "version": project.version,
-                "minecraft_version": project.minecraft_version,
+                "minecraft_version": stonecutter.current.version,
                 "loader_version": project.loader_version
     }
 }
@@ -91,5 +73,34 @@ java {
 jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
+    }
+}
+
+publishMods {
+    file = remapJar.archiveFile
+    changelog = file(getRootDir().path + "/CHANGELOG.md").text
+    type = STABLE
+    modLoaders.add("fabric")
+    displayName = project.mod_version + " for Fabric " + stonecutter.current.version
+
+    modrinth {
+        accessToken = providers.environmentVariable("MR_KEY")
+        projectId = "NHzN2FGz"
+        minecraftVersions.add(stonecutter.current.version)
+        requires("fabric-api", "fzzy-config")
+        optional("modmenu")
+        embeds("mixson")
+    }
+
+    curseforge {
+        accessToken = providers.environmentVariable("CF_KEY")
+        projectId = "1130102"
+        minecraftVersions.add(stonecutter.current.version)
+        javaVersions.add(stonecutter.eval(stonecutter.current.version, ">=1.20.5")
+                ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17)
+        clientRequired = true
+        serverRequired = true
+        requires("fabric-api", "fzzy-config")
+        optional("modmenu")
     }
 }

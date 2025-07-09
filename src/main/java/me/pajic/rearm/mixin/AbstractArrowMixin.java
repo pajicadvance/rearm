@@ -51,11 +51,11 @@ public abstract class AbstractArrowMixin extends Projectile {
             )
     )
     private double modifyVelocity(double original) {
-        if (Main.CONFIG.bow.enablePerfectShot() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
+        if (Main.CONFIG.bow.enablePerfectShot.get() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
             return 3.0;
         }
-        if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {
-            return Main.CONFIG.crossbow.fixedArrowDamageAmount() / 2.0;
+        if (Main.CONFIG.crossbow.fixedArrowDamage.get() && shotFromCrossbow()) {
+            return Main.CONFIG.crossbow.fixedArrowDamageAmount.get() / 2.0;
         }
         return original;
     }
@@ -73,20 +73,20 @@ public abstract class AbstractArrowMixin extends Projectile {
             @Local(ordinal = 0) Entity entity,
             @Local DamageSource damageSource
     ) {
-        if (Main.CONFIG.bow.enablePerfectShot() && isCritArrow() && !shotFromCrossbow()) {
+        if (Main.CONFIG.bow.enablePerfectShot.get() && isCritArrow() && !shotFromCrossbow()) {
             if (getWeaponItem() != null) {
                 float bonusDamage = EnchantmentHelper.modifyDamage(
                         (ServerLevel) level(),
                         getWeaponItem(),
                         entity,
                         damageSource,
-                        Main.CONFIG.bow.perfectShotAdditionalDamage()
+                        Main.CONFIG.bow.perfectShotAdditionalDamage.get()
                 );
                 i.set((int) (i.get() + bonusDamage));
             }
             return false;
         }
-        if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {
+        if (Main.CONFIG.crossbow.fixedArrowDamage.get() && shotFromCrossbow()) {
             return false;
         }
         return original;
@@ -101,7 +101,7 @@ public abstract class AbstractArrowMixin extends Projectile {
             )
     )
     private byte stopPiercingArrowOnArmoredEntity(byte original, @Local(argsOnly = true) EntityHitResult result) {
-        if (Main.CONFIG.crossbow.stopPiercingOnArmoredEntity() && original > 0 && result.getEntity() instanceof LivingEntity entity) {
+        if (Main.CONFIG.crossbow.stopPiercingOnArmoredEntity.get() && original > 0 && result.getEntity() instanceof LivingEntity entity) {
             for (ItemStack stack : entity.getArmorSlots()) {
                 if (
                         stack.is(ItemTags.HEAD_ARMOR) ||

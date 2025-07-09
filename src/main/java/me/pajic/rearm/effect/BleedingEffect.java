@@ -14,8 +14,8 @@ public class BleedingEffect extends MobEffect {
     public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
         livingEntity.hurt(
                 livingEntity.damageSources().magic(),
-                Main.CONFIG.axe.cripplingThrowBaseBleedingDPS() +
-                        (amplifier - 1) * Main.CONFIG.axe.cripplingThrowBleedingDPSIncreasePerLevel()
+                Main.CONFIG.axe.cripplingThrowBaseBleedingDPS.get() +
+                        (amplifier - 1) * Main.CONFIG.axe.cripplingThrowBleedingDPSIncreasePerLevel.get()
         );
         return true;
     }

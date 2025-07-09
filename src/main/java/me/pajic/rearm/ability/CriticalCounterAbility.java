@@ -79,7 +79,7 @@ public class CriticalCounterAbility {
     }
 
     public static boolean canCounter(ItemStack stack) {
-        return Main.CONFIG.sword.enableCriticalCounter() && stack.is(ItemTags.SWORDS) ||
-                Main.CONFIG.axe.enableCriticalCounter() && stack.is(ItemTags.AXES);
+        return Main.CONFIG.sword.enableCriticalCounter.get() && stack.is(ItemTags.SWORDS) ||
+                Main.CONFIG.axe.enableCriticalCounter.get() && stack.is(ItemTags.AXES);
     }
 }

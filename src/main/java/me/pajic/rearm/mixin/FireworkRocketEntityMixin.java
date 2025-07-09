@@ -25,8 +25,8 @@ public class FireworkRocketEntityMixin {
             at = @At(value = "CONSTANT", args = "floatValue=5.0")
     )
     private float modifyBaseFireworkDamage(float original) {
-        if (Main.CONFIG.crossbow.modifyFireworkDamage()) {
-            return Main.CONFIG.crossbow.baseFireworkDamage();
+        if (Main.CONFIG.crossbow.modifyFireworkDamage.get()) {
+            return Main.CONFIG.crossbow.baseFireworkDamage.get();
         }
         return original;
     }
@@ -46,8 +46,8 @@ public class FireworkRocketEntityMixin {
             at = @At(value = "CONSTANT", args = "intValue=2")
     )
     private int modifyFireworkStarAdditionalDamage(int original) {
-        if (Main.CONFIG.crossbow.modifyFireworkDamage()) {
-            return Main.CONFIG.crossbow.damagePerFireworkStar();
+        if (Main.CONFIG.crossbow.modifyFireworkDamage.get()) {
+            return Main.CONFIG.crossbow.damagePerFireworkStar.get();
         }
         return original;
     }
@@ -63,8 +63,8 @@ public class FireworkRocketEntityMixin {
             at = @At(value = "CONSTANT", args = "doubleValue=5.0")
     )
     private double modifyResultingFireworkDamage(double original) {
-        if (Main.CONFIG.crossbow.modifyFireworkDamage()) {
-            return Main.CONFIG.crossbow.baseFireworkDamage();
+        if (Main.CONFIG.crossbow.modifyFireworkDamage.get()) {
+            return Main.CONFIG.crossbow.baseFireworkDamage.get();
         }
         return original;
     }

@@ -11,7 +11,7 @@ public class ReArmData {
     public static void init() {
         FabricLoader.getInstance().getModContainer("rearm").ifPresent(modContainer -> {
 
-            if (Main.CONFIG.bow.enableBackstep()) {
+            if (Main.CONFIG.bow.enableBackstep.get()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:backstep"),
                         modContainer,
@@ -19,7 +19,7 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.axe.cripplingThrow()) {
+            if (Main.CONFIG.axe.cripplingThrow.get()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:crippling_throw"),
                         modContainer,
@@ -27,7 +27,7 @@ public class ReArmData {
                 );
             }
 
-            if (Main.CONFIG.magicProtection()) {
+            if (Main.CONFIG.protection.magicProtection.get()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
                         ResourceLocation.parse("rearm:magic_protection"),
                         modContainer,

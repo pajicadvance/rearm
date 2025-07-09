@@ -24,7 +24,7 @@ public abstract class ItemMixin {
 
     @WrapMethod(method = "getUseDuration")
     private int axe_useDuration(ItemStack stack, LivingEntity entity, Operation<Integer> original) {
-        if (Main.CONFIG.axe.cripplingThrow() && stack.is(ItemTags.AXES)) {
+        if (Main.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
             return 72000;
         }
         return original.call(stack, entity);
@@ -32,7 +32,7 @@ public abstract class ItemMixin {
 
     @WrapMethod(method = "getUseAnimation")
     private UseAnim axe_useAnimaton(ItemStack stack, Operation<UseAnim> original) {
-        if (Main.CONFIG.axe.cripplingThrow() && stack.is(ItemTags.AXES)) {
+        if (Main.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
             if (FabricLoader.getInstance().isModLoaded("hold-my-items")) return UseAnim.NONE;
             return UseAnim.SPEAR;
         }
@@ -41,7 +41,7 @@ public abstract class ItemMixin {
 
     @WrapMethod(method = "use")
     private InteractionResultHolder<ItemStack> axe_use(Level level, Player player, InteractionHand usedHand, Operation<InteractionResultHolder<ItemStack>> original) {
-        if (Main.CONFIG.axe.cripplingThrow()) {
+        if (Main.CONFIG.axe.cripplingThrow.get()) {
             ItemStack stack = player.getItemInHand(usedHand);
             if (stack.is(ItemTags.AXES)) {
                 return CripplingThrowAbility.useAxe(level, player, usedHand, stack);
@@ -52,7 +52,7 @@ public abstract class ItemMixin {
 
     @WrapMethod(method = "releaseUsing")
     private void axe_releaseUsing(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, Operation<Void> original) {
-        if (Main.CONFIG.axe.cripplingThrow() && stack.is(ItemTags.AXES)) {
+        if (Main.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
             CripplingThrowAbility.throwAxe(stack, level, livingEntity, timeCharged, getUseDuration(stack, livingEntity));
         } else {
             original.call(stack, level, livingEntity, timeCharged);

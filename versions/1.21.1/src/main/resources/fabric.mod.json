@@ -29,8 +29,8 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
-    "minecraft": "${minecraft_version}",
-    "owo-lib": "^0.12.15"
+    "minecraft": "1.21.1",
+    "fzzy_config": "*"
   },
   "recommends": {
     "modmenu": "*"

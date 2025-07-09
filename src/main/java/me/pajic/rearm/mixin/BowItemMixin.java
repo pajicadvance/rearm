@@ -39,8 +39,8 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             @Share("isCrit") LocalBooleanRef isPerfectShot,
             @Local(ordinal = 1) int i
     ) {
-        if (Main.CONFIG.bow.enablePerfectShot()) {
-            if (i >= 20 && i <= 20 + Main.CONFIG.bow.perfectShotTimeframe() * 20) {
+        if (Main.CONFIG.bow.enablePerfectShot.get()) {
+            if (i >= 20 && i <= 20 + Main.CONFIG.bow.perfectShotTimeframe.get() * 20) {
                 isPerfectShot.set(true);
                 return true;
             }
@@ -72,7 +72,7 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             )
     )
     private void playPlayerBowDrawingSound(Level level, Player player, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
-        if (Main.CONFIG.bow.playerDrawingSounds() && !player.getProjectile(player.getItemInHand(interactionHand)).isEmpty()) {
+        if (Main.CONFIG.bow.playerDrawingSounds.get() && !player.getProjectile(player.getItemInHand(interactionHand)).isEmpty()) {
             level.playSound(
                     null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.CROSSBOW_QUICK_CHARGE_1,

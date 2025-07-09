@@ -45,7 +45,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private void sweepingEdge_increaseAttackRadius(Args args) {
-        if (Main.CONFIG.sword.improvedSweepingEdge()) {
+        if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
             int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
                             .getHolderOrThrow(Enchantments.SWEEPING_EDGE),
@@ -71,7 +71,7 @@ public abstract class PlayerMixin extends LivingEntity {
     private <T extends Entity> List<T> sweepingEdge_getHitEntities(
             List<T> original, @Share("original") LocalRef<List<T>> hitEntityList
     ) {
-        if (Main.CONFIG.sword.improvedSweepingEdge()) {
+        if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
             hitEntityList.set(original);
         }
         return original;
@@ -88,9 +88,9 @@ public abstract class PlayerMixin extends LivingEntity {
     private <T extends Entity> float sweepingEdge_increaseDamage(
             float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float h
     ) {
-        if (Main.CONFIG.sword.improvedSweepingEdge()) {
-            float additionalDamage = Main.CONFIG.sword.sweepingEdgeAdditionalDamagePerMob() *
-                    Math.min(hitEntityList.get().size() - 1, Main.CONFIG.sword.maxMobAmountUsedForDamageIncrease());
+        if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
+            float additionalDamage = Main.CONFIG.sword.sweepingEdgeAdditionalDamagePerMob.get() *
+                    Math.min(hitEntityList.get().size() - 1, Main.CONFIG.sword.maxMobAmountUsedForDamageIncrease.get());
             return damage + additionalDamage * h;
         }
         return damage;
@@ -131,7 +131,7 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private boolean infinityFix(boolean original, @Local(argsOnly = true) ItemStack weaponStack) {
-        if (Main.CONFIG.infinityFix()) {
+        if (Main.CONFIG.tweaks.infinityFix.get()) {
             int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
                             .getHolderOrThrow(Enchantments.INFINITY),

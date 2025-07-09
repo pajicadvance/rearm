@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class NetheriteBowItem extends BowItem {
     public NetheriteBowItem() {
-        super(new Properties().fireResistant().stacksTo(1).durability(2031));
+        super(new Properties().fireResistant().stacksTo(1).durability(576));
     }
 
     @Override
@@ -25,6 +25,6 @@ public class NetheriteBowItem extends BowItem {
 
     @Override
     public boolean isEnabled(@NotNull FeatureFlagSet enabledFeatures) {
-        return Main.CONFIG.bow.bowNetheriteVariant();
+        return Main.CONFIG.bow.bowNetheriteVariant.get();
     }
 }

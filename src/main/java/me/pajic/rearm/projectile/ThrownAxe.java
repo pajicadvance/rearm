@@ -79,7 +79,7 @@ public class ThrownAxe extends AbstractArrow {
                     stuckEntity.addEffect(
                             new MobEffectInstance(
                                     ReArmEffects.BLEEDING,
-                                    Main.CONFIG.axe.cripplingThrowBleedingDuration(),
+                                    Main.CONFIG.axe.cripplingThrowBleedingDuration.get(),
                                     getCripplingThrowLevel()
                             ), entity
                     );
@@ -113,12 +113,12 @@ public class ThrownAxe extends AbstractArrow {
                     new MobEffectInstance(
                             MobEffects.MOVEMENT_SLOWDOWN,
                             20,
-                            Main.CONFIG.axe.cripplingThrowBaseSlownessAmplifier() +
-                                    (getCripplingThrowLevel() - 1) * Main.CONFIG.axe.cripplingThrowSlownessAmplifierIncreasePerLevel()
+                            Main.CONFIG.axe.cripplingThrowBaseSlownessAmplifier.get() +
+                                    (getCripplingThrowLevel() - 1) * Main.CONFIG.axe.cripplingThrowSlownessAmplifierIncreasePerLevel.get()
                     ), entity
             );
             timeInTarget++;
-            if (!stuckEntity.isAlive() || timeInTarget > Main.CONFIG.axe.maxTimeStuckInTarget()) {
+            if (!stuckEntity.isAlive() || timeInTarget > Main.CONFIG.axe.maxTimeStuckInTarget.get()) {
                 stuckEntity = null;
                 setNoGravity(false);
                 entityData.set(STUCK, false);

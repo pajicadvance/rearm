@@ -6,8 +6,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 public class CooldownTracker {
 
-    public static int backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
-    public static int counterTimer = Main.CONFIG.sword.criticalCounterTimeframe();
+    public static int backstepCooldown = Main.CONFIG.bow.backstepTimeframe.get();
+    public static int counterTimer = Main.CONFIG.sword.criticalCounterTimeframe.get();
     public static boolean counterTimerActive;
 
     public static void init() {
@@ -24,10 +24,10 @@ public class CooldownTracker {
                             false
                     ));
                     counterTimerActive = false;
-                    counterTimer = Main.CONFIG.sword.criticalCounterTimeframe();
+                    counterTimer = Main.CONFIG.sword.criticalCounterTimeframe.get();
                 }
                 if (counterTimerActive) {
-                    if (counterTimer == Main.CONFIG.sword.criticalCounterTimeframe()) {
+                    if (counterTimer == Main.CONFIG.sword.criticalCounterTimeframe.get()) {
                         ClientPlayNetworking.send(new CriticalCounterAbility.C2SUpdatePlayerCounterCondition(
                                 client.player.getUUID(),
                                 true

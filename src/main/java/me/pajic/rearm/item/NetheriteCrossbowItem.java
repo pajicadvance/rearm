@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class NetheriteCrossbowItem extends CrossbowItem {
     public NetheriteCrossbowItem() {
-        super(new Properties().fireResistant().stacksTo(1).durability(2031).component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY));
+        super(new Properties().fireResistant().stacksTo(1).durability(704).component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY));
     }
 
     @Override
@@ -27,6 +27,6 @@ public class NetheriteCrossbowItem extends CrossbowItem {
 
     @Override
     public boolean isEnabled(@NotNull FeatureFlagSet enabledFeatures) {
-        return Main.CONFIG.crossbow.crossbowNetheriteVariant();
+        return Main.CONFIG.crossbow.crossbowNetheriteVariant.get();
     }
 }

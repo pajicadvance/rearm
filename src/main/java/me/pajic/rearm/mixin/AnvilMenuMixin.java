@@ -30,14 +30,14 @@ public class AnvilMenuMixin {
             @Local(ordinal = 1) Holder<Enchantment> holder2
     ) {
         if (
-                Main.CONFIG.allowMultipleProtectionEnchantments() &&
+                Main.CONFIG.protection.allowMultipleProtectionEnchantments.get() &&
                 holder1.is(EnchantmentTags.ARMOR_EXCLUSIVE) &&
                 holder2.is(EnchantmentTags.ARMOR_EXCLUSIVE)
         ) {
             ItemEnchantments.Mutable protectionEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
             ReArmEnchantments.updateProtectionEnchantments(protectionEnchantments, ie1);
             ReArmEnchantments.updateProtectionEnchantments(protectionEnchantments, ie2.toImmutable());
-            if (protectionEnchantments.keySet().size() <= Main.CONFIG.maxProtectionEnchantments()) {
+            if (protectionEnchantments.keySet().size() <= Main.CONFIG.protection.maxProtectionEnchantments.get()) {
                 return true;
             }
         }

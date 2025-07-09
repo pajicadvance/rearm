@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "rearm",
+  "version": "${version}",
+  "name": "ReArm",
+  "description": "Remunition and Armament",
+  "authors": [
+    "pajic"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/rearm/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.pajic.rearm.Main"
+    ],
+    "client": [
+      "me.pajic.rearm.ClientMain"
+    ],
+    "mm:early_risers": [
+      "me.pajic.rearm.EarlyRiser"
+    ]
+  },
+  "mixins": [
+    "rearm.mixins.json"
+  ],
+  "accessWidener": "rearm.accesswidener",
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "1.21.7",
+    "fzzy_config": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
+  }
+}

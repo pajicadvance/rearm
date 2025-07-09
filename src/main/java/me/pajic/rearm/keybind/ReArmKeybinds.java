@@ -33,7 +33,7 @@ public class ReArmKeybinds {
             if (ACTION_KEY.isDown() && client.level != null && client.player != null) {
                 if (CooldownTracker.backstepCooldown == 0) {
                     if (tryBackstep(ACTION_KEY, client)) {
-                        CooldownTracker.backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
+                        CooldownTracker.backstepCooldown = Main.CONFIG.bow.backstepTimeframe.get();
                     }
                 }
                 ClientPlayNetworking.send(new CripplingThrowAbility.C2SUpdatePlayerRecallCondition(client.player.getUUID()));

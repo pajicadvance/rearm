@@ -2,9 +2,9 @@ package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import me.pajic.rearm.CompatFlags;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.CripplingThrowAbility;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -33,7 +33,7 @@ public abstract class ItemMixin {
     @WrapMethod(method = "getUseAnimation")
     private UseAnim axe_useAnimaton(ItemStack stack, Operation<UseAnim> original) {
         if (Main.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
-            if (FabricLoader.getInstance().isModLoaded("hold-my-items")) return UseAnim.NONE;
+            if (CompatFlags.HMI_LOADED) return UseAnim.NONE;
             return UseAnim.SPEAR;
         }
         return original.call(stack);

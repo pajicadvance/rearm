@@ -1,5 +1,6 @@
 package me.pajic.rearm.ability;
 
+import me.pajic.rearm.Main;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class BackstepAbility {
-    public static final ResourceLocation BACKSTEP_EXHAUSTION = ResourceLocation.fromNamespaceAndPath("rearm", "backstep_exhaustion");
+    public static final ResourceLocation BACKSTEP_EXHAUSTION = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "backstep_exhaustion");
 
     public record C2SCauseBackstepExhaustionPayload(float exhaustion) implements CustomPacketPayload {
         public static final CustomPacketPayload.Type<C2SCauseBackstepExhaustionPayload> TYPE = new CustomPacketPayload.Type<>(BACKSTEP_EXHAUSTION);

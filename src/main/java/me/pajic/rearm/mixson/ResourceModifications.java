@@ -4,19 +4,18 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import me.pajic.rearm.CompatFlags;
 import me.pajic.rearm.Main;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
 import net.ramixin.mixson.debug.DebugMode;
 import net.ramixin.mixson.inline.Mixson;
+import net.ramixin.mixson.util.MixsonUtil;
 
 import java.util.List;
 
+@SuppressWarnings("removal")
 public class ResourceModifications {
-
-    private static final List<String> ENCHANTMENT_DESCRIPTION_MODS = List.of(
-            "enchdesc",
-            "idwtialsimmoedm"
-    );
 
     public static void init() {
 
@@ -266,63 +265,67 @@ public class ResourceModifications {
         // Language files
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
-                "minecraft:lang/en_us",
+                MixsonUtil.getLocatorFromString("rearm:lang/*"),
                 "rearm:modify_lang",
                 context -> {
-                    if (Main.CONFIG.protection.elementalProtection.get()) {
-                        context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.fire_protection",
-                                "Elemental Protection"
-                        );
+                    if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
+                        if (Main.CONFIG.protection.elementalProtection.get()) {
+                            context.getFile().getAsJsonObject().addProperty(
+                                    "enchantment.minecraft.fire_protection",
+                                    context.getFile().getAsJsonObject().get("enchantment.minecraft.fire_protection.override").getAsString()
+                            );
+                        }
+                        if (Main.CONFIG.protection.meleeProtection.get()) {
+                            context.getFile().getAsJsonObject().addProperty(
+                                    "enchantment.minecraft.protection",
+                                    context.getFile().getAsJsonObject().get("enchantment.minecraft.protection.override").getAsString()
+                            );
+                        }
                     }
-                    if (Main.CONFIG.protection.meleeProtection.get()) {
-                        context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.protection",
-                                "Melee Protection"
-                        );
-                    }
-                }
+                },
+                true
         );
-        ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> {
-            if (FabricLoader.getInstance().isModLoaded(mod)) Mixson.registerEvent(
-                    Mixson.DEFAULT_PRIORITY,
-                    mod + ":lang/en_us",
-                    "rearm:modify_lang_" + mod,
-                    context -> {
+        if (CompatFlags.ENCHDESC_MOD_LOADED) CompatFlags.ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                MixsonUtil.getLocatorFromString(mod + ":lang/*"),
+                "rearm:modify_lang_" + mod,
+                context -> {
+                    if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
                         if (Main.CONFIG.bow.improvedMultishot.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.multishot.desc",
-                                "Fires additional arrows in similar directions based on level."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.multishot.desc.override").getAsString()
                         );
                         if (Main.CONFIG.crossbow.improvedPiercing.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.piercing.desc",
-                                "Allows projectiles to pierce through mobs and ignore a percentage of their armor based on level."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.piercing.desc.override").getAsString()
                         );
                         if (Main.CONFIG.sword.improvedSweepingEdge.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.sweeping_edge.desc",
-                                "Increases the damage and range of sweeping attacks based on level and the amount of enemies hit."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.sweeping_edge.desc.override").getAsString()
                         );
                         if (Main.CONFIG.protection.elementalProtection.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.fire_protection.desc",
-                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.fire_protection.desc.override").getAsString()
                         );
                         if (Main.CONFIG.protection.meleeProtection.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.protection.desc",
-                                "Moderate damage resistance to most close-up physical damage sources."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.protection.desc.override").getAsString()
                         );
                         if (Main.CONFIG.tweaks.infinityFix.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.infinity.desc",
-                                "Allows the weapon to fire normal arrows for free."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.infinity.desc.override").getAsString()
                         );
                         if (Main.CONFIG.crossbow.acceptPower.get()) context.getFile().getAsJsonObject().addProperty(
                                 "enchantment.minecraft.power.desc",
-                                "Increases the damage of projectiles fired from the weapon."
+                                context.getFile().getAsJsonObject().get("enchantment.minecraft.power.desc.override").getAsString()
                         );
                         context.getFile().getAsJsonObject().addProperty(
                                 "enchdesc.activate.message",
-                                "Shift for info"
+                                context.getFile().getAsJsonObject().get("enchdesc.activate.message.override").getAsString()
                         );
                     }
-            );
-        });
+                },
+                true
+        ));
     }
 }

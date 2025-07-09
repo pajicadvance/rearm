@@ -9,11 +9,11 @@ import net.minecraft.resources.ResourceLocation;
 public class ReArmData {
 
     public static void init() {
-        FabricLoader.getInstance().getModContainer("rearm").ifPresent(modContainer -> {
+        FabricLoader.getInstance().getModContainer(Main.MOD_ID).ifPresent(modContainer -> {
 
             if (Main.CONFIG.bow.enableBackstep.get()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("rearm:backstep"),
+                        ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "backstep"),
                         modContainer,
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
@@ -21,7 +21,7 @@ public class ReArmData {
 
             if (Main.CONFIG.axe.cripplingThrow.get()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("rearm:crippling_throw"),
+                        ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "crippling_throw"),
                         modContainer,
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
@@ -29,7 +29,7 @@ public class ReArmData {
 
             if (Main.CONFIG.protection.magicProtection.get()) {
                 ResourceManagerHelper.registerBuiltinResourcePack(
-                        ResourceLocation.parse("rearm:magic_protection"),
+                        ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "magic_protection"),
                         modContainer,
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );

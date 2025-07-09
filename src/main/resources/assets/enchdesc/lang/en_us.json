@@ -1,0 +1,10 @@
+{
+  "enchantment.minecraft.multishot.desc.override": "Fires additional arrows in similar directions based on level.",
+  "enchantment.minecraft.piercing.desc.override": "Allows projectiles to pierce through mobs and ignore a percentage of their armor based on level.",
+  "enchantment.minecraft.sweeping_edge.desc.override": "Increases the damage and range of sweeping attacks based on level and the amount of enemies hit.",
+  "enchantment.minecraft.fire_protection.desc.override": "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze.",
+  "enchantment.minecraft.protection.desc.override": "Moderate damage resistance to most close-up physical damage sources.",
+  "enchantment.minecraft.infinity.desc.override": "Allows the weapon to fire normal arrows for free.",
+  "enchantment.minecraft.power.desc.override": "Increases the damage of projectiles fired from the weapon.",
+  "enchdesc.activate.message.override": "Shift for info"
+}

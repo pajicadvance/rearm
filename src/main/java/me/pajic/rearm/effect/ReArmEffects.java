@@ -1,5 +1,6 @@
 package me.pajic.rearm.effect;
 
+import me.pajic.rearm.Main;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,13 +11,13 @@ public class ReArmEffects {
 
     public static final Holder<MobEffect> BACKSTEP_EFFECT = Registry.registerForHolder(
             BuiltInRegistries.MOB_EFFECT,
-            ResourceLocation.fromNamespaceAndPath("rearm", "backstep_effect"),
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "backstep_effect"),
             new BackstepEffect()
     );
 
     public static final Holder<MobEffect> BLEEDING = Registry.registerForHolder(
             BuiltInRegistries.MOB_EFFECT,
-            ResourceLocation.fromNamespaceAndPath("rearm", "bleeding"),
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "bleeding"),
             new BleedingEffect()
     );
 

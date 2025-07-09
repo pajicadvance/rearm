@@ -1,5 +1,6 @@
 package me.pajic.rearm.mixin;
 
+import me.pajic.rearm.Main;
 import net.minecraft.client.gui.screens.packs.PackSelectionModel;
 import net.minecraft.server.packs.repository.Pack;
 import org.spongepowered.asm.mixin.Final;
@@ -22,7 +23,7 @@ public class PackSelectionModelMixin {
             at = @At("TAIL")
     )
     private void filterPacks(CallbackInfo ci) {
-        selected.removeIf(pack -> pack.getId().contains("rearm"));
-        unselected.removeIf(pack -> pack.getId().contains("rearm"));
+        selected.removeIf(pack -> pack.getId().contains(Main.MOD_ID));
+        unselected.removeIf(pack -> pack.getId().contains(Main.MOD_ID));
     }
 }

@@ -22,14 +22,14 @@ public class EarlyRiser implements Runnable {
         ClassTinkerers.enumBuilder(targetType, paramType, paramType, paramType, paramType, paramType, paramType, paramType, paramType)
                 .addEnum("BLEEDING", () -> {
                     Supplier<Supplier<Object[]>> supplier = (() -> () -> new Object[] {
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_full"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_full_blinking"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_half"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_half_blinking"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_hardcore_full"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_hardcore_full_blinking"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_hardcore_half"),
-                            ResourceLocation.fromNamespaceAndPath("rearm", "hud/heart/bleeding_hardcore_half_blinking")
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_full"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_full_blinking"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_half"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_half_blinking"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_hardcore_full"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_hardcore_full_blinking"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_hardcore_half"),
+                            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "hud/heart/bleeding_hardcore_half_blinking")
                     });
                     return supplier.get().get();
                 }).build();

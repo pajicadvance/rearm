@@ -1,5 +1,6 @@
 package me.pajic.rearm.ability;
 
+import me.pajic.rearm.Main;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
 import me.pajic.rearm.projectile.ThrownAxe;
 import me.pajic.rearm.projectile.ThrownAxeRenderer;
@@ -35,7 +36,7 @@ import java.util.UUID;
 
 public class CripplingThrowAbility {
 
-    public static final ResourceLocation RECALL_AXE = ResourceLocation.fromNamespaceAndPath("rearm", "recall_axe");
+    public static final ResourceLocation RECALL_AXE = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "recall_axe");
 
     public record C2SUpdatePlayerRecallCondition(UUID activePlayerUUID) implements CustomPacketPayload {
         public static final CustomPacketPayload.Type<C2SUpdatePlayerRecallCondition> TYPE = new CustomPacketPayload.Type<>(RECALL_AXE);
@@ -52,7 +53,7 @@ public class CripplingThrowAbility {
 
     public static final EntityType<ThrownAxe> AXE = Registry.register(
             BuiltInRegistries.ENTITY_TYPE,
-            ResourceLocation.parse("rearm:axe"),
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "axe"),
             EntityType.Builder.<ThrownAxe>of(ThrownAxe::new, MobCategory.MISC)
                     .sized(0.5F, 0.5F)
                     .eyeHeight(0.13F)

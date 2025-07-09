@@ -1,5 +1,6 @@
 package me.pajic.rearm.item;
 
+import me.pajic.rearm.Main;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,7 +27,7 @@ public class ReArmItems {
     public static void initItems() {
         Registry.register(
                 BuiltInRegistries.ITEM,
-                ResourceLocation.fromNamespaceAndPath("rearm", "netherite_bow"),
+                ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_bow"),
                 NETHERITE_BOW
         );
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(contents -> contents.addAfter(
@@ -36,7 +37,7 @@ public class ReArmItems {
 
         Registry.register(
                 BuiltInRegistries.ITEM,
-                ResourceLocation.fromNamespaceAndPath("rearm", "netherite_crossbow"),
+                ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow"),
                 NETHERITE_CROSSBOW
         );
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(contents -> contents.addAfter(

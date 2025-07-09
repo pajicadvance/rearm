@@ -18,8 +18,8 @@ import java.util.UUID;
 
 public class CriticalCounterAbility {
 
-    public static final ResourceLocation COUNTER_START_TIMER = ResourceLocation.fromNamespaceAndPath("rearm", "counter_start_timer");
-    public static final ResourceLocation UPDATE_PLAYER_COUNTER_CONDITION = ResourceLocation.fromNamespaceAndPath("rearm", "update_player_counter_condition");
+    public static final ResourceLocation COUNTER_START_TIMER = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "counter_start_timer");
+    public static final ResourceLocation UPDATE_PLAYER_COUNTER_CONDITION = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "update_player_counter_condition");
 
     public record C2SUpdatePlayerCounterCondition(UUID activePlayerUUID, boolean shouldCounter) implements CustomPacketPayload {
         public static final CustomPacketPayload.Type<C2SUpdatePlayerCounterCondition> TYPE = new CustomPacketPayload.Type<>(UPDATE_PLAYER_COUNTER_CONDITION);

@@ -1,3 +1,2 @@
-- Switched config API to Fzzy Config.
-- Significantly reduced the durability of the netherite bow and netherite crossbow.
-- Added an option to normalize the max and min enchantment costs for protection enchantments. When enabled, all protection enchantments obtained from the enchanting table will have similar levels for the same enchanting power. Disabled by default.
+- Fixed a bug where Critical Counter wouldn't work alongside certain mods when shielded damage was too low.
+- Fixed json errors appearing in the game log.

@@ -114,7 +114,7 @@ public abstract class PlayerMixin extends LivingEntity {
     private void criticalCounter_startTimer(float damageAmount, Operation<Void> original) {
         original.call(damageAmount);
         if (
-                damageAmount >= 3.0F && !useItem.isEmpty() &&
+                !useItem.isEmpty() &&
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
                 CriticalCounterAbility.canCounter(getWeaponItem())
         ) {

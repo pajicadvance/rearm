@@ -1,2 +1,2 @@
-- Fixed a bug where Critical Counter wouldn't work alongside certain mods when shielded damage was too low.
-- Fixed json errors appearing in the game log.
+- Added support for Minecraft 1.21.7+.
+- Fixed a bug where the axe would forget which entity it's stuck on under specific circumstances.

@@ -11,12 +11,15 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(AbstractArrow.class)
@@ -27,8 +30,9 @@ public abstract class AbstractArrowMixin extends Projectile {
     }
 
     @Shadow public abstract boolean isCritArrow();
-    @Shadow public abstract boolean shotFromCrossbow();
     @Shadow public abstract ItemStack getWeaponItem();
+    //? if 1.21.1 {
+    @Shadow public abstract boolean shotFromCrossbow();
 
     @ModifyExpressionValue(
             method = "shotFromCrossbow",
@@ -40,6 +44,13 @@ public abstract class AbstractArrowMixin extends Projectile {
     private boolean considerModCrossbows(boolean original) {
         return ReArmItems.isCrossbow(getWeaponItem());
     }
+    //?}
+    //? if >= 1.21.7 {
+    /*@Shadow private @Nullable ItemStack firedFromWeapon;
+    @Unique private boolean shotFromCrossbow() {
+        return firedFromWeapon != null && firedFromWeapon.getItem() instanceof CrossbowItem;
+    }
+    *///?}
 
     @ModifyExpressionValue(
             method = "onHitEntity",

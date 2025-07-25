@@ -1,6 +1,9 @@
 package me.pajic.rearm.item;
 
 import me.pajic.rearm.Main;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
@@ -16,8 +19,10 @@ public class NetheriteBowItem extends BowItem {
     public NetheriteBowItem() {
         super(
                 new Properties().fireResistant().stacksTo(1).durability(576)
-                        //? if 1.21.7
-                        /*.repairable(Items.NETHERITE_INGOT).enchantable(15)*/
+                        //? if 1.21.7 {
+                        /*.repairable(Items.NETHERITE_INGOT).enchantable(15)
+                        .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_bow")))
+                        *///?}
         );
     }
 

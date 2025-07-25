@@ -47,7 +47,10 @@ public abstract class PlayerMixin extends LivingEntity {
     private void sweepingEdge_increaseAttackRadius(Args args) {
         if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
             int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
+                    //? if 1.21.1
                     level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SWEEPING_EDGE),
+                    //? if >= 1.21.7
+                    /*level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SWEEPING_EDGE),*/
                     getWeaponItem()
             );
             if (sweepingEdgeLevel > 0) {
@@ -80,9 +83,12 @@ public abstract class PlayerMixin extends LivingEntity {
             method = "attack",
             at = @At(
                     value = "INVOKE",
+                    //? if 1.21.1
                     target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
+                    //? if >= 1.21.7
+                    /*target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z"*/
             ),
-            index = 1
+            index = /*? if 1.21.1 {*/1/*?}*//*? if >= 1.21.7 {*//*2*//*?}*/
     )
     private <T extends Entity> float sweepingEdge_increaseDamage(
             float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float h
@@ -110,6 +116,7 @@ public abstract class PlayerMixin extends LivingEntity {
         return original;
     }
 
+    //? if 1.21.1 {
     @WrapMethod(method = "hurtCurrentlyUsedShield")
     private void criticalCounter_startTimer(float damageAmount, Operation<Void> original) {
         original.call(damageAmount);
@@ -121,19 +128,28 @@ public abstract class PlayerMixin extends LivingEntity {
             ServerPlayNetworking.send(serverPlayer, new CriticalCounterAbility.S2CStartCriticalCounterTimer());
         }
     }
+    //?}
 
     @ModifyExpressionValue(
             method = "getProjectile",
             at = @At(
+                    //? if 1.21.1 {
                     value = "FIELD",
                     target = "Lnet/minecraft/world/entity/player/Abilities;instabuild:Z"
+                    //?}
+                    //? if >= 1.21.7 {
+                    /*value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;hasInfiniteMaterials()Z"
+                    *///?}
             )
     )
     private boolean infinityFix(boolean original, @Local(argsOnly = true) ItemStack weaponStack) {
         if (Main.CONFIG.tweaks.infinityFix.get()) {
             int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                            .getHolderOrThrow(Enchantments.INFINITY),
+                    //? if 1.21.1
+                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.INFINITY),
+                    //? if >= 1.21.7
+                    /*level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.INFINITY),*/
                     weaponStack
             );
             return original || infinityLevel > 0;

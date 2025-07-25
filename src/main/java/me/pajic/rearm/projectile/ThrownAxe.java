@@ -4,6 +4,7 @@ import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -30,6 +31,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+//? if >= 1.21.7 {
+/*import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+*///?}
 
 import java.util.UUID;
 
@@ -67,7 +72,7 @@ public class ThrownAxe extends AbstractArrow {
             entityData.set(STUCK, true);
         }
         if (inGroundTime > 4) dealtDamage = true;
-        if (inGround) {
+        if (/*? if 1.21.1 {*/inGround/*?}*//*? if >= 1.21.7 {*//*isInGround()*//*?}*/) {
             entityData.set(STUCK, true);
             entityData.set(ALLOW_PICKUP, true);
         }
@@ -87,7 +92,7 @@ public class ThrownAxe extends AbstractArrow {
                 }
                 if (!isAcceptableReturnOwner()) {
                     if (!level().isClientSide && pickup == AbstractArrow.Pickup.ALLOWED) {
-                        spawnAtLocation(getPickupItem(), 0.1F);
+                        spawnAtLocation(/*? if >= 1.21.7 {*//*(ServerLevel) level(),*//*?}*/ getPickupItem(), 0.1F);
                     }
                     discard();
                 } else {
@@ -101,6 +106,7 @@ public class ThrownAxe extends AbstractArrow {
                     setDeltaMovement(getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
                 }
                 stuckEntity = null;
+                stuckEntityId = null;
                 setNoGravity(false);
                 entityData.set(STUCK, false);
                 timeInTarget = 0;
@@ -111,7 +117,7 @@ public class ThrownAxe extends AbstractArrow {
             setPos(stuckEntity.getX(), stuckEntity.getY() + stuckEntity.getBbHeight() / 2, stuckEntity.getZ());
             stuckEntity.addEffect(
                     new MobEffectInstance(
-                            MobEffects.MOVEMENT_SLOWDOWN,
+                            MobEffects./*? if >= 1.21.7 {*//*SLOWNESS*//*?}*//*? if 1.21.1 {*/MOVEMENT_SLOWDOWN/*?}*/,
                             20,
                             Main.CONFIG.axe.cripplingThrowBaseSlownessAmplifier.get() +
                                     (getCripplingThrowLevel() - 1) * Main.CONFIG.axe.cripplingThrowSlownessAmplifierIncreasePerLevel.get()
@@ -120,6 +126,7 @@ public class ThrownAxe extends AbstractArrow {
             timeInTarget++;
             if (!stuckEntity.isAlive() || timeInTarget > Main.CONFIG.axe.maxTimeStuckInTarget.get()) {
                 stuckEntity = null;
+                stuckEntityId = null;
                 setNoGravity(false);
                 entityData.set(STUCK, false);
                 timeInTarget = 0;
@@ -146,7 +153,10 @@ public class ThrownAxe extends AbstractArrow {
         }
 
         dealtDamage = true;
+        //? if 1.21.1
         if (entity.hurt(damageSource, f + g)) {
+        //? if >= 1.21.7
+        /*if (entity.hurtOrSimulate(damageSource, f + g)) {*/
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
@@ -157,6 +167,7 @@ public class ThrownAxe extends AbstractArrow {
                 doKnockback(livingEntity, damageSource);
                 doPostHurtEffects(livingEntity);
                 stuckEntity = livingEntity;
+                stuckEntityId = livingEntity.getUUID();
                 setNoGravity(true);
                 entityData.set(STUCK, true);
             }
@@ -168,7 +179,10 @@ public class ThrownAxe extends AbstractArrow {
 
     private int getCripplingThrowLevel() {
         return EnchantmentHelper.getItemEnchantmentLevel(
+                //? if 1.21.1
                 registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
+                //? if >= 1.21.7
+                /*registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW),*/
                 entityData.get(THROWN_AXE_ITEM_STACK)
         );
     }
@@ -184,7 +198,7 @@ public class ThrownAxe extends AbstractArrow {
                 null,
                 vec3,
                 level.getBlockState(hitResult.getBlockPos()),
-                item -> kill()
+                item -> kill(/*? if >= 1.21.7 {*//*level*//*?}*/)
         );
     }
 
@@ -245,7 +259,7 @@ public class ThrownAxe extends AbstractArrow {
 
     @Override
     public void playerTouch(@NotNull Player player) {
-        if (ownedBy(player) || getOwner() == null && !level().isClientSide && (inGround || isNoPhysics()) && shakeTime <= 0) {
+        if (ownedBy(player) || getOwner() == null && !level().isClientSide && (/*? if 1.21.1 {*/inGround/*?}*//*? if >= 1.21.7 {*//*isInGround()*//*?}*/ || isNoPhysics()) && shakeTime <= 0) {
             if (tryPickup(player)) {
                 player.take(this, 1);
                 discard();
@@ -253,6 +267,7 @@ public class ThrownAxe extends AbstractArrow {
         }
     }
 
+    //? if 1.21.1 {
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
@@ -282,6 +297,38 @@ public class ThrownAxe extends AbstractArrow {
             compound.put("ThrownAxeItemStack", entityData.get(THROWN_AXE_ITEM_STACK).save(registryAccess()));
         }
     }
+    //?}
+    //? if >= 1.21.7 {
+    /*@Override
+    protected void readAdditionalSaveData(ValueInput valueInput) {
+        super.readAdditionalSaveData(valueInput);
+        dealtDamage = valueInput.getBooleanOr("DealtDamage", false);
+        failedPickup = valueInput.getBooleanOr("FailedPickup", false);
+        stuckEntityId = valueInput.read("StuckEntityId", UUIDUtil.CODEC).orElse(null);
+        timeInTarget = valueInput.getIntOr("TimeInTarget", 0);
+        hand = valueInput.getBooleanOr("Hand", true) ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+        entityData.set(STUCK, valueInput.getBooleanOr("Stuck", false));
+        entityData.set(ALLOW_PICKUP, valueInput.getBooleanOr("AllowPickup", true));
+        entityData.set(THROWN_AXE_ITEM_STACK, valueInput.read("ThrownAxeItemStack", ItemStack.CODEC).orElse(ItemStack.EMPTY));
+    }
+
+    @Override
+    protected void addAdditionalSaveData(ValueOutput valueOutput) {
+        super.addAdditionalSaveData(valueOutput);
+        valueOutput.putBoolean("DealtDamage", dealtDamage);
+        valueOutput.putBoolean("FailedPickup", failedPickup);
+        if (stuckEntityId != null) {
+            valueOutput.store("StuckEntityId", UUIDUtil.CODEC, stuckEntityId);
+        }
+        valueOutput.putInt("TimeInTarget", timeInTarget);
+        valueOutput.putBoolean("Hand", hand == InteractionHand.MAIN_HAND);
+        valueOutput.putBoolean("Stuck", entityData.get(STUCK));
+        valueOutput.putBoolean("AllowPickup", entityData.get(ALLOW_PICKUP));
+        if (!entityData.get(THROWN_AXE_ITEM_STACK).isEmpty()) {
+            valueOutput.store("ThrownAxeItemStack", ItemStack.CODEC, entityData.get(THROWN_AXE_ITEM_STACK));
+        }
+    }
+    *///?}
 
     public void tickDespawn() {
         if (pickup != AbstractArrow.Pickup.ALLOWED) {

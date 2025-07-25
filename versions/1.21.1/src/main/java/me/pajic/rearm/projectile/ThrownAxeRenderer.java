@@ -44,6 +44,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe> {
         poseStack.popPose();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull ThrownAxe entity) {
         return TextureAtlas.LOCATION_BLOCKS;

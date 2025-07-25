@@ -26,8 +26,8 @@ public class BleedingEffect extends MobEffect {
     //? if 1.21.7 {
     /*@Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
-        entity.hurt(
-                entity.damageSources().magic(),
+        entity.hurtServer(
+                level, entity.damageSources().magic(),
                 Main.CONFIG.axe.cripplingThrowBaseBleedingDPS.get() +
                         (amplifier - 1) * Main.CONFIG.axe.cripplingThrowBleedingDPSIncreasePerLevel.get()
         );

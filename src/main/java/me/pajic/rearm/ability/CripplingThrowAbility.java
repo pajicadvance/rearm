@@ -14,6 +14,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -61,7 +62,10 @@ public class CripplingThrowAbility {
                     .sized(0.5F, 0.5F)
                     .eyeHeight(0.13F)
                     .updateInterval(1)
-                    .build()
+                    .build(
+                            //? if >= 1.21.7
+                            /*ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "axe"))*/
+                    )
     );
 
     public static final Set<UUID> recallSignals = new HashSet<>();

@@ -18,8 +18,8 @@ public class CrossbowItemMixin {
             index = 2
     )
     private static float modifyCrossbowChargingTime(float original) {
-        if (Main.CONFIG.crossbow.modifyLoadSpeed()) {
-            return Main.CONFIG.crossbow.loadTime();
+        if (Main.CONFIG.crossbow.modifyLoadSpeed.get()) {
+            return Main.CONFIG.crossbow.loadTime.get();
         }
         return original;
     }

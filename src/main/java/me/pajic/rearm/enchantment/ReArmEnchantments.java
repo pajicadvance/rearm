@@ -1,5 +1,6 @@
 package me.pajic.rearm.enchantment;
 
+import me.pajic.rearm.Main;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -12,12 +13,12 @@ public class ReArmEnchantments {
 
     public static final ResourceKey<Enchantment> BACKSTEP = ResourceKey.create(
             Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath("rearm", "backstep")
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "backstep")
     );
 
     public static final ResourceKey<Enchantment> CRIPPLING_THROW = ResourceKey.create(
             Registries.ENCHANTMENT,
-            ResourceLocation.fromNamespaceAndPath("rearm", "crippling_throw")
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "crippling_throw")
     );
 
     public static void updateProtectionEnchantments(ItemEnchantments.Mutable existing, ItemEnchantments addition) {

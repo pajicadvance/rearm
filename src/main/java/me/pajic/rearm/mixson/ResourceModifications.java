@@ -4,23 +4,24 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import me.pajic.rearm.CompatFlags;
 import me.pajic.rearm.Main;
-import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.Minecraft;
+import net.neoforged.fml.loading.FMLLoader;
 import net.ramixin.mixson.debug.DebugMode;
+import net.ramixin.mixson.inline.EventContext;
 import net.ramixin.mixson.inline.Mixson;
+import net.ramixin.mixson.util.MixsonUtil;
 
 import java.util.List;
+import java.util.Map;
 
+@SuppressWarnings("removal")
 public class ResourceModifications {
-
-    private static final List<String> ENCHANTMENT_DESCRIPTION_MODS = List.of(
-            "enchdesc",
-            "idwtialsimmoedm"
-    );
-
     public static void init() {
-
-        if (FabricLoader.getInstance().isDevelopmentEnvironment()) Mixson.setDebugMode(DebugMode.EXPORT);
+        if (!FMLLoader.isProduction()) Mixson.setDebugMode(DebugMode.EXPORT);
 
         // Enchantments
         Mixson.registerEvent(
@@ -42,7 +43,7 @@ public class ResourceModifications {
                 "minecraft:enchantment/looting",
                 "rearm:modify_looting",
                 context -> {
-                    if (Main.CONFIG.axe.acceptLooting()) {
+                    if (Main.CONFIG.axe.acceptLooting.get()) {
                         context.getFile().getAsJsonObject()
                                 .addProperty("supported_items", "#minecraft:enchantable/sharp_weapon");
                     }
@@ -55,15 +56,15 @@ public class ResourceModifications {
                 context -> {
                     context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/multishot_enchantable");
-                    if (Main.CONFIG.bow.improvedMultishot()) {
+                    if (Main.CONFIG.bow.improvedMultishot.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:projectile_count").get(0).getAsJsonObject()
                                 .getAsJsonObject("effect")
                                 .getAsJsonObject("value")
-                                .addProperty("per_level_above_first", Main.CONFIG.bow.additionalArrowsPerLevel());
+                                .addProperty("per_level_above_first", Main.CONFIG.bow.additionalArrowsPerLevel.get());
                         context.getFile().getAsJsonObject()
-                                .addProperty("max_level", Main.CONFIG.bow.maxMultishotLevel());
+                                .addProperty("max_level", Main.CONFIG.bow.maxMultishotLevel.get());
                     }
                 }
         );
@@ -87,7 +88,8 @@ public class ResourceModifications {
                 "minecraft:enchantment/fire_protection",
                 "rearm:modify_fire_protection",
                 context -> {
-                    if (Main.CONFIG.elementalProtection()) {
+                    normalizeEnchantmentCosts(context);
+                    if (Main.CONFIG.protection.elementalProtection.get()) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
                         tag1.addProperty("expected", true);
@@ -111,10 +113,10 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/protection",
-                "rearm:protection",
-
+                "rearm:modify_protection",
                 context -> {
-                    if (Main.CONFIG.meleeProtection()) {
+                    normalizeEnchantmentCosts(context);
+                    if (Main.CONFIG.protection.meleeProtection.get()) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
                         tag1.addProperty("expected", false);
@@ -148,16 +150,28 @@ public class ResourceModifications {
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/projectile_protection",
+                "rearm:modify_projectile_protection",
+                ResourceModifications::normalizeEnchantmentCosts
+        );
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                "minecraft:enchantment/blast_protection",
+                "rearm:modify_blast_protection",
+                ResourceModifications::normalizeEnchantmentCosts
+        );
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
                 "rearm:enchantment/backstep",
                 "rearm:modify_backstep",
                 context -> {
-                    if (Main.CONFIG.bow.enableBackstep()) {
+                    if (Main.CONFIG.bow.enableBackstep.get()) {
                         JsonObject postAttackEffect = context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:post_attack").get(0).getAsJsonObject()
                                 .getAsJsonObject("effect");
-                        postAttackEffect.addProperty("min_duration", Main.CONFIG.bow.backstepTimeframe() / 20.0F);
-                        postAttackEffect.addProperty("max_duration", Main.CONFIG.bow.backstepTimeframe() / 20.0F);
+                        postAttackEffect.addProperty("min_duration", Main.CONFIG.bow.backstepTimeframe.get() / 20.0F);
+                        postAttackEffect.addProperty("max_duration", Main.CONFIG.bow.backstepTimeframe.get() / 20.0F);
                     }
                 }
         );
@@ -168,7 +182,7 @@ public class ResourceModifications {
                 "minecraft:tags/item/enchantable/infinity_enchantable",
                 "rearm:modify_infinity_enchantable",
                 context -> {
-                    if (Main.CONFIG.crossbow.acceptInfinity()) {
+                    if (Main.CONFIG.crossbow.acceptInfinity.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/crossbow");
@@ -180,12 +194,12 @@ public class ResourceModifications {
                 "minecraft:tags/item/enchantable/knockback_enchantable",
                 "rearm:modify_knockback_enchantable",
                 context -> {
-                    if (Main.CONFIG.axe.acceptKnockback()) {
+                    if (Main.CONFIG.axe.acceptKnockback.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/axe");
                     }
-                    if (Main.CONFIG.sword.rejectKnockback()) {
+                    if (Main.CONFIG.sword.rejectKnockback.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .remove(new JsonPrimitive("#minecraft:enchantable/sword"));
@@ -197,13 +211,13 @@ public class ResourceModifications {
                 "minecraft:tags/item/enchantable/multishot_enchantable",
                 "rearm:modify_multishot_enchantable",
                 context -> {
-                    if (Main.CONFIG.bow.acceptMultishot()) {
+                    if (Main.CONFIG.bow.acceptMultishot.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/bow");
                     }
 
-                    if (Main.CONFIG.crossbow.rejectMultishot()) {
+                    if (Main.CONFIG.crossbow.rejectMultishot.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .remove(new JsonPrimitive("#minecraft:enchantable/crossbow"));
@@ -215,7 +229,7 @@ public class ResourceModifications {
                 "minecraft:tags/item/enchantable/power_enchantable",
                 "rearm:modify_power_enchantable",
                 context -> {
-                    if (Main.CONFIG.crossbow.acceptPower()) {
+                    if (Main.CONFIG.crossbow.acceptPower.get()) {
                         context.getFile().getAsJsonObject()
                                 .getAsJsonArray("values")
                                 .add("#minecraft:enchantable/crossbow");
@@ -229,7 +243,7 @@ public class ResourceModifications {
                 "minecraft:tags/enchantment/exclusive_set/bow",
                 "rearm:modify_bow_exclusive_set",
                 context -> {
-                    if (Main.CONFIG.infinimending()) {
+                    if (Main.CONFIG.tweaks.infinimending.get()) {
                         List<JsonElement> values = context.getFile().getAsJsonObject().getAsJsonArray("values").asList();
                         JsonElement infinity = new JsonPrimitive("minecraft:infinity");
                         JsonElement mending = new JsonPrimitive("minecraft:mending");
@@ -266,63 +280,75 @@ public class ResourceModifications {
         // Language files
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
-                "minecraft:lang/en_us",
+                MixsonUtil.getLocatorFromString("rearm:lang/*"),
                 "rearm:modify_lang",
                 context -> {
-                    if (Main.CONFIG.elementalProtection()) {
-                        context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.fire_protection",
-                                "Elemental Protection"
-                        );
+                    if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
+                        if (Main.CONFIG.protection.elementalProtection.get()) {
+                            context.getFile().getAsJsonObject().addProperty(
+                                    "enchantment.minecraft.fire_protection",
+                                    context.getFile().getAsJsonObject().get("enchantment.minecraft.fire_protection.override").getAsString()
+                            );
+                        }
+                        if (Main.CONFIG.protection.meleeProtection.get()) {
+                            context.getFile().getAsJsonObject().addProperty(
+                                    "enchantment.minecraft.protection",
+                                    context.getFile().getAsJsonObject().get("enchantment.minecraft.protection.override").getAsString()
+                            );
+                        }
                     }
-                    if (Main.CONFIG.meleeProtection()) {
-                        context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.protection",
-                                "Melee Protection"
-                        );
-                    }
-                }
+                },
+                true
         );
-        ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> {
-            if (FabricLoader.getInstance().isModLoaded(mod)) Mixson.registerEvent(
-                    Mixson.DEFAULT_PRIORITY,
-                    mod + ":lang/en_us",
-                    "rearm:modify_lang_" + mod,
-                    context -> {
-                        if (Main.CONFIG.bow.improvedMultishot()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.multishot.desc",
-                                "Fires additional arrows in similar directions based on level."
-                        );
-                        if (Main.CONFIG.crossbow.improvedPiercing()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.piercing.desc",
-                                "Allows projectiles to pierce through mobs and ignore a percentage of their armor based on level."
-                        );
-                        if (Main.CONFIG.sword.improvedSweepingEdge()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.sweeping_edge.desc",
-                                "Increases the damage and range of sweeping attacks based on level and the amount of enemies hit."
-                        );
-                        if (Main.CONFIG.elementalProtection()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.fire_protection.desc",
-                                "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze."
-                        );
-                        if (Main.CONFIG.meleeProtection()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.protection.desc",
-                                "Moderate damage resistance to most close-up physical damage sources."
-                        );
-                        if (Main.CONFIG.infinityFix()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.infinity.desc",
-                                "Allows the weapon to fire normal arrows for free."
-                        );
-                        if (Main.CONFIG.crossbow.acceptPower()) context.getFile().getAsJsonObject().addProperty(
-                                "enchantment.minecraft.power.desc",
-                                "Increases the damage of projectiles fired from the weapon."
-                        );
-                        context.getFile().getAsJsonObject().addProperty(
-                                "enchdesc.activate.message",
-                                "Shift for info"
-                        );
+        Object2BooleanMap<String> KEYS = new Object2BooleanArrayMap<>(Map.ofEntries(
+                Map.entry("enchantment.minecraft.multishot.desc", Main.CONFIG.bow.improvedMultishot.get()),
+                Map.entry("enchantment.minecraft.piercing.desc", Main.CONFIG.crossbow.improvedPiercing.get()),
+                Map.entry("enchantment.minecraft.sweeping_edge.desc", Main.CONFIG.sword.improvedSweepingEdge.get()),
+                Map.entry("enchantment.minecraft.fire_protection.desc", Main.CONFIG.protection.elementalProtection.get()),
+                Map.entry("enchantment.minecraft.protection.desc", Main.CONFIG.protection.meleeProtection.get()),
+                Map.entry("enchantment.minecraft.infinity.desc", Main.CONFIG.tweaks.infinityFix.get()),
+                Map.entry("enchantment.minecraft.power.desc", Main.CONFIG.crossbow.acceptPower.get())
+        ));
+        if (CompatFlags.ENCHDESC_MOD_LOADED) CompatFlags.ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                MixsonUtil.getLocatorFromString(mod + ":lang/*"),
+                "rearm:modify_lang_" + mod,
+                context -> {
+                    if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
+                        try {
+                            KEYS.object2BooleanEntrySet().forEach(entry -> {
+                                if (entry.getBooleanValue()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            entry.getKey(),
+                                            context.getFile().getAsJsonObject().get(entry.getKey() + ".override").getAsString()
+                                    );
+                                }
+                            });
+                            context.getFile().getAsJsonObject().addProperty(
+                                    "enchdesc.activate.message",
+                                    context.getFile().getAsJsonObject().get("enchdesc.activate.message.override").getAsString()
+                            );
+                        } catch (NullPointerException ignored) {}
                     }
-            );
-        });
+                },
+                true
+        ));
+    }
+
+    private static void normalizeEnchantmentCosts(EventContext<JsonElement> context) {
+        if (Main.CONFIG.protection.normalizeEnchantmentCosts.get()) {
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("max_cost")
+                    .addProperty("base", 12);
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("max_cost")
+                    .addProperty("per_level_above_first", 11);
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("min_cost")
+                    .addProperty("base", 5);
+            context.getFile().getAsJsonObject()
+                    .getAsJsonObject("min_cost")
+                    .addProperty("per_level_above_first", 10);
+        }
     }
 }

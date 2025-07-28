@@ -88,7 +88,7 @@ file="META-INF/accesstransformer.cfg"
     side="BOTH"
 
 [[dependencies.${mod_id}]]
-modId="owo"
+modId="fzzy_config"
 type="required"
 versionRange="*"
 ordering="NONE"

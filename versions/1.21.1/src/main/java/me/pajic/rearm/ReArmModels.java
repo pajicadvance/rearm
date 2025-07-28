@@ -1,4 +1,4 @@
-package me.pajic.rearm.model;
+package me.pajic.rearm;
 
 import me.pajic.rearm.item.NetheriteCrossbowItem;
 import me.pajic.rearm.item.ReArmItems;

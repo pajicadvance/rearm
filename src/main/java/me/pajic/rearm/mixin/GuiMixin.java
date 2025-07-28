@@ -20,7 +20,7 @@ public class GuiMixin {
             )
     )
     private boolean hideBackstepDisplay(boolean original, @Local MobEffectInstance effect) {
-        if (Main.CONFIG.bow.enableBackstep() && effect.is(ReArmEffects.BACKSTEP_EFFECT)) {
+        if (Main.CONFIG.bow.enableBackstep.get() && effect.is(ReArmEffects.BACKSTEP_EFFECT)) {
             return false;
         }
         return original;

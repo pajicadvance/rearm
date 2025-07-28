@@ -1,7 +1,8 @@
 package me.pajic.rearm;
 
+import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.pajic.rearm.ability.CripplingThrowAbility;
-import me.pajic.rearm.config.ReArmConfig;
+import me.pajic.rearm.config.ModConfig;
 import me.pajic.rearm.data.ReArmData;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
@@ -18,11 +19,14 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-@Mod("rearm")
+@Mod(Main.MOD_ID)
 public class Main {
-    public static ReArmConfig CONFIG;
+    public static final String MOD_ID = "rearm";
+    public static final ResourceLocation CONFIG_RL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "config");
+    public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
 
     public Main(IEventBus modEventBus) {
+        modEventBus.addListener(ReArmData::registerDatapacks);
         modEventBus.addListener(this::registerData);
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(ReArmNetworking::init);
@@ -33,7 +37,7 @@ public class Main {
         ReArmEffects.init();
         ReArmItems.initItems();
         event.register(Registries.ENTITY_TYPE, registry ->
-                registry.register(ResourceLocation.parse("rearm:axe"), CripplingThrowAbility.AXE));
+                registry.register(ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "axe"), CripplingThrowAbility.AXE));
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -52,8 +56,6 @@ public class Main {
     }
 
     public void onInitialize(FMLCommonSetupEvent event) {
-        CONFIG = ReArmConfig.createAndLoad();
-        ReArmData.init();
         ResourceModifications.init();
     }
 }

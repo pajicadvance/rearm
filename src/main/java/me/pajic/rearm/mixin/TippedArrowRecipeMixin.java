@@ -21,7 +21,7 @@ public class TippedArrowRecipeMixin {
             )
     )
     private Item setRequiredPotionType1(Item item) {
-        return setRequiredPotionType(item);
+        return rearm$setRequiredPotionType(item);
     }
 
     @ModifyArg(
@@ -32,12 +32,11 @@ public class TippedArrowRecipeMixin {
             )
     )
     private Item setRequiredPotionType2(Item item) {
-        return setRequiredPotionType(item);
+        return rearm$setRequiredPotionType(item);
     }
 
-    @Unique
-    private Item setRequiredPotionType(Item item) {
-        if (Main.CONFIG.craftTippedArrowsWithRegularPotions()) {
+    @Unique private Item rearm$setRequiredPotionType(Item item) {
+        if (Main.CONFIG.tweaks.craftTippedArrowsWithRegularPotions.get()) {
             return Items.POTION;
         }
         return item;

@@ -1,5 +1,6 @@
 package me.pajic.rearm.item;
 
+import me.pajic.rearm.Main;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,12 +11,12 @@ public class ReArmItems {
 
     public static final Holder<Item> NETHERITE_BOW = Registry.registerForHolder(
             BuiltInRegistries.ITEM,
-            ResourceLocation.fromNamespaceAndPath("rearm", "netherite_bow"),
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_bow"),
             new NetheriteBowItem()
     );
     public static final Holder<Item> NETHERITE_CROSSBOW = Registry.registerForHolder(
             BuiltInRegistries.ITEM,
-            ResourceLocation.fromNamespaceAndPath("rearm", "netherite_crossbow"),
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow"),
             new NetheriteCrossbowItem()
     );
 

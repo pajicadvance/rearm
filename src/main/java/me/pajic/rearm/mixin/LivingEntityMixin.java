@@ -7,7 +7,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,13 +28,15 @@ public abstract class LivingEntityMixin extends Entity {
             index = 3
     )
     private float pierceArmor(float original, @Local(argsOnly = true) DamageSource source) {
-        if (Main.CONFIG.crossbow.improvedPiercing()) {
+        if (Main.CONFIG.crossbow.improvedPiercing.get()) {
             int piercingLevel = source.getWeaponItem() != null ?
-                    EnchantmentHelper.getItemEnchantmentLevel(
-                            registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING),
-                            source.getWeaponItem()
+                    source.getWeaponItem().getEnchantmentLevel(
+                            //? if 1.21.1
+                            registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING)
+                            //? if >= 1.21.7
+                            /*registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.PIERCING)*/
                     ) : 0;
-            return original * (1 - ((float) (Main.CONFIG.crossbow.percentArmorIgnoredPerLevel() * piercingLevel) / 100));
+            return original * (1 - ((float) (Main.CONFIG.crossbow.percentArmorIgnoredPerLevel.get() * piercingLevel) / 100));
         }
         return original;
     }

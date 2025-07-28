@@ -1,5 +1,6 @@
 package me.pajic.rearm.network;
 
+import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
@@ -10,18 +11,21 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.jetbrains.annotations.NotNull;
+//? if >= 1.21.8
+/*import net.neoforged.neoforge.client.network.ClientPacketDistributor;*/
 
 import java.util.UUID;
 
 public class ReArmNetworking {
 
-    public static final ResourceLocation BACKSTEP_EXHAUSTION = ResourceLocation.fromNamespaceAndPath("rearm", "backstep_exhaustion");
-    public static final ResourceLocation COUNTER_START_TIMER = ResourceLocation.fromNamespaceAndPath("rearm", "counter_start_timer");
-    public static final ResourceLocation UPDATE_PLAYER_COUNTER_CONDITION = ResourceLocation.fromNamespaceAndPath("rearm", "update_player_counter_condition");
-    public static final ResourceLocation RECALL_AXE = ResourceLocation.fromNamespaceAndPath("rearm", "recall_axe");
+    public static final ResourceLocation BACKSTEP_EXHAUSTION = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "backstep_exhaustion");
+    public static final ResourceLocation COUNTER_START_TIMER = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "counter_start_timer");
+    public static final ResourceLocation UPDATE_PLAYER_COUNTER_CONDITION = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "update_player_counter_condition");
+    public static final ResourceLocation RECALL_AXE = ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "recall_axe");
 
     public record C2SCauseBackstepExhaustionPayload(float exhaustion) implements CustomPacketPayload {
         public static final Type<C2SCauseBackstepExhaustionPayload> TYPE = new Type<>(BACKSTEP_EXHAUSTION);
@@ -100,5 +104,12 @@ public class ReArmNetworking {
                 S2CStartCriticalCounterTimer.CODEC,
                 (payload, context) -> CooldownTracker.counterTimerActive = true
         );
+    }
+
+    public static void sendToServer(CustomPacketPayload payload) {
+        //? if 1.21.1
+        PacketDistributor.sendToServer(payload);
+        //? if >= 1.21.8
+        /*ClientPacketDistributor.sendToServer(payload);*/
     }
 }

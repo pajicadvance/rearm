@@ -16,7 +16,10 @@ import org.spongepowered.asm.mixin.injection.At;
 public class AnvilMenuMixin {
 
     @ModifyExpressionValue(
+            //? if 1.21.1
             method = "createResult",
+            //? if >= 1.21.7
+            /*method = "createResultInternal",*/
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/enchantment/Enchantment;areCompatible(Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;)Z"
@@ -30,14 +33,14 @@ public class AnvilMenuMixin {
             @Local(ordinal = 1) Holder<Enchantment> holder2
     ) {
         if (
-                Main.CONFIG.allowMultipleProtectionEnchantments() &&
+                Main.CONFIG.protection.allowMultipleProtectionEnchantments.get() &&
                 holder1.is(EnchantmentTags.ARMOR_EXCLUSIVE) &&
                 holder2.is(EnchantmentTags.ARMOR_EXCLUSIVE)
         ) {
             ItemEnchantments.Mutable protectionEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
             ReArmEnchantments.updateProtectionEnchantments(protectionEnchantments, ie1);
             ReArmEnchantments.updateProtectionEnchantments(protectionEnchantments, ie2.toImmutable());
-            if (protectionEnchantments.keySet().size() <= Main.CONFIG.maxProtectionEnchantments()) {
+            if (protectionEnchantments.keySet().size() <= Main.CONFIG.protection.maxProtectionEnchantments.get()) {
                 return true;
             }
         }

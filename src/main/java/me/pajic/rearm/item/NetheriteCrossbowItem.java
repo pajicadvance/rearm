@@ -2,6 +2,9 @@ package me.pajic.rearm.item;
 
 import me.pajic.rearm.Main;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -12,9 +15,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class NetheriteCrossbowItem extends CrossbowItem {
     public NetheriteCrossbowItem() {
-        super(new Properties().fireResistant().stacksTo(1).durability(2031).component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY));
+        super(
+                new Properties().fireResistant().stacksTo(1).durability(704)
+                        .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
+                        //? if >= 1.21.7 {
+                        /*.repairable(Items.NETHERITE_INGOT).enchantable(15)
+                        .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow")))
+                         *///?}
+        );
     }
 
+    //? if 1.21.1 {
     @Override
     public boolean isValidRepairItem(@NotNull ItemStack stack, @NotNull ItemStack repairCandidate) {
         return Ingredient.of(Items.NETHERITE_INGOT).test(repairCandidate) || super.isValidRepairItem(stack, repairCandidate);
@@ -24,9 +35,10 @@ public class NetheriteCrossbowItem extends CrossbowItem {
     public int getEnchantmentValue() {
         return 15;
     }
+    //?}
 
     @Override
     public boolean isEnabled(@NotNull FeatureFlagSet enabledFeatures) {
-        return Main.CONFIG.crossbow.crossbowNetheriteVariant();
+        return Main.CONFIG.crossbow.crossbowNetheriteVariant.get();
     }
 }

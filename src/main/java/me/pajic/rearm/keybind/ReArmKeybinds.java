@@ -19,10 +19,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.util.Lazy;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.lwjgl.glfw.GLFW;
 
-@EventBusSubscriber(modid = "rearm", value = Dist.CLIENT)
+@EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT)
 public class ReArmKeybinds {
     private static final Lazy<KeyMapping> ACTION_KEY = Lazy.of(() ->
             new KeyMapping(
@@ -43,18 +42,22 @@ public class ReArmKeybinds {
         if (ACTION_KEY.get().isDown() && client.level != null && client.player != null) {
             if (CooldownTracker.backstepCooldown == 0) {
                 if (tryBackstep(ACTION_KEY.get(), client)) {
-                    CooldownTracker.backstepCooldown = Main.CONFIG.bow.backstepTimeframe();
+                    CooldownTracker.backstepCooldown = Main.CONFIG.bow.backstepTimeframe.get();
                 }
             }
-            PacketDistributor.sendToServer(new ReArmNetworking.C2SUpdatePlayerRecallCondition(client.player.getUUID()));
+            ReArmNetworking.sendToServer(new ReArmNetworking.C2SUpdatePlayerRecallCondition(client.player.getUUID()));
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static boolean tryBackstep(KeyMapping actionKey, Minecraft client) {
         if (client.player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)) {
             Player player = client.player;
-            int backstepLevel = Math.min(EnchantmentHelper.getItemEnchantmentLevel(
+            int backstepLevel = Math.min(EnchantmentHelper.getTagEnchantmentLevel(
+                    //? if 1.21.1
                     client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
+                    //? if >= 1.21.7
+                    /*client.level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.BACKSTEP),*/
                     player.getMainHandItem()
             ), 3);
             Vec3 look = player.getViewVector(1);
@@ -63,7 +66,7 @@ public class ReArmKeybinds {
                     player.getAttributeValue(Attributes.JUMP_STRENGTH),
                     -look.z / (4 - backstepLevel)
             );
-            PacketDistributor.sendToServer(new ReArmNetworking.C2SCauseBackstepExhaustionPayload(5.0F));
+            ReArmNetworking.sendToServer(new ReArmNetworking.C2SCauseBackstepExhaustionPayload(5.0F));
             actionKey.setDown(false);
             return true;
         }

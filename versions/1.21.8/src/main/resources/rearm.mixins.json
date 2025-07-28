@@ -1,0 +1,33 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.pajic.rearm.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "AbstractArrowMixin",
+    "AnvilMenuMixin",
+    "BlocksAttacksMixin",
+    "BowItemMixin",
+    "CrossbowItemMixin",
+    "EnchantCommandMixin",
+    "EnchantmentHelperMixin",
+    "FireworkRocketEntityMixin",
+    "ItemMixin",
+    "LivingEntityMixin",
+    "PlayerMixin",
+    "RangedBowAttackGoalMixin",
+    "ServerGamePacketListenerImplMixin",
+    "TippedArrowRecipeMixin",
+    "compat.emi.VanillaPluginMixin"
+  ],
+  "client": [
+    "GuiMixin",
+    "HeartTypeMixin",
+    "ItemInHandRendererMixin",
+    "ItemModelGeneratorsMixin",
+    "PackSelectionModelMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

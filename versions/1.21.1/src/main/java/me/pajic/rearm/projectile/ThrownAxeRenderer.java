@@ -2,8 +2,6 @@ package me.pajic.rearm.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -16,7 +14,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import org.jetbrains.annotations.NotNull;
 
-@Environment(EnvType.CLIENT)
 public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe> {
     private final ItemRenderer itemRenderer;
 
@@ -44,6 +41,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe> {
         poseStack.popPose();
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull ThrownAxe entity) {
         return TextureAtlas.LOCATION_BLOCKS;

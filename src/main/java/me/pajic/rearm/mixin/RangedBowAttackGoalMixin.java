@@ -25,7 +25,7 @@ public class RangedBowAttackGoalMixin<T extends Mob & RangedAttackMob> {
             )
     )
     private void playMobBowDrawingSound(CallbackInfo ci) {
-        if (Main.CONFIG.bow.mobDrawingSounds()) {
+        if (Main.CONFIG.bow.mobDrawingSounds.get()) {
             mob.playSound(
                     SoundEvents.CROSSBOW_QUICK_CHARGE_1.value(),
                     0.65F, 1.0F

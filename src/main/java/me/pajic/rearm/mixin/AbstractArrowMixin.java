@@ -10,15 +10,19 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(AbstractArrow.class)
@@ -29,8 +33,9 @@ public abstract class AbstractArrowMixin extends Projectile {
     }
 
     @Shadow public abstract boolean isCritArrow();
-    @Shadow public abstract boolean shotFromCrossbow();
     @Shadow public abstract ItemStack getWeaponItem();
+    //? if 1.21.1 {
+    @Shadow public abstract boolean shotFromCrossbow();
 
     @ModifyExpressionValue(
             method = "shotFromCrossbow",
@@ -42,6 +47,14 @@ public abstract class AbstractArrowMixin extends Projectile {
     private boolean considerModCrossbows(boolean original) {
         return ReArmItems.isCrossbow(getWeaponItem());
     }
+    //?}
+    //? if >= 1.21.7 {
+    /*@Shadow private @Nullable ItemStack firedFromWeapon;
+    @Unique
+    private boolean shotFromCrossbow() {
+        return firedFromWeapon != null && firedFromWeapon.getItem() instanceof CrossbowItem;
+    }
+    *///?}
 
     @ModifyExpressionValue(
             method = "onHitEntity",
@@ -51,11 +64,11 @@ public abstract class AbstractArrowMixin extends Projectile {
             )
     )
     private double modifyVelocity(double original) {
-        if (Main.CONFIG.bow.enablePerfectShot() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
+        if (Main.CONFIG.bow.enablePerfectShot.get() && !shotFromCrossbow() && original > 3.0 && original < 3.5) {
             return 3.0;
         }
-        if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {
-            return Main.CONFIG.crossbow.fixedArrowDamageAmount() / 2.0;
+        if (Main.CONFIG.crossbow.fixedArrowDamage.get() && shotFromCrossbow()) {
+            return Main.CONFIG.crossbow.fixedArrowDamageAmount.get() / 2.0;
         }
         return original;
     }
@@ -72,20 +85,20 @@ public abstract class AbstractArrowMixin extends Projectile {
                                @Local(ordinal = 0) Entity entity,
                                @Local DamageSource damageSource
     ) {
-        if (Main.CONFIG.bow.enablePerfectShot() && isCritArrow() && !shotFromCrossbow()) {
+        if (Main.CONFIG.bow.enablePerfectShot.get() && isCritArrow() && !shotFromCrossbow()) {
             if (getWeaponItem() != null) {
                 float bonusDamage = EnchantmentHelper.modifyDamage(
                         (ServerLevel) level(),
                         getWeaponItem(),
                         entity,
                         damageSource,
-                        Main.CONFIG.bow.perfectShotAdditionalDamage()
+                        Main.CONFIG.bow.perfectShotAdditionalDamage.get()
                 );
                 i.set((int) (i.get() + bonusDamage));
             }
             return false;
         }
-        if (Main.CONFIG.crossbow.fixedArrowDamage() && shotFromCrossbow()) {
+        if (Main.CONFIG.crossbow.fixedArrowDamage.get() && shotFromCrossbow()) {
             return false;
         }
         return original;
@@ -100,17 +113,29 @@ public abstract class AbstractArrowMixin extends Projectile {
             )
     )
     private byte stopPiercingArrowOnArmoredEntity(byte original, @Local(argsOnly = true) EntityHitResult result) {
-        if (Main.CONFIG.crossbow.stopPiercingOnArmoredEntity() && original > 0 && result.getEntity() instanceof LivingEntity entity) {
+        if (Main.CONFIG.crossbow.stopPiercingOnArmoredEntity.get() && original > 0 && result.getEntity() instanceof LivingEntity entity) {
+            //? if 1.21.1 {
             for (ItemStack stack : entity.getArmorSlots()) {
                 if (
                         stack.is(ItemTags.HEAD_ARMOR) ||
-                        stack.is(ItemTags.CHEST_ARMOR) ||
-                        stack.is(ItemTags.LEG_ARMOR) ||
-                        stack.is(ItemTags.FOOT_ARMOR)
+                                stack.is(ItemTags.CHEST_ARMOR) ||
+                                stack.is(ItemTags.LEG_ARMOR) ||
+                                stack.is(ItemTags.FOOT_ARMOR)
                 ) {
                     return 0;
                 }
             }
+            //?}
+            //? if >= 1.21.7 {
+            /*if (
+                    !entity.equipment.get(EquipmentSlot.HEAD).isEmpty() ||
+                    !entity.equipment.get(EquipmentSlot.CHEST).isEmpty() ||
+                    !entity.equipment.get(EquipmentSlot.LEGS).isEmpty() ||
+                    !entity.equipment.get(EquipmentSlot.FEET).isEmpty()
+            ) {
+                return 0;
+            }
+            *///?}
         }
         return original;
     }

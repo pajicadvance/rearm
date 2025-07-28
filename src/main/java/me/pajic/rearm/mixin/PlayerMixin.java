@@ -16,7 +16,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -48,11 +47,12 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private AABB sweepingEdge_increaseAttackRadius(AABB original, @Local(argsOnly = true) Entity target) {
-        if (Main.CONFIG.sword.improvedSweepingEdge()) {
-            int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                            .getHolderOrThrow(Enchantments.SWEEPING_EDGE),
-                    getWeaponItem()
+        if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
+            int sweepingEdgeLevel = getWeaponItem().getEnchantmentLevel(
+                    //? if 1.21.1
+                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SWEEPING_EDGE)
+                    //? if >= 1.21.7
+                    /*level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SWEEPING_EDGE)*/
             );
             if (sweepingEdgeLevel > 0) {
                 return target.getBoundingBox().inflate(sweepingEdgeLevel, sweepingEdgeLevel >= 3 ? 1.0 : 0.25, sweepingEdgeLevel);
@@ -71,7 +71,7 @@ public abstract class PlayerMixin extends LivingEntity {
     private <T extends Entity> List<T> sweepingEdge_getHitEntities(
             List<T> original, @Share("original") LocalRef<List<T>> hitEntityList
     ) {
-        if (Main.CONFIG.sword.improvedSweepingEdge()) {
+        if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
             hitEntityList.set(original);
         }
         return original;
@@ -81,16 +81,19 @@ public abstract class PlayerMixin extends LivingEntity {
             method = "attack",
             at = @At(
                     value = "INVOKE",
+                    //? if 1.21.1
                     target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
+                    //? if >= 1.21.7
+                    /*target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z"*/
             ),
-            index = 1
+            index = /*? if 1.21.1 {*/1/*?}*//*? if >= 1.21.7 {*//*2*//*?}*/
     )
     private <T extends Entity> float sweepingEdge_increaseDamage(
             float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float h
     ) {
-        if (Main.CONFIG.sword.improvedSweepingEdge()) {
-            float additionalDamage = Main.CONFIG.sword.sweepingEdgeAdditionalDamagePerMob() *
-                    Math.min(hitEntityList.get().size() - 1, Main.CONFIG.sword.maxMobAmountUsedForDamageIncrease());
+        if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
+            float additionalDamage = Main.CONFIG.sword.sweepingEdgeAdditionalDamagePerMob.get() *
+                    Math.min(hitEntityList.get().size() - 1, Main.CONFIG.sword.maxMobAmountUsedForDamageIncrease.get());
             return damage + additionalDamage * h;
         }
         return damage;
@@ -111,17 +114,19 @@ public abstract class PlayerMixin extends LivingEntity {
         return original;
     }
 
+    //? if 1.21.1 {
     @WrapMethod(method = "hurtCurrentlyUsedShield")
     private void criticalCounter_startTimer(float damageAmount, Operation<Void> original) {
         original.call(damageAmount);
         if (
-                damageAmount >= 3.0F && !useItem.isEmpty() &&
+                !useItem.isEmpty() &&
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
                 CriticalCounterAbility.canCounter(getWeaponItem())
         ) {
             PacketDistributor.sendToPlayer(serverPlayer, new ReArmNetworking.S2CStartCriticalCounterTimer());
         }
     }
+    //?}
 
     @ModifyExpressionValue(
             method = "getProjectile",
@@ -131,11 +136,12 @@ public abstract class PlayerMixin extends LivingEntity {
             )
     )
     private boolean infinityFix(boolean original, @Local(argsOnly = true) ItemStack weaponStack) {
-        if (Main.CONFIG.infinityFix()) {
-            int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
-                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT)
-                            .getHolderOrThrow(Enchantments.INFINITY),
-                    weaponStack
+        if (Main.CONFIG.tweaks.infinityFix.get()) {
+            int infinityLevel = weaponStack.getEnchantmentLevel(
+                    //? if 1.21.1
+                    level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.INFINITY)
+                    //? if >= 1.21.7
+                    /*level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.INFINITY)*/
             );
             return original || infinityLevel > 0;
         }

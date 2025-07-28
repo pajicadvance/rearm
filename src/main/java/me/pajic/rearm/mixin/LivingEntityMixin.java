@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends Entity {
                     EnchantmentHelper.getItemEnchantmentLevel(
                             //? if 1.21.1
                             registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING),
-                            //? if 1.21.7
+                            //? if >= 1.21.7
                             /*registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.PIERCING),*/
                             source.getWeaponItem()
                     ) : 0;

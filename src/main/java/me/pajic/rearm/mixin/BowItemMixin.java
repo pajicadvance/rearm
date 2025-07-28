@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.ItemStack;
 //?}
-//? if 1.21.7
+//? if >= 1.21.7
 /*import net.minecraft.world.InteractionResult;*/
 
 @Mixin(BowItem.class)
@@ -59,7 +59,7 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
                     value = "INVOKE",
                     //? if 1.21.1
                     target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"
-                    //? if 1.21.7
+                    //? if >= 1.21.7
                     /*target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"*/
             ),
             index = 7
@@ -81,7 +81,7 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
     private void playPlayerBowDrawingSound(Level level, Player player, InteractionHand interactionHand,
                                            //? if 1.21.1
                                            CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir
-                                           //? if 1.21.7
+                                           //? if >= 1.21.7
                                            /*CallbackInfoReturnable<InteractionResult> cir*/
     ) {
         if (Main.CONFIG.bow.playerDrawingSounds.get() && !player.getProjectile(player.getItemInHand(interactionHand)).isEmpty()) {

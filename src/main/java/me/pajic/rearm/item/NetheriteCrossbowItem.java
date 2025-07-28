@@ -18,7 +18,7 @@ public class NetheriteCrossbowItem extends CrossbowItem {
         super(
                 new Properties().fireResistant().stacksTo(1).durability(704)
                         .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
-                        //? if 1.21.7 {
+                        //? if >= 1.21.7 {
                         /*.repairable(Items.NETHERITE_INGOT).enchantable(15)
                         .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow")))
                          *///?}

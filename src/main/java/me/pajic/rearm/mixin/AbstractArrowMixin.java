@@ -123,7 +123,7 @@ public abstract class AbstractArrowMixin extends Projectile {
                 }
             }
             //?}
-            //? if 1.21.7 {
+            //? if >= 1.21.7 {
             /*if (
                     !entity.equipment.get(EquipmentSlot.HEAD).isEmpty() ||
                     !entity.equipment.get(EquipmentSlot.CHEST).isEmpty() ||

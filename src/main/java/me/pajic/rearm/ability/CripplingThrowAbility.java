@@ -31,7 +31,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 //? if 1.21.1
 import net.minecraft.world.InteractionResultHolder;
-//? if 1.21.7
+//? if >= 1.21.7
 /*import net.minecraft.world.InteractionResult;*/
 
 import java.util.HashSet;
@@ -70,13 +70,13 @@ public class CripplingThrowAbility {
 
     public static final Set<UUID> recallSignals = new HashSet<>();
 
-    public static /*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?}*//*? if 1.21.7 {*//*InteractionResult*//*?}*/ useAxe(
+    public static /*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?}*//*? if >= 1.21.7 {*//*InteractionResult*//*?}*/ useAxe(
             Level level, Player player, InteractionHand usedHand, ItemStack stack
     ) {
         int cripplingThrowLevel = EnchantmentHelper.getItemEnchantmentLevel(
                 //? if 1.21.1
                 level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
-                //? if 1.21.7
+                //? if >= 1.21.7
                 /*level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW),*/
                 stack
         );
@@ -84,19 +84,19 @@ public class CripplingThrowAbility {
             if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                 //? if 1.21.1
                 return InteractionResultHolder.fail(stack);
-                //? if 1.21.7
+                //? if >= 1.21.7
                 /*return InteractionResult.FAIL;*/
             } else {
                 player.startUsingItem(usedHand);
                 //? if 1.21.1
                 return InteractionResultHolder.consume(stack);
-                //? if 1.21.7
+                //? if >= 1.21.7
                 /*return InteractionResult.CONSUME;*/
             }
         }
         //? if 1.21.1
         return InteractionResultHolder.fail(stack);
-        //? if 1.21.7
+        //? if >= 1.21.7
         /*return InteractionResult.FAIL;*/
     }
 

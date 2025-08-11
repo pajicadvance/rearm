@@ -1,6 +1,1 @@
-- Added support for Minecraft 1.21.8+.
-- Switched config API to Fzzy Config. **Your configuration will be reset**.
-- Significantly reduced the durability of the netherite bow and netherite crossbow.
-- Added an option to normalize the max and min enchantment costs for protection enchantments. When enabled, all protection enchantments obtained from the enchanting table will have similar levels for the same enchanting power. Disabled by default.
-- Fixed a bug where Critical Counter wouldn't work alongside certain mods when shielded damage was too low.
-- Fixed a bug where the axe would forget which entity it's stuck on under specific circumstances.
+- [NeoForge only] Moved language file patches to client only to prevent server log spam.

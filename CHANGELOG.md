@@ -1,1 +1,1 @@
-- [NeoForge only] Moved language file patches to client only to prevent server log spam.
+- Fixed a bug causing language file patches to not work.

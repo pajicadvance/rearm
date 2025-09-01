@@ -6,7 +6,6 @@ import me.pajic.rearm.config.ModConfig;
 import me.pajic.rearm.data.ReArmData;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
-import me.pajic.rearm.mixson.ClientResourceModifications;
 import me.pajic.rearm.mixson.ResourceModifications;
 import me.pajic.rearm.network.ReArmNetworking;
 import net.minecraft.core.registries.Registries;
@@ -16,7 +15,6 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -33,7 +31,6 @@ public class Main {
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(ReArmNetworking::init);
         modEventBus.addListener(this::onInitialize);
-        modEventBus.addListener(this::onInitializeClient);
     }
 
     private void registerData(RegisterEvent event) {
@@ -60,9 +57,5 @@ public class Main {
 
     public void onInitialize(FMLCommonSetupEvent event) {
         ResourceModifications.init();
-    }
-
-    public void onInitializeClient(FMLClientSetupEvent event) {
-        ClientResourceModifications.init();
     }
 }

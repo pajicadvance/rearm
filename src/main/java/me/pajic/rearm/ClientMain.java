@@ -2,6 +2,7 @@ package me.pajic.rearm;
 
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.keybind.ReArmKeybinds;
+import me.pajic.rearm.mixson.ClientResourceModifications;
 import me.pajic.rearm.projectile.ThrownAxeRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -24,5 +25,6 @@ public class ClientMain {
     public void onInitialize(FMLClientSetupEvent event) {
         //? if 1.21.1
         ReArmModels.initModels();
+        ClientResourceModifications.init();
     }
 }

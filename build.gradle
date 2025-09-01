@@ -15,6 +15,17 @@ repositories {
     maven { url = "https://maven.terraformersmc.com/" }
     maven { url = "https://maven.fzzyhmstrs.me/" }
     maven { url = "https://jitpack.io" }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 loom {
@@ -42,6 +53,7 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
     else modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
+    modRuntimeOnly("maven.modrinth:idwtialsimmoedm:${property("enchdesc_version")}")
 }
 
 processResources {

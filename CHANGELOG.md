@@ -1,2 +1,1 @@
-- Added support for Minecraft 1.21.7+.
-- Fixed a bug where the axe would forget which entity it's stuck on under specific circumstances.
+- Fixed a bug causing language file patches to not work.

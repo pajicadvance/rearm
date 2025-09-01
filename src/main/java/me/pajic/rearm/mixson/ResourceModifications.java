@@ -4,8 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import it.unimi.dsi.fastutil.objects.Object2BooleanArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import me.pajic.rearm.CompatFlags;
 import me.pajic.rearm.Main;
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,7 +14,6 @@ import net.ramixin.mixson.inline.Mixson;
 import net.ramixin.mixson.util.MixsonUtil;
 
 import java.util.List;
-import java.util.Map;
 
 @SuppressWarnings("removal")
 public class ResourceModifications {
@@ -280,8 +277,24 @@ public class ResourceModifications {
         // Language files
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
-                MixsonUtil.getLocatorFromString("rearm:lang/*"),
-                "rearm:modify_lang",
+                rl -> rl.toString().startsWith("minecraft:lang/"),
+                "Apply enchantment name overrides",
+                context -> {
+                    if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
+                        if (Main.CONFIG.protection.elementalProtection.get()) {
+                            context.getFile().getAsJsonObject().remove("enchantment.minecraft.fire_protection");
+                        }
+                        if (Main.CONFIG.protection.meleeProtection.get()) {
+                            context.getFile().getAsJsonObject().remove("enchantment.minecraft.protection");
+                        }
+                    }
+                },
+                true
+        );
+        Mixson.registerEvent(
+                Mixson.DEFAULT_PRIORITY,
+                rl -> rl.toString().startsWith("rearm:lang/"),
+                "Apply enchantment name overrides",
                 context -> {
                     if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
                         if (Main.CONFIG.protection.elementalProtection.get()) {
@@ -300,39 +313,68 @@ public class ResourceModifications {
                 },
                 true
         );
-        Object2BooleanMap<String> KEYS = new Object2BooleanArrayMap<>(Map.ofEntries(
-                Map.entry("enchantment.minecraft.multishot.desc", Main.CONFIG.bow.improvedMultishot.get()),
-                Map.entry("enchantment.minecraft.piercing.desc", Main.CONFIG.crossbow.improvedPiercing.get()),
-                Map.entry("enchantment.minecraft.sweeping_edge.desc", Main.CONFIG.sword.improvedSweepingEdge.get()),
-                Map.entry("enchantment.minecraft.fire_protection.desc", Main.CONFIG.protection.elementalProtection.get()),
-                Map.entry("enchantment.minecraft.protection.desc", Main.CONFIG.protection.meleeProtection.get()),
-                Map.entry("enchantment.minecraft.infinity.desc", Main.CONFIG.tweaks.infinityFix.get()),
-                Map.entry("enchantment.minecraft.power.desc", Main.CONFIG.crossbow.acceptPower.get())
-        ));
-        if (CompatFlags.ENCHDESC_MOD_LOADED) CompatFlags.ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> Mixson.registerEvent(
-                Mixson.DEFAULT_PRIORITY,
-                MixsonUtil.getLocatorFromString(mod + ":lang/*"),
-                "rearm:modify_lang_" + mod,
-                context -> {
-                    if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
-                        try {
-                            KEYS.object2BooleanEntrySet().forEach(entry -> {
-                                if (entry.getBooleanValue()) {
+        if (CompatFlags.ENCHDESC_MOD_LOADED) {
+            CompatFlags.ENCHANTMENT_DESCRIPTION_MODS.forEach(mod -> Mixson.registerEvent(
+                    Mixson.DEFAULT_PRIORITY,
+                    MixsonUtil.getLocatorFromString(mod + ":lang/*"),
+                    "Apply enchantment description overrides for " + mod,
+                    context -> {
+                        if (context.getResourceId().getPath().contains(Minecraft.getInstance().getLanguageManager().getSelected())) {
+                            try {
+                                if (Main.CONFIG.bow.improvedMultishot.get()) {
                                     context.getFile().getAsJsonObject().addProperty(
-                                            entry.getKey(),
-                                            context.getFile().getAsJsonObject().get(entry.getKey() + ".override").getAsString()
+                                            "enchantment.minecraft.multishot.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.multishot.desc.override").getAsString()
                                     );
                                 }
-                            });
-                            context.getFile().getAsJsonObject().addProperty(
-                                    "enchdesc.activate.message",
-                                    context.getFile().getAsJsonObject().get("enchdesc.activate.message.override").getAsString()
-                            );
-                        } catch (NullPointerException ignored) {}
-                    }
-                },
-                true
-        ));
+                                if (Main.CONFIG.crossbow.improvedPiercing.get()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchantment.minecraft.piercing.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.piercing.desc.override").getAsString()
+                                    );
+                                }
+                                if (Main.CONFIG.sword.improvedSweepingEdge.get()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchantment.minecraft.sweeping_edge.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.sweeping_edge.desc.override").getAsString()
+                                    );
+                                }
+                                if (Main.CONFIG.protection.elementalProtection.get()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchantment.minecraft.fire_protection.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.fire_protection.desc.override").getAsString()
+                                    );
+                                }
+                                if (Main.CONFIG.protection.meleeProtection.get()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchantment.minecraft.protection.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.protection.desc.override").getAsString()
+                                    );
+                                }
+                                if (Main.CONFIG.tweaks.infinityFix.get()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchantment.minecraft.infinity.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.infinity.desc.override").getAsString()
+                                    );
+                                }
+                                if (Main.CONFIG.crossbow.acceptPower.get()) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchantment.minecraft.power.desc",
+                                            context.getFile().getAsJsonObject().get("enchantment.minecraft.power.desc.override").getAsString()
+                                    );
+                                }
+                                if (context.getFile().getAsJsonObject().has("enchdesc.activate.message")) {
+                                    context.getFile().getAsJsonObject().addProperty(
+                                            "enchdesc.activate.message",
+                                            context.getFile().getAsJsonObject().get("enchdesc.activate.message.override").getAsString()
+                                    );
+                                }
+                            } catch (NullPointerException ignored) {}
+                        }
+                    },
+                    true
+            ));
+        }
     }
 
     private static void normalizeEnchantmentCosts(EventContext<JsonElement> context) {

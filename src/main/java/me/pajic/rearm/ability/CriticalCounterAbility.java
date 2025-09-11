@@ -37,9 +37,7 @@ public class CriticalCounterAbility {
 
     public record S2CStartCriticalCounterTimer() implements CustomPacketPayload {
         public static final CustomPacketPayload.Type<S2CStartCriticalCounterTimer> TYPE = new CustomPacketPayload.Type<>(COUNTER_START_TIMER);
-        public static final StreamCodec<RegistryFriendlyByteBuf, S2CStartCriticalCounterTimer> CODEC = StreamCodec.unit(
-                new S2CStartCriticalCounterTimer()
-        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, S2CStartCriticalCounterTimer> CODEC = StreamCodec.unit(new S2CStartCriticalCounterTimer());
 
         @Override
         public @NotNull Type<? extends CustomPacketPayload> type() {

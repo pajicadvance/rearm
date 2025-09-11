@@ -30,19 +30,15 @@ public class ReArmItems {
                 ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_bow"),
                 NETHERITE_BOW
         );
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(contents -> contents.addAfter(
-                Items.BOW,
-                NETHERITE_BOW
-        ));
-
         Registry.register(
                 BuiltInRegistries.ITEM,
                 ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow"),
                 NETHERITE_CROSSBOW
         );
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(contents -> contents.addAfter(
-                Items.CROSSBOW,
-                NETHERITE_CROSSBOW
-        ));
+
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(contents -> {
+            contents.addAfter(Items.CROSSBOW, NETHERITE_CROSSBOW);
+            contents.addAfter(Items.BOW, NETHERITE_BOW);
+        });
     }
 }

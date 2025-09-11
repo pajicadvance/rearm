@@ -34,6 +34,14 @@ public class ReArmData {
                         ResourcePackActivationType.ALWAYS_ENABLED
                 );
             }
+
+            if (Main.CONFIG.shield.enableBash.get()) {
+                ResourceManagerHelper.registerBuiltinResourcePack(
+                        ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "bash"),
+                        modContainer,
+                        ResourcePackActivationType.ALWAYS_ENABLED
+                );
+            }
         });
     }
 }

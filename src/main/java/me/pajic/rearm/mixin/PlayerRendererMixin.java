@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.injection.At;
 public class PlayerRendererMixin {
 
     @ModifyExpressionValue(
-            //? if 1.21.1
+            //? if < 1.21.7
             method = "getArmPose",
-            //? if 1.21.7
+            //? if >= 1.21.7
             /*method = "getArmPose(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/InteractionHand;)Lnet/minecraft/client/model/HumanoidModel$ArmPose;",*/
             at = @At(
                     value = "INVOKE",

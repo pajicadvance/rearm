@@ -20,6 +20,7 @@ public class ModConfig extends Config {
     public Crossbow crossbow = new Crossbow();
     public Sword sword = new Sword();
     public Axe axe = new Axe();
+    public Shield shield = new Shield();
     public Protection protection = new Protection();
     public Tweaks tweaks = new Tweaks();
 
@@ -90,5 +91,11 @@ public class ModConfig extends Config {
         public ValidatedBoolean enableCriticalCounter = new ValidatedBoolean(false);
         public ValidatedBoolean acceptKnockback = new ValidatedBoolean(true);
         public ValidatedBoolean acceptLooting = new ValidatedBoolean(true);
+    }
+
+    public static class Shield extends ConfigSection {
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBash = new ValidatedBoolean(true);
+        public ValidatedBoolean enableParry = new ValidatedBoolean(true);
+        public ValidatedInt parryTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
     }
 }

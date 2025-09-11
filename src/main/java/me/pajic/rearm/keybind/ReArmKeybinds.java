@@ -37,6 +37,7 @@ public class ReArmKeybinds {
                     }
                 }
                 ClientPlayNetworking.send(new CripplingThrowAbility.C2SUpdatePlayerRecallCondition(client.player.getUUID()));
+                if (Main.CONFIG.shield.enableBash.get()) ClientPlayNetworking.send(new BashAbility.C2SBashSignal());
             }
         });
     }

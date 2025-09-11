@@ -268,6 +268,8 @@ public class ResourceModifications {
                     values.add(baneOfArthropodsIndex + 1, new JsonPrimitive("rearm:crippling_throw"));
                     int projectileProtectionIndex = values.indexOf(new JsonPrimitive("minecraft:projectile_protection"));
                     values.add(projectileProtectionIndex + 1, new JsonPrimitive("rearm:magic_protection"));
+                    int unbreakingIndex = values.indexOf(new JsonPrimitive("minecraft:projectile_protection"));
+                    values.add(unbreakingIndex - 1, new JsonPrimitive("rearm:bash"));
                     JsonArray newValues = new JsonArray();
                     values.forEach(newValues::add);
                     context.getFile().getAsJsonObject().add("values", newValues);

@@ -21,6 +21,11 @@ public class ReArmEnchantments {
             ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "crippling_throw")
     );
 
+    public static final ResourceKey<Enchantment> BASH = ResourceKey.create(
+            Registries.ENCHANTMENT,
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "bash")
+    );
+
     public static void updateProtectionEnchantments(ItemEnchantments.Mutable existing, ItemEnchantments addition) {
         for (Holder<Enchantment> enchantment : addition.keySet()) {
             if (enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {

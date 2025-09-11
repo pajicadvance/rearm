@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'fabric-loom' version '1.11-SNAPSHOT'
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
 }
 
@@ -102,9 +102,6 @@ publishMods {
         accessToken = providers.environmentVariable("MR_KEY")
         projectId = "NHzN2FGz"
         minecraftVersions.add(stonecutter.current.version)
-        if (stonecutter.eval(stonecutter.current.version, "1.21.7")) {
-            minecraftVersions.add("1.21.8")
-        }
         requires("fabric-api", "fzzy-config")
         optional("modmenu")
         embeds("mixson")
@@ -114,11 +111,6 @@ publishMods {
         accessToken = providers.environmentVariable("CF_KEY")
         projectId = "1130102"
         minecraftVersions.add(stonecutter.current.version)
-        if (stonecutter.eval(stonecutter.current.version, "1.21.7")) {
-            minecraftVersions.add("1.21.8")
-        }
-        javaVersions.add(stonecutter.eval(stonecutter.current.version, ">=1.20.5")
-                ? JavaVersion.VERSION_21 : JavaVersion.VERSION_17)
         clientRequired = true
         serverRequired = true
         requires("fabric-api", "fzzy-config")

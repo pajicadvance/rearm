@@ -46,6 +46,7 @@ public class ReArmKeybinds {
                 }
             }
             ReArmNetworking.sendToServer(new ReArmNetworking.C2SUpdatePlayerRecallCondition(client.player.getUUID()));
+            if (Main.CONFIG.shield.enableBash.get()) ReArmNetworking.sendToServer(new ReArmNetworking.C2SBashSignal());
         }
     }
 

@@ -37,5 +37,13 @@ public class ReArmData {
                 true,
                 Pack.Position.TOP
         );
+        if (Main.CONFIG.shield.enableBash.get()) event.addPackFinders(
+                ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "resourcepacks/bash"),
+                PackType.SERVER_DATA,
+                Component.literal("ReArm Bash"),
+                PackSource.BUILT_IN,
+                true,
+                Pack.Position.TOP
+        );
     }
 }

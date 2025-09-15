@@ -19,6 +19,11 @@ public class ReArmItems {
             ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow"),
             new NetheriteCrossbowItem()
     );
+    public static final Holder<Item> NETHERITE_SHIELD = Registry.registerForHolder(
+            BuiltInRegistries.ITEM,
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_shield"),
+            new NetheriteShieldItem()
+    );
 
     public static boolean isBow(ItemStack stack) {
         return stack.getItem() instanceof BowItem;

@@ -41,6 +41,12 @@ The axe is meant for **very high single target damage**. With a fully enchanted 
 - New **Crippling Throw** enchantment - Allows throwing the axe at an enemy, much like a trident. The axe sticks onto the enemy and slows them down. Pressing the action key recalls the axe to you and the enemy starts taking bleeding damage. Slow intensity and bleeding damage scales with enchantment level (max 3).
 - Support **Looting** and **Knockback** - Axes can now be enchanted with Looting and Knockback.
 
+### Shield
+
+- New **Parry** mechanic - Raising the shield to block a projectile shortly before it lands parries it and sends it flying towards the shooter.
+- New **Bash** enchantment - Allows performing a shield bash by pressing the action key while blocking with a shield, knocking enemies away and dealing minor damage.
+- **Netherite Shield** - Shields can now be upgraded to a netherite shield in the same way you upgrade tools and armor to netherite, which gives it fire resistance, significantly increased durability, and a new look.
+
 ### Protection changes
 
 ReArm rebalances most protection enchantments and introduces a new protection enchantment in order to **make the choice of protection enchantments actually matter** compared to just going the usual route of Protection 4 on all armor pieces.
@@ -49,6 +55,7 @@ ReArm rebalances most protection enchantments and introduces a new protection en
 - **Melee Protection** - The regular Protection enchantment has been replaced with Melee Protection, which provides moderate damage resistance to most close up physical damage sources, meaning it _no longer protects against any other damage type_.
 - **Elemental Protection** - The Fire Protection enchantment has been replaced with Elemental Protection, which provides high resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze.
 - **Magic Protection** - New Protection enchantment which provides high resistance to magic attacks.
+- Optional setting to normalize enchantment costs for every Protection enchantment. In vanilla, chances for each Protection enchantment to appear in the enchanting table vary wildly, with the most common ones being Protection and Projectile Protection, and the rest being quite rare. Turning on this setting reduces this huge gap in chances between Protection enchantments. This is disabled by default.
 
 ### Tweaks
 
@@ -58,6 +65,5 @@ ReArm rebalances most protection enchantments and introduces a new protection en
 
 ### Recommended mods
 
-- **[Guarding](https://modrinth.com/mod/guarding)**: An excellent upgrade to the Shield and its mechanics. If my mod covered Shields, this mod is exactly what it would add.
 - **[Better Tridents](https://modrinth.com/mod/better-tridents)**: Turns the Trident into an actually useful situational weapon.
 - **[Potion Cauldron](https://modrinth.com/mod/potion-cauldron)**: Provides a very neat way of crafting tipped arrows by submerging them in a Cauldron filled with potion contents, which is an upgrade from the crafting tweak I'm providing.

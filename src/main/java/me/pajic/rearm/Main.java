@@ -10,25 +10,39 @@ import me.pajic.rearm.mixson.ResourceModifications;
 import me.pajic.rearm.network.ReArmNetworking;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
+//? if >= 1.21.8 {
+/*import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.enchantment.Enchantable;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
+*///?}
 
 @Mod(Main.MOD_ID)
 public class Main {
     public static final String MOD_ID = "rearm";
     public static final ResourceLocation CONFIG_RL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "config");
     public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
+    public static final TagKey<Item> SHIELDS = TagKey.create(
+            Registries.ITEM,
+            ResourceLocation.fromNamespaceAndPath("c", "tools/shield")
+    );
 
     public Main(IEventBus modEventBus) {
         modEventBus.addListener(ReArmData::registerDatapacks);
         modEventBus.addListener(this::registerData);
         modEventBus.addListener(this::addCreative);
+        //? if >= 1.21.8
+        /*modEventBus.addListener(this::modifyComponents);*/
         modEventBus.addListener(ReArmNetworking::init);
         modEventBus.addListener(this::onInitialize);
     }
@@ -52,8 +66,22 @@ public class Main {
                     ReArmItems.NETHERITE_CROSSBOW.value().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
             );
+            event.insertAfter(
+                    Items.SHIELD.getDefaultInstance(),
+                    ReArmItems.NETHERITE_SHIELD.value().getDefaultInstance(),
+                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS
+            );
         }
     }
+
+    //? if >= 1.21.8 {
+    /*private void modifyComponents(ModifyDefaultComponentsEvent event) {
+        event.modifyMatching(
+                item -> item.components().has(DataComponents.BLOCKS_ATTACKS) && item instanceof ShieldItem,
+                builder -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(14)).build()
+        );
+    }
+    *///?}
 
     public void onInitialize(FMLCommonSetupEvent event) {
         ResourceModifications.init();

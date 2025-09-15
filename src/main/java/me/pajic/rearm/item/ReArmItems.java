@@ -11,6 +11,7 @@ public class ReArmItems {
 
     public static final Item NETHERITE_BOW = new NetheriteBowItem();
     public static final Item NETHERITE_CROSSBOW = new NetheriteCrossbowItem();
+    public static final Item NETHERITE_SHIELD = new NetheriteShieldItem();
 
     public static boolean isBow(ItemStack stack) {
         return stack.getItem() instanceof BowItem;
@@ -35,10 +36,16 @@ public class ReArmItems {
                 ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow"),
                 NETHERITE_CROSSBOW
         );
+        Registry.register(
+                BuiltInRegistries.ITEM,
+                ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_shield"),
+                NETHERITE_SHIELD
+        );
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT).register(contents -> {
             contents.addAfter(Items.CROSSBOW, NETHERITE_CROSSBOW);
             contents.addAfter(Items.BOW, NETHERITE_BOW);
+            contents.addAfter(Items.SHIELD, NETHERITE_SHIELD);
         });
     }
 }

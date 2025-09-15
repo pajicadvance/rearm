@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractArrowMixin",
     "AnvilMenuMixin",
+    "AxeItemMixin",
     "BowItemMixin",
     "CrossbowItemMixin",
     "EnchantCommandMixin",
@@ -13,17 +14,20 @@
     "FireworkRocketEntityMixin",
     "ItemMixin",
     "LivingEntityMixin",
-    "PlayerMixin",
+    "PlayerShieldMixin",
     "RangedBowAttackGoalMixin",
     "ServerGamePacketListenerImplMixin",
+    "ShieldDecorationRecipeMixin",
     "ShieldItemMixin",
     "TippedArrowRecipeMixin",
     "compat.emi.VanillaPluginMixin"
   ],
   "client": [
+    "BlockEntityWithoutLevelRendererMixin",
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",
+    "ModelManagerMixin",
     "PackSelectionModelMixin",
     "PlayerRendererMixin"
   ],

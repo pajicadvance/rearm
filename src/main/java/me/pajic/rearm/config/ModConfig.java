@@ -97,5 +97,6 @@ public class ModConfig extends Config {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBash = new ValidatedBoolean(true);
         public ValidatedBoolean enableParry = new ValidatedBoolean(true);
         public ValidatedInt parryTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean shieldNetheriteVariant = new ValidatedBoolean(true);
     }
 }

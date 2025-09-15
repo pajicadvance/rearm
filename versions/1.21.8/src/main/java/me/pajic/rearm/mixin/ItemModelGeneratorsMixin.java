@@ -2,6 +2,7 @@ package me.pajic.rearm.mixin;
 
 import me.pajic.rearm.Main;
 import me.pajic.rearm.item.ReArmItems;
+import me.pajic.rearm.renderer.NetheriteShieldSpecialRenderer;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.model.*;
@@ -63,6 +64,15 @@ public abstract class ItemModelGeneratorsMixin {
                                 ),
                                 ItemModelUtils.when(CrossbowItem.ChargeType.ARROW, ItemModelUtils.plainModel(this.createFlatItemModel(ReArmItems.NETHERITE_CROSSBOW, "_arrow", netheriteCrossbowTemplate))),
                                 ItemModelUtils.when(CrossbowItem.ChargeType.ROCKET, ItemModelUtils.plainModel(this.createFlatItemModel(ReArmItems.NETHERITE_CROSSBOW, "_firework", netheriteCrossbowTemplate)))
+                        )
+                );
+        this.itemModelOutput
+                .accept(
+                        ReArmItems.NETHERITE_SHIELD,
+                        ItemModelUtils.conditional(
+                                ItemModelUtils.isUsingItem(),
+                                ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(ReArmItems.NETHERITE_SHIELD), new NetheriteShieldSpecialRenderer.Unbaked()),
+                                ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(ReArmItems.NETHERITE_SHIELD, "_blocking"), new NetheriteShieldSpecialRenderer.Unbaked())
                         )
                 );
     }

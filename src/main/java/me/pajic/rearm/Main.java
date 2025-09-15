@@ -11,7 +11,10 @@ import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
 import me.pajic.rearm.mixson.ResourceModifications;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 //? if >= 1.21.7 {
 /*import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.core.component.DataComponents;
@@ -23,6 +26,10 @@ public class Main implements ModInitializer {
     public static final String MOD_ID = "rearm";
     public static final ResourceLocation CONFIG_RL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "config");
     public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
+    public static final TagKey<Item> SHIELDS = TagKey.create(
+            Registries.ITEM,
+            ResourceLocation.fromNamespaceAndPath("c", "tools/shield")
+    );
 
     @Override
     public void onInitialize() {

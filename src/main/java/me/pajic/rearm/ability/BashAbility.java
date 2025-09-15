@@ -16,7 +16,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -61,7 +60,16 @@ public class BashAbility {
                             }
                         });
                         level.playSound(null, player.getOnPos(), SoundEvents.SHIELD_BLOCK/*? if >= 1.21.7 {*//*.value()*//*?}*/, SoundSource.PLAYERS, 1.0F, 0.2F + level.random.nextFloat() * 0.3F);
-                        player.getCooldowns().addCooldown(/*? if 1.21.1 {*/Items.SHIELD/*?}*//*? if >= 1.21.7 {*//*player.getUseItem()*//*?}*/, 160);
+                        //? if < 1.21.8 {
+                        level.registryAccess().registryOrThrow(Registries.ITEM).getTag(Main.SHIELDS).ifPresent(tag ->
+                                tag.forEach(item -> player.getCooldowns().addCooldown(item.value(), 160))
+                        );
+                        //?}
+                        //? if >= 1.21.8 {
+                        /*level.registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(Main.SHIELDS).forEach(item ->
+                                player.getCooldowns().addCooldown(level.registryAccess().lookupOrThrow(Registries.ITEM).getKey(item.value()), 160)
+                        );
+                        *///?}
                         player.stopUsingItem();
                     }
                 }

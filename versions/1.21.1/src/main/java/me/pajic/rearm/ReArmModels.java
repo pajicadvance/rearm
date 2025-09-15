@@ -13,6 +13,7 @@ public class ReArmModels {
     public static void initModels() {
         registerNetheriteBow();
         registerNetheriteCrossbow();
+        registerNetheriteShield();
     }
 
     private static void registerNetheriteBow() {
@@ -74,6 +75,15 @@ public class ReArmModels {
                     ChargedProjectiles chargedProjectiles = itemStack.get(DataComponents.CHARGED_PROJECTILES);
                     return chargedProjectiles != null && chargedProjectiles.contains(Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
                 }
+        );
+    }
+
+    private static void registerNetheriteShield() {
+        ItemProperties.register(
+                ReArmItems.NETHERITE_SHIELD,
+                ResourceLocation.withDefaultNamespace("blocking"),
+                (itemStack, clientLevel, livingEntity, i) ->
+                        livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F
         );
     }
 }

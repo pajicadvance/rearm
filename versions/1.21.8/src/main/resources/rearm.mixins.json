@@ -17,16 +17,21 @@
     "PlayerMixin",
     "RangedBowAttackGoalMixin",
     "ServerGamePacketListenerImplMixin",
+    "ShieldDecorationRecipeMixin",
     "TippedArrowRecipeMixin",
     "compat.emi.VanillaPluginMixin"
   ],
   "client": [
+    "AtlasProviderMixin",
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",
     "ItemModelGeneratorsMixin",
+    "LayerDefinitionsMixin",
+    "ModelManagerMixin",
     "PackSelectionModelMixin",
-    "PlayerRendererMixin"
+    "PlayerRendererMixin",
+    "SpecialModelRenderersMixin"
   ],
   "injectors": {
     "defaultRequire": 1

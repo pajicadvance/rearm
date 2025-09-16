@@ -6,6 +6,7 @@ import me.fzzyhmstrs.fzzy_config.annotations.Version;
 import me.fzzyhmstrs.fzzy_config.config.Config;
 import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
+import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedDouble;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedFloat;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 import me.pajic.rearm.Main;
@@ -95,6 +96,13 @@ public class ModConfig extends Config {
 
     public static class Shield extends ConfigSection {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBash = new ValidatedBoolean(true);
+        public ValidatedInt bashShieldCooldown = new ValidatedInt(8, Integer.MAX_VALUE, 1);
+        public ValidatedFloat bashBaseDamage = new ValidatedFloat(0, Float.MAX_VALUE, 0);
+        public ValidatedFloat bashDamagePerLevel =  new ValidatedFloat(2, Float.MAX_VALUE, 0);
+        public ValidatedDouble bashBaseRange = new ValidatedDouble(1.5, Double.MAX_VALUE, 0);
+        public ValidatedDouble bashRangePerLevel =  new ValidatedDouble(0.5, Double.MAX_VALUE, 0);
+        public ValidatedDouble bashBaseKnockback = new ValidatedDouble(0.75, Double.MAX_VALUE, 0);
+        public ValidatedDouble bashKnockbackPerLevel =  new ValidatedDouble(0.75, Double.MAX_VALUE, 0);
         public ValidatedBoolean enableParry = new ValidatedBoolean(true);
         public ValidatedInt parryTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean shieldNetheriteVariant = new ValidatedBoolean(true);

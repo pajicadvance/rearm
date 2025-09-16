@@ -53,9 +53,10 @@ public class BashAbility {
                     );
                     if (bashLevel > 0 && player.isBlocking()) {
                         double bashRange = Main.CONFIG.shield.bashBaseRange.get() + bashLevel * Main.CONFIG.shield.bashRangePerLevel.get();
-                        List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(bashRange, 1, bashRange));
-                        targets.forEach(entity -> {
-                            if (entity != player) {
+                        List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(bashRange, 1, bashRange))
+                                .stream().filter(livingEntity -> livingEntity != player).toList();
+                        if (!targets.isEmpty()) {
+                            targets.forEach(entity -> {
                                 entity.knockback(
                                         Main.CONFIG.shield.bashBaseKnockback.get() + bashLevel * Main.CONFIG.shield.bashKnockbackPerLevel.get(),
                                         Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(player.getYRot() * (float) (Math.PI / 180.0))
@@ -68,27 +69,27 @@ public class BashAbility {
                                         ParticleTypes.CRIT, entity.getX(), entity.getY() + 0.5, entity.getZ(),
                                         8, 0.3, 0.3, 0.3, 0.2
                                 );
-                            }
-                        });
-                        level.playSound(
-                                null, player.getOnPos(), SoundEvents.SHIELD_BLOCK/*? if >= 1.21.7 {*//*.value()*//*?}*/,
-                                SoundSource.PLAYERS, 1.0F, 0.2F + level.random.nextFloat() * 0.3F
-                        );
-                        //? if < 1.21.8 {
-                        level.registryAccess().registryOrThrow(Registries.ITEM).getTag(Main.SHIELDS).ifPresent(tag ->
-                                tag.forEach(item -> player.getCooldowns().addCooldown(item.value(), Main.CONFIG.shield.bashShieldCooldown.get() * 20))
-                        );
-                        //?}
-                        //? if >= 1.21.8 {
-                        /*level.registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(Main.SHIELDS).forEach(item ->
-                                player.getCooldowns().addCooldown(level.registryAccess().lookupOrThrow(Registries.ITEM).getKey(item.value()), Main.CONFIG.shield.bashShieldCooldown.get() * 20)
-                        );
-                        *///?}
-                        player.getUseItem().hurtAndBreak(
-                                targets.size(), player,
-                                player.getMainHandItem().is(player.getUseItem().getItem()) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND
-                        );
-                        player.stopUsingItem();
+                            });
+                            level.playSound(
+                                    null, player.getOnPos(), SoundEvents.SHIELD_BLOCK/*? if >= 1.21.7 {*//*.value()*//*?}*/,
+                                    SoundSource.PLAYERS, 1.0F, 0.2F + level.random.nextFloat() * 0.3F
+                            );
+                            //? if < 1.21.8 {
+                            level.registryAccess().registryOrThrow(Registries.ITEM).getTag(Main.SHIELDS).ifPresent(tag ->
+                                    tag.forEach(item -> player.getCooldowns().addCooldown(item.value(), Main.CONFIG.shield.bashShieldCooldown.get() * 20))
+                            );
+                            //?}
+                            //? if >= 1.21.8 {
+                            /*level.registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(Main.SHIELDS).forEach(item ->
+                                    player.getCooldowns().addCooldown(level.registryAccess().lookupOrThrow(Registries.ITEM).getKey(item.value()), Main.CONFIG.shield.bashShieldCooldown.get() * 20)
+                            );
+                            *///?}
+                            player.getUseItem().hurtAndBreak(
+                                    targets.size(), player,
+                                    player.getMainHandItem().is(player.getUseItem().getItem()) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND
+                            );
+                            player.stopUsingItem();
+                        }
                     }
                 }
         );

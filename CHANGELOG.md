@@ -1,3 +1,1 @@
-- Added a new shield parry mechanic. Raising the shield to block a projectile shortly before it lands parries it and sends it flying towards the shooter.
-- Added Bash shield enchantment. Allows performing a shield bash by pressing the action key while blocking with a shield, knocking enemies away and dealing minor damage.
-- Added Netherite Shield. Functionally identical to the normal shield, but has increased durability and fire resistance.
+- Fixed crash when certain enchantments are disabled in the configuration.

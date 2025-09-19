@@ -22,13 +22,13 @@ public class ClientResourceModifications {
                 context -> {
                     List<JsonElement> values = context.getFile().getAsJsonObject().getAsJsonArray("values").asList();
                     int multishotIndex = values.indexOf(new JsonPrimitive("minecraft:multishot"));
-                    values.add(multishotIndex + 1, new JsonPrimitive("rearm:backstep"));
+                    if (multishotIndex != -1) values.add(multishotIndex + 1, new JsonPrimitive("rearm:backstep"));
                     int baneOfArthropodsIndex = values.indexOf(new JsonPrimitive("minecraft:bane_of_arthropods"));
-                    values.add(baneOfArthropodsIndex + 1, new JsonPrimitive("rearm:crippling_throw"));
+                    if (baneOfArthropodsIndex != -1) values.add(baneOfArthropodsIndex + 1, new JsonPrimitive("rearm:crippling_throw"));
                     int projectileProtectionIndex = values.indexOf(new JsonPrimitive("minecraft:projectile_protection"));
-                    values.add(projectileProtectionIndex + 1, new JsonPrimitive("rearm:magic_protection"));
+                    if (projectileProtectionIndex != -1) values.add(projectileProtectionIndex + 1, new JsonPrimitive("rearm:magic_protection"));
                     int unbreakingIndex = values.indexOf(new JsonPrimitive("minecraft:projectile_protection"));
-                    values.add(unbreakingIndex - 1, new JsonPrimitive("rearm:bash"));
+                    if (unbreakingIndex != -1) values.add(unbreakingIndex - 1, new JsonPrimitive("rearm:bash"));
                     JsonArray newValues = new JsonArray();
                     values.forEach(newValues::add);
                     context.getFile().getAsJsonObject().add("values", newValues);

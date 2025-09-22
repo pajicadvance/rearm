@@ -1,1 +1,1 @@
-- Fixed crash when certain enchantments are disabled in the configuration.
+- Fixed missing mixin

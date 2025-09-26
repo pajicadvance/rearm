@@ -1,1 +1,1 @@
-- Fixed missing mixin
+- Improved compatibility with mods which rework the Power enchantment.

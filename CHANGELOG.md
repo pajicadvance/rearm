@@ -1,1 +1,1 @@
-- Fixed crash when certain enchantments are disabled in the configuration.
+- Improved compatibility with mods which rework the Power enchantment.

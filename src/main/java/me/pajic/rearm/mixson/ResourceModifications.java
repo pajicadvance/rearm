@@ -69,8 +69,8 @@ public class ResourceModifications {
                 context -> {
                     context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/power_enchantable");
-                    context.getFile().getAsJsonObject()
-                            .getAsJsonObject("effects")
+                    JsonObject effects = context.getFile().getAsJsonObject().getAsJsonObject("effects");
+                    if (effects.has("minecraft:damage")) effects
                             .getAsJsonArray("minecraft:damage").get(0).getAsJsonObject()
                             .getAsJsonObject("effect")
                             .getAsJsonObject("value")

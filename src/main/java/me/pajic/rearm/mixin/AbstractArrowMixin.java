@@ -4,9 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.pajic.rearm.Main;
-import me.pajic.rearm.item.ReArmItems;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -21,6 +19,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+//? if 1.21.1 {
+import me.pajic.rearm.item.ReArmItems;
+import net.minecraft.tags.ItemTags;
+//?}
 
 @Mixin(AbstractArrow.class)
 public abstract class AbstractArrowMixin extends Projectile {
@@ -44,8 +46,7 @@ public abstract class AbstractArrowMixin extends Projectile {
     private boolean considerModCrossbows(boolean original) {
         return ReArmItems.isCrossbow(getWeaponItem());
     }
-    //?}
-    //? if >= 1.21.7 {
+    //?} else {
     /*@Shadow private @Nullable ItemStack firedFromWeapon;
     @Unique private boolean shotFromCrossbow() {
         return firedFromWeapon != null && firedFromWeapon.getItem() instanceof CrossbowItem;
@@ -122,8 +123,7 @@ public abstract class AbstractArrowMixin extends Projectile {
                     return 0;
                 }
             }
-            //?}
-            //? if >= 1.21.7 {
+            //?} else {
             /*if (
                     !entity.equipment.get(EquipmentSlot.HEAD).isEmpty() ||
                     !entity.equipment.get(EquipmentSlot.CHEST).isEmpty() ||

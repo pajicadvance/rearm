@@ -9,15 +9,15 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 import org.jetbrains.annotations.NotNull;
-//? if >= 1.21.7 {
-/*import net.minecraft.world.item.enchantment.Repairable;
-import net.minecraft.world.item.component.BlocksAttacks;
+//? if 1.21.1 {
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+//?} else {
+/*import net.minecraft.world.item.component.BlocksAttacks;
 *///?}
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class NetheriteShieldItem extends ShieldItem {
         super(
                 new Properties().fireResistant().stacksTo(1).durability(614)
                 .component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
-                //? if >= 1.21.7 {
+                //? if > 1.21.1 {
                 /*.repairable(Items.NETHERITE_INGOT).enchantable(14)
                 .equippableUnswappable(EquipmentSlot.OFFHAND)
                 .component(

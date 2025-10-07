@@ -22,15 +22,15 @@
     "compat.emi.VanillaPluginMixin"
   ],
   "client": [
+    "AtlasManagerMixin",
     "AtlasProviderMixin",
+    "AvatarRendererMixin",
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",
     "ItemModelGeneratorsMixin",
     "LayerDefinitionsMixin",
-    "ModelManagerMixin",
     "PackSelectionModelMixin",
-    "PlayerRendererMixin",
     "SpecialModelRenderersMixin"
   ],
   "injectors": {

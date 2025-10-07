@@ -4,9 +4,8 @@ import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
+
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -31,10 +30,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-//? if >= 1.21.7 {
+//? if > 1.21.1 {
 /*import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-*///?}
+import net.minecraft.core.UUIDUtil;
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+//?}
 
 import java.util.UUID;
 
@@ -64,6 +66,7 @@ public class ThrownAxe extends AbstractArrow {
         this.hand = hand;
     }
 
+    @SuppressWarnings("resource")
     @Override
     public void tick() {
         if (stuckEntity == null && level() instanceof ServerLevel sl && stuckEntityId != null && !stuckEntityId.equals(new UUID(0, 0))) {
@@ -72,7 +75,7 @@ public class ThrownAxe extends AbstractArrow {
             entityData.set(STUCK, true);
         }
         if (inGroundTime > 4) dealtDamage = true;
-        if (/*? if 1.21.1 {*/inGround/*?}*//*? if >= 1.21.7 {*//*isInGround()*//*?}*/) {
+        if (/*? if 1.21.1 {*/inGround/*?} else {*//*isInGround()*//*?}*/) {
             entityData.set(STUCK, true);
             entityData.set(ALLOW_PICKUP, true);
         }
@@ -91,8 +94,8 @@ public class ThrownAxe extends AbstractArrow {
                     playSound(SoundEvents.HOSTILE_HURT, 1.0F, 1.0F);
                 }
                 if (!isAcceptableReturnOwner()) {
-                    if (!level().isClientSide && pickup == AbstractArrow.Pickup.ALLOWED) {
-                        spawnAtLocation(/*? if >= 1.21.7 {*//*(ServerLevel) level(),*//*?}*/ getPickupItem(), 0.1F);
+                    if (!level().isClientSide() && pickup == AbstractArrow.Pickup.ALLOWED) {
+                        spawnAtLocation(/*? if > 1.21.1 {*//*(ServerLevel) level(),*//*?}*/ getPickupItem(), 0.1F);
                     }
                     discard();
                 } else {
@@ -100,7 +103,7 @@ public class ThrownAxe extends AbstractArrow {
                     entityData.set(ALLOW_PICKUP, true);
                     Vec3 vec3 = entity.getEyePosition().subtract(position());
                     setPosRaw(getX(), getY() + vec3.y * 0.045, getZ());
-                    if (level().isClientSide) {
+                    if (level().isClientSide()) {
                         yOld = getY();
                     }
                     setDeltaMovement(getDeltaMovement().scale(0.95).add(vec3.normalize().scale(0.15)));
@@ -117,7 +120,7 @@ public class ThrownAxe extends AbstractArrow {
             setPos(stuckEntity.getX(), stuckEntity.getY() + stuckEntity.getBbHeight() / 2, stuckEntity.getZ());
             stuckEntity.addEffect(
                     new MobEffectInstance(
-                            MobEffects./*? if >= 1.21.7 {*//*SLOWNESS*//*?}*//*? if 1.21.1 {*/MOVEMENT_SLOWDOWN/*?}*/,
+                            MobEffects./*? if > 1.21.1 {*//*SLOWNESS*//*?} else {*/MOVEMENT_SLOWDOWN/*?}*/,
                             20,
                             Main.CONFIG.axe.cripplingThrowBaseSlownessAmplifier.get() +
                                     (getCripplingThrowLevel() - 1) * Main.CONFIG.axe.cripplingThrowSlownessAmplifierIncreasePerLevel.get()
@@ -141,6 +144,7 @@ public class ThrownAxe extends AbstractArrow {
         return entity != null && entity.isAlive() && (!(entity instanceof ServerPlayer) || !entity.isSpectator());
     }
 
+    @SuppressWarnings({"resource"/*? if > 1.21.1 {*//*, "deprecation"*//*?}*/})
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         Entity entity = result.getEntity();
@@ -155,7 +159,7 @@ public class ThrownAxe extends AbstractArrow {
         dealtDamage = true;
         //? if 1.21.1
         if (entity.hurt(damageSource, f + g)) {
-        //? if >= 1.21.7
+        //? if > 1.21.1
         /*if (entity.hurtOrSimulate(damageSource, f + g)) {*/
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
@@ -181,7 +185,7 @@ public class ThrownAxe extends AbstractArrow {
         return EnchantmentHelper.getItemEnchantmentLevel(
                 //? if 1.21.1
                 registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
-                //? if >= 1.21.7
+                //? if > 1.21.1
                 /*registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW),*/
                 entityData.get(THROWN_AXE_ITEM_STACK)
         );
@@ -198,7 +202,7 @@ public class ThrownAxe extends AbstractArrow {
                 null,
                 vec3,
                 level.getBlockState(hitResult.getBlockPos()),
-                item -> kill(/*? if >= 1.21.7 {*//*level*//*?}*/)
+                item -> kill(/*? if > 1.21.1 {*//*level*//*?}*/)
         );
     }
 
@@ -257,9 +261,10 @@ public class ThrownAxe extends AbstractArrow {
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
+    @SuppressWarnings("resource")
     @Override
     public void playerTouch(@NotNull Player player) {
-        if (ownedBy(player) || getOwner() == null && !level().isClientSide && (/*? if 1.21.1 {*/inGround/*?}*//*? if >= 1.21.7 {*//*isInGround()*//*?}*/ || isNoPhysics()) && shakeTime <= 0) {
+        if (ownedBy(player) || getOwner() == null && !level().isClientSide() && (/*? if 1.21.1 {*/inGround/*?} else {*//*isInGround()*//*?}*/ || isNoPhysics()) && shakeTime <= 0) {
             if (tryPickup(player)) {
                 player.take(this, 1);
                 discard();
@@ -297,8 +302,7 @@ public class ThrownAxe extends AbstractArrow {
             compound.put("ThrownAxeItemStack", entityData.get(THROWN_AXE_ITEM_STACK).save(registryAccess()));
         }
     }
-    //?}
-    //? if >= 1.21.7 {
+    //?} else {
     /*@Override
     protected void readAdditionalSaveData(ValueInput valueInput) {
         super.readAdditionalSaveData(valueInput);

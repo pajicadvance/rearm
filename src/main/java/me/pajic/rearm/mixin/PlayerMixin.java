@@ -1,14 +1,11 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.ability.CriticalCounterAbility;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -24,6 +21,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+//? if 1.21.1 {
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+//?}
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ public abstract class PlayerMixin extends LivingEntity {
         super(entityType, level);
     }
 
+    @SuppressWarnings("resource")
     @ModifyArgs(
             method = "attack",
             at = @At(
@@ -49,7 +52,7 @@ public abstract class PlayerMixin extends LivingEntity {
             int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     //? if 1.21.1
                     level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SWEEPING_EDGE),
-                    //? if >= 1.21.7
+                    //? if > 1.21.1
                     /*level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SWEEPING_EDGE),*/
                     getWeaponItem()
             );
@@ -85,10 +88,10 @@ public abstract class PlayerMixin extends LivingEntity {
                     value = "INVOKE",
                     //? if 1.21.1
                     target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
-                    //? if >= 1.21.7
+                    //? if > 1.21.1
                     /*target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z"*/
             ),
-            index = /*? if 1.21.1 {*/1/*?}*//*? if >= 1.21.7 {*//*2*//*?}*/
+            index = /*? if 1.21.1 {*/1/*?} else {*//*2*//*?}*/
     )
     private <T extends Entity> float sweepingEdge_increaseDamage(
             float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float h
@@ -130,6 +133,7 @@ public abstract class PlayerMixin extends LivingEntity {
     }
     //?}
 
+    @SuppressWarnings("resource")
     @ModifyExpressionValue(
             method = "getProjectile",
             at = @At(

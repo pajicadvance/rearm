@@ -36,6 +36,7 @@ public class BashAbility {
         }
     }
 
+    @SuppressWarnings({"deprecation"/*? if > 1.21.1 {*//*, "resource"*//*?}*/})
     public static void init() {
         PayloadTypeRegistry.playC2S().register(C2SBashSignal.TYPE, C2SBashSignal.CODEC);
 
@@ -43,11 +44,11 @@ public class BashAbility {
                 C2SBashSignal.TYPE,
                 (payload, context) -> {
                     ServerPlayer player = context.player();
-                    ServerLevel level = player./*? if 1.21.1 {*/serverLevel/*?}*//*? if >= 1.21.7 {*//*level*//*?}*/();
+                    ServerLevel level = player./*? if 1.21.1 {*/serverLevel/*?} else {*//*level*//*?}*/();
                     int bashLevel = EnchantmentHelper.getItemEnchantmentLevel(
                             //? if 1.21.1
                             level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BASH),
-                            //? if >= 1.21.7
+                            //? if > 1.21.1
                             /*level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.BASH),*/
                             player.getUseItem()
                     );
@@ -74,12 +75,11 @@ public class BashAbility {
                                     null, player.getOnPos(), SoundEvents.SHIELD_BLOCK/*? if >= 1.21.7 {*//*.value()*//*?}*/,
                                     SoundSource.PLAYERS, 1.0F, 0.2F + level.random.nextFloat() * 0.3F
                             );
-                            //? if < 1.21.8 {
+                            //? if 1.21.1 {
                             level.registryAccess().registryOrThrow(Registries.ITEM).getTag(Main.SHIELDS).ifPresent(tag ->
                                     tag.forEach(item -> player.getCooldowns().addCooldown(item.value(), Main.CONFIG.shield.bashShieldCooldown.get() * 20))
                             );
-                            //?}
-                            //? if >= 1.21.8 {
+                            //?} else {
                             /*level.registryAccess().lookupOrThrow(Registries.ITEM).getTagOrEmpty(Main.SHIELDS).forEach(item ->
                                     player.getCooldowns().addCooldown(level.registryAccess().lookupOrThrow(Registries.ITEM).getKey(item.value()), Main.CONFIG.shield.bashShieldCooldown.get() * 20)
                             );

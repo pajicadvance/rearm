@@ -53,7 +53,7 @@ dependencies {
     modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
     else modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
-    modRuntimeOnly("maven.modrinth:idwtialsimmoedm:${property("enchdesc_version")}")
+    //modRuntimeOnly("maven.modrinth:idwtialsimmoedm:${property("enchdesc_version")}")
 }
 
 processResources {

@@ -15,7 +15,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-//? if >= 1.21.7 {
+//? if > 1.21.1 {
 /*import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ShieldItem;
@@ -41,7 +41,7 @@ public class Main implements ModInitializer {
         BackstepAbility.init();
         CripplingThrowAbility.init();
         BashAbility.init();
-        //? if >= 1.21.7 {
+        //? if > 1.21.1 {
         /*if (!CompatFlags.SHIELD_LIB_LOADED) DefaultItemComponentEvents.MODIFY.register(context -> context.modify(
                 item -> item.components().has(DataComponents.BLOCKS_ATTACKS) && item instanceof ShieldItem,
                 (builder, item) -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(14)).build()

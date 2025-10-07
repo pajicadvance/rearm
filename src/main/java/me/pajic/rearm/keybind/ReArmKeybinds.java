@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -19,12 +20,18 @@ import org.lwjgl.glfw.GLFW;
 
 public class ReArmKeybinds {
 
+    //? if > 1.21.1 {
+    /*private static final KeyMapping.Category MOD_KEYS = KeyMapping.Category.register(
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "keys")
+    );
+    *///?}
+
     private static final KeyMapping ACTION_KEY = KeyBindingHelper.registerKeyBinding(
             new KeyMapping(
                     "key.rearm.action",
                     InputConstants.Type.KEYSYM,
                     GLFW.GLFW_KEY_LEFT_ALT,
-                    "category.rearm.keybindings"
+                    /*? if 1.21.1 {*/"category.rearm.keybindings"/*?} else {*//*MOD_KEYS*//*?}*/
             )
     );
 
@@ -42,13 +49,14 @@ public class ReArmKeybinds {
         });
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static boolean tryBackstep(KeyMapping actionKey, Minecraft client) {
         if (client.player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)) {
             Player player = client.player;
             int backstepLevel = Math.min(EnchantmentHelper.getItemEnchantmentLevel(
                     //? if 1.21.1
                     client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
-                    //? if >= 1.21.7
+                    //? if > 1.21.1
                     /*client.level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.BACKSTEP),*/
                     player.getMainHandItem()
             ), 3);

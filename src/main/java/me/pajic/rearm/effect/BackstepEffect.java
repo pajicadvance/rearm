@@ -4,6 +4,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+//? if 1.21.1
 import org.jetbrains.annotations.NotNull;
 
 public class BackstepEffect extends MobEffect {
@@ -23,7 +24,7 @@ public class BackstepEffect extends MobEffect {
     }
     //?}
 
-    //? if >= 1.21.7 {
+    //? if > 1.21.1 {
     /*@Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         return super.applyEffectTick(level, entity, amplifier);

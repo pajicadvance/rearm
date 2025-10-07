@@ -18,7 +18,7 @@ public class EnchantmentHelperMixin {
         if (Main.CONFIG.protection.allowMultipleProtectionEnchantments.get() && data.enchantment/*? if >= 1.21.7 {*//*()*//*?}*/.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
             int itemProtEnchants = 0;
             for (EnchantmentInstance ei : dataList) {
-                if (!ei.enchantment/*? if >= 1.21.7 {*//*()*//*?}*/.equals(data.enchantment/*? if >= 1.21.7 {*//*()*//*?}*/) && ei.enchantment/*? if >= 1.21.7 {*//*()*//*?}*/.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+                if (!ei.enchantment/*? if > 1.21.1 {*//*()*//*?}*/.equals(data.enchantment/*? if > 1.21.1 {*//*()*//*?}*/) && ei.enchantment/*? if > 1.21.1 {*//*()*//*?}*/.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
                     itemProtEnchants++;
                 }
             }

@@ -1,1 +1,1 @@
-- Improved compatibility with mods which rework the Power enchantment.
+- Updated to Minecraft 1.21.10.

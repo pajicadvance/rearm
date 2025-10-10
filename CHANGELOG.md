@@ -1,1 +1,1 @@
-- Updated to Minecraft 1.21.10.
+- Added compatibility for Item Descriptions.

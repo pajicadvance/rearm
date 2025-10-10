@@ -7,8 +7,16 @@
   "enchantment.rearm.magic_protection.desc": "High resistance to magic damage sources.",
   "enchantment.rearm.bash": "Bash",
   "enchantment.rearm.bash.desc": "Press the Action key while blocking to perform a shield bash, knocking enemies away and dealing minor damage.",
-  "enchantment.minecraft.fire_protection.override": "Elemental Protection",
-  "enchantment.minecraft.protection.override": "Melee Protection",
+  "enchantment.minecraft.fire_protection": "Elemental Protection",
+  "enchantment.minecraft.protection": "Melee Protection",
+  "enchantment.minecraft.multishot.desc": "Fires additional arrows in similar directions based on level.",
+  "enchantment.minecraft.piercing.desc": "Allows projectiles to pierce through mobs and ignore a percentage of their armor based on level.",
+  "enchantment.minecraft.sweeping_edge.desc": "Increases the damage and range of sweeping attacks based on level and the amount of enemies hit.",
+  "enchantment.minecraft.fire_protection.desc": "High resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze.",
+  "enchantment.minecraft.protection.desc": "Moderate damage resistance to most close-up physical damage sources.",
+  "enchantment.minecraft.infinity.desc": "Allows the weapon to fire normal arrows for free.",
+  "enchantment.minecraft.power.desc": "Increases the damage of projectiles fired from the weapon.",
+  "enchdesc.activate.message": "Shift for info",
 
   "effect.rearm.backstep_effect": "Backstep Effect",
   "effect.rearm.bleeding": "Bleeding",
@@ -35,6 +43,8 @@
   "item.rearm.netherite_shield.red": "Red Netherite Shield",
   "item.rearm.netherite_shield.white": "White Netherite Shield",
   "item.rearm.netherite_shield.yellow": "Yellow Netherite Shield",
+
+  "lore.rearm.netherite_shield": "A tool that blocks attacks when used in either hand. This item can be decorated with a banner.",
 
   "tag.minecraft.enchantable.axe": "Axe Enchantable",
   "tag.minecraft.enchantable.infinity_enchantable": "Infinity Enchantable",

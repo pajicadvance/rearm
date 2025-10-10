@@ -15,6 +15,7 @@ repositories {
     maven { url = "https://maven.terraformersmc.com/" }
     maven { url = "https://maven.fzzyhmstrs.me/" }
     maven { url = "https://jitpack.io" }
+    maven { url = "https://repo.sleeping.town/" }
     exclusiveContent {
         forRepository {
             maven {
@@ -54,6 +55,8 @@ dependencies {
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
     else modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
     //modRuntimeOnly("maven.modrinth:idwtialsimmoedm:${property("enchdesc_version")}")
+    modRuntimeOnly("maven.modrinth:item-descriptions:${property("enchdesc_version")}")
+    modRuntimeOnly("folk.sisby:kaleido-config:${property("kaleido_version")}")
 }
 
 processResources {

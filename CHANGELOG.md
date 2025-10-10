@@ -1,1 +1,1 @@
-- Improved compatibility with mods which rework the Power enchantment.
+- Added compatibility for Item Descriptions.

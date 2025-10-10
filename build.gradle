@@ -14,6 +14,18 @@ repositories {
     maven { url = "https://maven.fzzyhmstrs.me/" }
     maven { url = "https://thedarkcolour.github.io/KotlinForForge/" }
     maven { url = "https://jitpack.io" }
+    maven { url = "https://repo.sleeping.town/" }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Modrinth"
+                url = "https://api.modrinth.com/maven"
+            }
+        }
+        filter {
+            includeGroup "maven.modrinth"
+        }
+    }
 }
 
 base {
@@ -80,6 +92,8 @@ dependencies {
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) {
         implementation "dev.emi:emi-neoforge:${property("emi_version")}"
     }
+    runtimeOnly("maven.modrinth:item-descriptions:${property("enchdesc_version")}")
+    runtimeOnly("folk.sisby:kaleido-config:${property("kaleido_version")}")
 }
 
 tasks.withType(ProcessResources).configureEach {

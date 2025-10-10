@@ -12,3 +12,8 @@ tasks.register("activeServer") {
     group = "neogradle/runs"
     dependsOn(":${stonecutter.current.project}:runServer")
 }
+
+tasks.register("publishActive") {
+    group = "publishing"
+    dependsOn(":${stonecutter.current.project}:publishMods")
+}

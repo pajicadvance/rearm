@@ -1,7 +1,6 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.rearm.Main;
 import net.minecraft.util.Mth;

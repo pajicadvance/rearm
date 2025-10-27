@@ -17,7 +17,7 @@ public class ClientResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:tags/enchantment/tooltip_order",
-                "rearm:modify_enchantment_tooltip_order",
+                "Adjust enchantment tooltip order",
                 context -> {
                     List<JsonElement> values = context.getFile().getAsJsonObject().getAsJsonArray("values").asList();
                     int multishotIndex = values.indexOf(new JsonPrimitive("minecraft:multishot"));

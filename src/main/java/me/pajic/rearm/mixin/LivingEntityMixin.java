@@ -173,4 +173,18 @@ public abstract class LivingEntityMixin extends Entity {
         return 0;
     }
     *///?}
+
+    @ModifyExpressionValue(
+            method = "getVisibilityPercent",
+            at = @At(
+                    value = "CONSTANT",
+                    args = "doubleValue=0.8"
+            )
+    )
+    private double modifyVisibilityWhenDiscrete(double original) {
+        if (Main.CONFIG.tweaks.improvedSneaking.get()) {
+            return 1 - (double) Main.CONFIG.tweaks.detectionRangeReduction.get() / 100;
+        }
+        return original;
+    }
 }

@@ -21,21 +21,21 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/infinity",
-                "rearm:modify_infinity",
+                "Change Infinity supported items",
                 context -> context.getFile().getAsJsonObject()
                         .addProperty("supported_items", "#minecraft:enchantable/infinity_enchantable")
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/knockback",
-                "rearm:modify_knockback",
+                "Change Knockback supported items",
                 context -> context.getFile().getAsJsonObject()
                         .addProperty("supported_items", "#minecraft:enchantable/knockback_enchantable")
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/looting",
-                "rearm:modify_looting",
+                "Change Looting supported items",
                 context -> {
                     if (Main.CONFIG.axe.acceptLooting.get()) {
                         context.getFile().getAsJsonObject()
@@ -46,7 +46,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/multishot",
-                "rearm:modify_multishot",
+                "Modify Multishot enchantment",
                 context -> {
                     context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/multishot_enchantable");
@@ -65,7 +65,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/power",
-                "rearm:modify_power",
+                "Change Power supported items",
                 context -> {
                     context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/power_enchantable");
@@ -80,7 +80,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/fire_protection",
-                "rearm:modify_fire_protection",
+                "Transform Fire Protection into Elemental Protection",
                 context -> {
                     normalizeEnchantmentCosts(context);
                     if (Main.CONFIG.protection.elementalProtection.get()) {
@@ -107,10 +107,15 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/protection",
-                "rearm:modify_protection",
+                "Transform Protection into Melee Protection",
                 context -> {
                     normalizeEnchantmentCosts(context);
-                    if (Main.CONFIG.protection.meleeProtection.get()) {
+                    if (
+                            Main.CONFIG.protection.meleeProtection.get() &&
+                                    context.getFile().getAsJsonObject()
+                                            .getAsJsonObject("effects")
+                                            .has("minecraft:damage_protection")
+                    ) {
                         JsonArray tags = new JsonArray();
                         JsonObject tag1 = new JsonObject();
                         tag1.addProperty("expected", false);
@@ -133,31 +138,35 @@ public class ResourceModifications {
                         tags.add(tag4);
                         tags.add(tag5);
 
-                        context.getFile().getAsJsonObject()
+                        JsonObject damageProtection = context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
-                                .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
-                                .getAsJsonObject("requirements")
+                                .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject();
+                        damageProtection.getAsJsonObject("requirements")
                                 .getAsJsonObject("predicate")
                                 .add("tags", tags);
+                        JsonObject value = damageProtection.getAsJsonObject("effect")
+                                .getAsJsonObject("value");
+                        value.addProperty("base", 2.0);
+                        value.addProperty("per_level_above_first", 2.0);
                     }
                 }
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/projectile_protection",
-                "rearm:modify_projectile_protection",
+                "Normalize Projectile Protection cost",
                 ResourceModifications::normalizeEnchantmentCosts
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/blast_protection",
-                "rearm:modify_blast_protection",
+                "Normalize Blast Protection cost",
                 ResourceModifications::normalizeEnchantmentCosts
         );
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "rearm:enchantment/backstep",
-                "rearm:modify_backstep",
+                "Set Backstep effect values",
                 context -> {
                     if (Main.CONFIG.bow.enableBackstep.get()) {
                         JsonObject postAttackEffect = context.getFile().getAsJsonObject()
@@ -169,12 +178,38 @@ public class ResourceModifications {
                     }
                 }
         );
+        if (Main.CONFIG.armor.armorRebalance.get() && Main.CONFIG.armor.enchantmentBasedToughness.get()) {
+            Main.CONFIG.armor.toughnessPerEnchantment.forEach((s, t) -> Mixson.registerEvent(
+                    Mixson.DEFAULT_PRIORITY,
+                    rl -> {
+                        int index = rl.getPath().lastIndexOf('/');
+                        if (index != -1) return rl.getPath().substring(index + 1).equals(s);
+                        return false;
+                    },
+                    "Assign toughness bonus to " + s,
+                    context -> {
+                        JsonArray attributes = new JsonArray();
+                        JsonObject attribute = new JsonObject();
+                        attribute.addProperty("attribute", /*? if 1.21.1 {*/"minecraft:generic.armor_toughness"/*?} else {*//*"minecraft:armor_toughness"*//*?}*/);
+                        attribute.addProperty("id", context.getResourceId().getNamespace() + ":enchantment." + s);
+                        attribute.addProperty("operation", "add_value");
+                        JsonObject amount = new JsonObject();
+                        amount.addProperty("type", "minecraft:linear");
+                        amount.addProperty("base", t);
+                        amount.addProperty("per_level_above_first", t);
+                        attribute.add("amount", amount);
+                        attributes.add(attribute);
+                        context.getFile().getAsJsonObject().get("effects").getAsJsonObject().add("minecraft:attributes", attributes);
+                    },
+                    true
+            ));
+        }
 
         // Enchantable tags
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:tags/item/enchantable/infinity_enchantable",
-                "rearm:modify_infinity_enchantable",
+                "Modify Infinity Enchantable tag",
                 context -> {
                     if (Main.CONFIG.crossbow.acceptInfinity.get()) {
                         context.getFile().getAsJsonObject()
@@ -186,7 +221,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:tags/item/enchantable/knockback_enchantable",
-                "rearm:modify_knockback_enchantable",
+                "Modify Knockback Enchantable tag",
                 context -> {
                     if (Main.CONFIG.axe.acceptKnockback.get()) {
                         context.getFile().getAsJsonObject()
@@ -203,7 +238,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:tags/item/enchantable/multishot_enchantable",
-                "rearm:modify_multishot_enchantable",
+                "Modify Multishot Enchantable tag",
                 context -> {
                     if (Main.CONFIG.bow.acceptMultishot.get()) {
                         context.getFile().getAsJsonObject()
@@ -221,7 +256,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:tags/item/enchantable/power_enchantable",
-                "rearm:modify_power_enchantable",
+                "Modify Power Enchantable tag",
                 context -> {
                     if (Main.CONFIG.crossbow.acceptPower.get()) {
                         context.getFile().getAsJsonObject()
@@ -235,7 +270,7 @@ public class ResourceModifications {
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:tags/enchantment/exclusive_set/bow",
-                "rearm:modify_bow_exclusive_set",
+                "Allow Mending with Infinity",
                 context -> {
                     if (Main.CONFIG.tweaks.infinimending.get()) {
                         List<JsonElement> values = context.getFile().getAsJsonObject().getAsJsonArray("values").asList();

@@ -25,4 +25,15 @@ public class GuiMixin {
         }
         return original;
     }
+
+    @ModifyExpressionValue(
+            method = "renderArmor",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/player/Player;getArmorValue()I"
+            )
+    )
+    private static int scaleArmorBar(int original) {
+        return Main.CONFIG.armor.armorRebalance.get() ? Math.round(original / Main.CONFIG.armor.armorMultiplier.get()) : original;
+    }
 }

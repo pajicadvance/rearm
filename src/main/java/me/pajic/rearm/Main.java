@@ -18,8 +18,11 @@ import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.loading.FMLLoader;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 //? if > 1.21.1 {
 /*import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ShieldItem;
@@ -30,6 +33,8 @@ import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
 @Mod(Main.MOD_ID)
 public class Main {
     public static final String MOD_ID = "rearm";
+    private static final Logger LOGGER = LoggerFactory.getLogger("ReArm");
+    private static final boolean DEBUG = !FMLLoader/*? if > 1.21.1 {*//*.getCurrent()*//*?}*/.isProduction();
     public static final ResourceLocation CONFIG_RL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "config");
     public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
     public static final TagKey<Item> SHIELDS = TagKey.create(
@@ -85,5 +90,9 @@ public class Main {
 
     public void onInitialize(FMLCommonSetupEvent event) {
         ResourceModifications.init();
+    }
+
+    public static void debugLog(String message, Object ... args) {
+        if (DEBUG) LOGGER.info(message, args);
     }
 }

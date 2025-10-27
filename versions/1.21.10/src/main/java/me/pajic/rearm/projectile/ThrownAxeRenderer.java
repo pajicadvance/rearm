@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,6 +29,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
         } else {
             poseStack.mulPose(Axis.ZN.rotationDegrees(90.0F));
         }
+        renderState.item.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
         poseStack.popPose();
         super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
     }

@@ -21,9 +21,7 @@ public class BleedingEffect extends MobEffect {
         );
         return true;
     }
-    //?}
-
-    //? if > 1.21.1 {
+    //?} else {
     /*@Override
     public boolean applyEffectTick(ServerLevel level, LivingEntity entity, int amplifier) {
         entity.hurtServer(

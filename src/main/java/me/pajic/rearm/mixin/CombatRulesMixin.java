@@ -1,7 +1,6 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.rearm.Main;
 import net.minecraft.util.Mth;
@@ -49,25 +48,5 @@ public class CombatRulesMixin {
     )
     private static float modifyProtectionDivisor(float original) {
         return Main.CONFIG.armor.armorRebalance.get() ? original * Main.CONFIG.armor.armorMultiplier.get() : original;
-    }
-
-    @ModifyReturnValue(
-            method = "getDamageAfterAbsorb",
-            at = @At("RETURN")
-    )
-    private static float debugAfterAbsorb(float original, @Local(argsOnly = true, ordinal = 0) float damage, @Local(name = "f3") float f3) {
-        Main.debugLog("Damage: {}", damage);
-        Main.debugLog("Damage after absorb: {}", original);
-        Main.debugLog("Damage reduction: {}%", f3 * 100);
-        return original;
-    }
-
-    @ModifyReturnValue(
-            method = "getDamageAfterMagicAbsorb",
-            at = @At("RETURN")
-    )
-    private static float debugAfterMagicAbsorb(float original) {
-        Main.debugLog("Damage after magic absorb: {}", original);
-        return original;
     }
 }

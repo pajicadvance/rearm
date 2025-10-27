@@ -1,3 +1,6 @@
+2.4.1: Fixed mixin crash on launch.
+
+2.4.0:
 ## Armor rebalance
 
 - Rebalanced defense values for all armor in the game

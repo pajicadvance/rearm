@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings("removal")
 public class ResourceModifications {
     public static void init() {
-        if (!FMLLoader.isProduction()) Mixson.setDebugMode(DebugMode.EXPORT);
+        if (!FMLLoader/*? if > 1.21.1 {*//*.getCurrent()*//*?}*/.isProduction()) Mixson.setDebugMode(DebugMode.EXPORT);
 
         // Enchantments
         Mixson.registerEvent(

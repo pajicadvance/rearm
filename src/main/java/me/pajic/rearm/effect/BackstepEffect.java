@@ -21,9 +21,7 @@ public class BackstepEffect extends MobEffect {
     public boolean applyEffectTick(@NotNull LivingEntity livingEntity, int amplifier) {
         return super.applyEffectTick(livingEntity, amplifier);
     }
-    //?}
-
-    //? if >= 1.21.7 {
+    //?} else {
     /*@Override
     public boolean applyEffectTick(@NotNull ServerLevel level, @NotNull LivingEntity entity, int amplifier) {
         return super.applyEffectTick(level, entity, amplifier);

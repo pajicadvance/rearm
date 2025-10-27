@@ -9,6 +9,7 @@ import me.pajic.rearm.network.ReArmNetworking;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -23,12 +24,20 @@ import org.lwjgl.glfw.GLFW;
 
 @EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT)
 public class ReArmKeybinds {
+
+    //? if > 1.21.1 {
+    /*@SuppressWarnings("deprecation")
+    private static final KeyMapping.Category MOD_KEYS = KeyMapping.Category.register(
+            ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "keys")
+    );
+    *///?}
+
     private static final Lazy<KeyMapping> ACTION_KEY = Lazy.of(() ->
             new KeyMapping(
                     "key.rearm.action",
                     InputConstants.Type.KEYSYM,
                     GLFW.GLFW_KEY_LEFT_ALT,
-                    "category.rearm.keybindings"
+                    /*? if 1.21.1 {*/"category.rearm.keybindings"/*?} else {*//*MOD_KEYS*//*?}*/
             )
     );
 
@@ -57,7 +66,7 @@ public class ReArmKeybinds {
             int backstepLevel = Math.min(EnchantmentHelper.getTagEnchantmentLevel(
                     //? if 1.21.1
                     client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
-                    //? if >= 1.21.7
+                    //? if > 1.21.1
                     /*client.level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.BACKSTEP),*/
                     player.getMainHandItem()
             ), 3);

@@ -4,7 +4,6 @@ import me.pajic.rearm.Main;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
 import me.pajic.rearm.projectile.ThrownAxe;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -20,8 +19,10 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 //? if 1.21.1
 import net.minecraft.world.InteractionResultHolder;
-//? if >= 1.21.7
-/*import net.minecraft.world.InteractionResult;*/
+//? if > 1.21.1 {
+/*import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.InteractionResult;
+*///?}
 
 import java.util.HashSet;
 import java.util.Set;
@@ -38,7 +39,7 @@ public class CripplingThrowAbility {
             .build(
                     //? if 1.21.1
                     "axe"
-                    //? if >= 1.21.8
+                    //? if > 1.21.1
                     /*ResourceKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "axe"))*/
             );
 
@@ -48,33 +49,35 @@ public class CripplingThrowAbility {
         int cripplingThrowLevel = stack.getEnchantmentLevel(
                 //? if 1.21.1
                 level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW)
-                //? if >= 1.21.7
+                //? if > 1.21.1
                 /*level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW)*/
         );
         if (cripplingThrowLevel > 0) {
             if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                 //? if 1.21.1
                 return InteractionResultHolder.fail(stack);
-                //? if >= 1.21.7
+                //? if > 1.21.1
                 /*return InteractionResult.FAIL;*/
             } else {
                 player.startUsingItem(usedHand);
                 //? if 1.21.1
                 return InteractionResultHolder.consume(stack);
-                //? if >= 1.21.7
+                //? if > 1.21.1
                 /*return InteractionResult.CONSUME;*/
             }
         }
         //? if 1.21.1
         return InteractionResultHolder.fail(stack);
-        //? if >= 1.21.7
+        //? if > 1.21.1
         /*return InteractionResult.FAIL;*/
     }
 
     public static void throwAxe(ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged, int useDuration) {
         if (livingEntity instanceof Player player) {
-            if (useDuration - timeCharged >= 10 && !(stack.getDamageValue() >= stack.getMaxDamage() - 1) && !level.isClientSide) {
-                stack.hurtAndBreak(2, player, Player.getSlotForHand(player.getUsedItemHand()));
+            if (useDuration - timeCharged >= 10 && !(stack.getDamageValue() >= stack.getMaxDamage() - 1) && !level.isClientSide()) {
+                stack.hurtAndBreak(2, player,
+                        /*? if 1.21.1 {*/Player.getSlotForHand(player.getUsedItemHand())/*?} else {*//*player.getUsedItemHand()*//*?}*/
+                );
                 ThrownAxe thrownAxe = new ThrownAxe(
                         level, player, stack,
                         (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE),

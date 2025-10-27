@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//? if >= 1.21.7
+//? if > 1.21.1
 /*import net.minecraft.world.item.component.BlocksAttacks;*/
 
 @Mixin(LivingEntity.class)
@@ -51,7 +51,7 @@ public abstract class LivingEntityMixin extends Entity {
                     source.getWeaponItem().getEnchantmentLevel(
                             //? if 1.21.1
                             registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING)
-                            //? if >= 1.21.7
+                            //? if > 1.21.1
                             /*registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.PIERCING)*/
                     ) : 0;
             return original * (1 - ((float) (Main.CONFIG.crossbow.percentArmorIgnoredPerLevel.get() * piercingLevel) / 100));
@@ -59,7 +59,7 @@ public abstract class LivingEntityMixin extends Entity {
         return original;
     }
 
-    //? if < 1.21.7 {
+    //? if 1.21.1 {
     @Inject(
             method = "hurt",
             at = @At(
@@ -76,8 +76,7 @@ public abstract class LivingEntityMixin extends Entity {
             projectile.hasImpulse = true;
         }
     }
-    //?}
-    //? if >= 1.21.7 {
+    //?} else {
     /*@Inject(
             method = "applyItemBlocking",
             at = @At(
@@ -117,7 +116,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (self instanceof Player && parryTimer > 0) parryTimer--;
     }
 
-    //? if < 1.21.7 {
+    //? if 1.21.1 {
     @ModifyArg(
             method = "handleEntityEvent",
             at = @At(
@@ -131,8 +130,7 @@ public abstract class LivingEntityMixin extends Entity {
         if (self instanceof Player && parryTimer > 0) return original + 0.4F;
         return original;
     }
-    //?}
-    //? if >= 1.21.7 {
+    //?} else {
     /*@WrapWithCondition(
             method = "hurtServer",
             at = @At(
@@ -152,7 +150,7 @@ public abstract class LivingEntityMixin extends Entity {
     }
     *///?}
 
-    //? if < 1.21.7 {
+    //? if 1.21.1 {
     @ModifyExpressionValue(
             method = "isBlocking",
             at = @At(
@@ -163,8 +161,7 @@ public abstract class LivingEntityMixin extends Entity {
     private int parry_removeShieldBlockDelay(int original) {
         return 0;
     }
-    //?}
-    //? if >= 1.21.7 {
+    //?} else {
     /*@ModifyExpressionValue(
             method = "getItemBlockingWith",
             at = @At(

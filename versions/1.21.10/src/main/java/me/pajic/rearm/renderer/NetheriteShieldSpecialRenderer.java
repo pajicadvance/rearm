@@ -1,20 +1,19 @@
 package me.pajic.rearm.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.serialization.MapCodec;
 import me.pajic.rearm.Main;
 import net.minecraft.client.model.ShieldModel;
-import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.special.ShieldSpecialRenderer;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
 import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Unit;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
@@ -24,15 +23,17 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
+    private final MaterialSet materials;
     private final ShieldModel model;
 
-    public NetheriteShieldSpecialRenderer(ShieldModel model) {
-        super(model);
+    public NetheriteShieldSpecialRenderer(MaterialSet materials, ShieldModel model) {
+        super(materials, model);
+        this.materials = materials;
         this.model = model;
     }
 
     @Override
-    public void render(@Nullable DataComponentMap dataComponentMap, @NotNull ItemDisplayContext itemDisplayContext, PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int i, int j, boolean bl) {
+    public void submit(@Nullable DataComponentMap dataComponentMap, @NotNull ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
         BannerPatternLayers bannerPatternLayers = dataComponentMap != null
                 ? dataComponentMap.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
                 : BannerPatternLayers.EMPTY;
@@ -47,42 +48,70 @@ public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
                 ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "textures/atlas/netherite_shield_patterns.png"),
                 ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "entity/netherite_shield_base_nopattern")
         );
-        VertexConsumer vertexConsumer = material.sprite()
-                .wrap(ItemRenderer.getFoilBuffer(multiBufferSource, this.model.renderType(material.atlasLocation()), itemDisplayContext == ItemDisplayContext.GUI, bl));
-        this.model.handle().render(poseStack, vertexConsumer, i, j);
+        nodeCollector.submitModelPart(
+                this.model.handle(),
+                poseStack,
+                this.model.renderType(material.atlasLocation()),
+                packedLight,
+                packedOverlay,
+                this.materials.get(material),
+                false,
+                false,
+                -1,
+                null,
+                outlineColor
+        );
         if (bl2) {
-            BannerRenderer.renderPatterns(
+            BannerRenderer.submitPatterns(
+                    this.materials,
                     poseStack,
-                    multiBufferSource,
-                    i,
-                    j,
-                    this.model.plate(),
+                    nodeCollector,
+                    packedLight,
+                    packedOverlay,
+                    this.model,
+                    Unit.INSTANCE,
                     material,
                     false,
                     Objects.requireNonNullElse(dyeColor, DyeColor.WHITE),
                     bannerPatternLayers,
-                    bl,
-                    false
+                    hasFoil,
+                    null,
+                    outlineColor
             );
         } else {
-            this.model.plate().render(poseStack, vertexConsumer, i, j);
+            nodeCollector.submitModelPart(
+                    this.model.plate(),
+                    poseStack,
+                    this.model.renderType(material.atlasLocation()),
+                    packedLight,
+                    packedOverlay,
+                    this.materials.get(material),
+                    false,
+                    hasFoil,
+                    -1,
+                    null,
+                    outlineColor
+            );
         }
 
         poseStack.popPose();
     }
 
     public record Unbaked() implements SpecialModelRenderer.Unbaked {
-        public static final Unbaked INSTANCE = new Unbaked();
-        public static final MapCodec<Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
+        public static final NetheriteShieldSpecialRenderer.Unbaked INSTANCE = new NetheriteShieldSpecialRenderer.Unbaked();
+        public static final MapCodec<NetheriteShieldSpecialRenderer.Unbaked> MAP_CODEC = MapCodec.unit(INSTANCE);
 
         @Override @NotNull
-        public MapCodec<Unbaked> type() {
+        public MapCodec<NetheriteShieldSpecialRenderer.Unbaked> type() {
             return MAP_CODEC;
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(EntityModelSet modelSet) {
-            return new NetheriteShieldSpecialRenderer(new ShieldModel(modelSet.bakeLayer(RendererConstants.NETHERITE_SHIELD_LAYER)));
+        public @NotNull SpecialModelRenderer<?> bake(BakingContext context) {
+            return new NetheriteShieldSpecialRenderer(
+                    context.materials(),
+                    new ShieldModel(context.entityModelSet().bakeLayer(RendererConstants.NETHERITE_SHIELD_LAYER))
+            );
         }
     }
 }

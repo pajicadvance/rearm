@@ -17,8 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 //? if 1.21.1 {
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.UseAnim;
-//?}
-//? if >= 1.21.7 {
+//?} else {
 /*import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemUseAnimation;
 *///?}
@@ -37,21 +36,21 @@ public abstract class ItemMixin {
     }
 
     @WrapMethod(method = "getUseAnimation")
-    private /*? if 1.21.1 {*/UseAnim/*?}*//*? if >= 1.21.7 {*//*ItemUseAnimation*//*?}*/ axe_useAnimaton(
+    private /*? if 1.21.1 {*/UseAnim/*?} else {*//*ItemUseAnimation*//*?}*/ axe_useAnimaton(
             ItemStack stack,
-            Operation</*? if 1.21.1 {*/UseAnim/*?}*//*? if >= 1.21.7 {*//*ItemUseAnimation*//*?}*/> original
+            Operation</*? if 1.21.1 {*/UseAnim/*?} else {*//*ItemUseAnimation*//*?}*/> original
     ) {
         if (Main.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
-            if (CompatFlags.HMI_LOADED) return /*? if 1.21.1 {*/UseAnim/*?}*//*? if >= 1.21.7 {*//*ItemUseAnimation*//*?}*/.NONE;
-            return /*? if 1.21.1 {*/UseAnim/*?}*//*? if >= 1.21.7 {*//*ItemUseAnimation*//*?}*/.SPEAR;
+            if (CompatFlags.HMI_LOADED) return /*? if 1.21.1 {*/UseAnim/*?} else {*//*ItemUseAnimation*//*?}*/.NONE;
+            return /*? if 1.21.1 {*/UseAnim/*?} else {*//*ItemUseAnimation*//*?}*/.SPEAR;
         }
         return original.call(stack);
     }
 
     @WrapMethod(method = "use")
-    private /*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?}*//*? if >= 1.21.7 {*//*InteractionResult*//*?}*/ axe_use(
+    private /*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?} else {*//*InteractionResult*//*?}*/ axe_use(
             Level level, Player player, InteractionHand usedHand,
-            Operation</*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?}*//*? if >= 1.21.7 {*//*InteractionResult*//*?}*/> original) {
+            Operation</*? if 1.21.1 {*/InteractionResultHolder<ItemStack>/*?} else {*//*InteractionResult*//*?}*/> original) {
         if (Main.CONFIG.axe.cripplingThrow.get()) {
             ItemStack stack = player.getItemInHand(usedHand);
             if (stack.is(ItemTags.AXES)) {
@@ -62,9 +61,9 @@ public abstract class ItemMixin {
     }
 
     @WrapMethod(method = "releaseUsing")
-    private /*? if 1.21.1 {*/void/*?}*//*? if >= 1.21.7 {*//*boolean*//*?}*/ axe_releaseUsing(
+    private /*? if 1.21.1 {*/void/*?} else {*//*boolean*//*?}*/ axe_releaseUsing(
             ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged,
-            Operation</*? if 1.21.1 {*/Void/*?}*//*? if >= 1.21.7 {*//*Boolean*//*?}*/> original
+            Operation</*? if 1.21.1 {*/Void/*?} else {*//*Boolean*//*?}*/> original
     ) {
         if (Main.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
             CripplingThrowAbility.throwAxe(stack, level, livingEntity, timeCharged, getUseDuration(stack, livingEntity));
@@ -73,8 +72,8 @@ public abstract class ItemMixin {
         else {
             original.call(stack, level, livingEntity, timeCharged);
         }
-        //?}
-        //? if >= 1.21.7
-        /*return original.call(stack, level, livingEntity, timeCharged);*/
+        //?} else {
+        /*return original.call(stack, level, livingEntity, timeCharged);
+         *///?}
     }
 }

@@ -7,18 +7,20 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ChargedProjectiles;
-import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
+//? if 1.21.1 {
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+//?}
 
 public class NetheriteCrossbowItem extends CrossbowItem {
     public NetheriteCrossbowItem() {
         super(
                 new Properties().fireResistant().stacksTo(1).durability(704)
                         .component(DataComponents.CHARGED_PROJECTILES, ChargedProjectiles.EMPTY)
-                        //? if >= 1.21.7 {
+                        //? if > 1.21.1 {
                         /*.repairable(Items.NETHERITE_INGOT).enchantable(15)
                         .setId(ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(Main.MOD_ID, "netherite_crossbow")))
                          *///?}

@@ -2,10 +2,11 @@ package me.pajic.rearm.projectile;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -19,7 +20,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
     }
 
     @Override
-    public void render(ThrownAxeRenderState renderState, PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight) {
+    public void submit(ThrownAxeRenderState renderState, PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         poseStack.pushPose();
         poseStack.scale(1.3F, 1.3F, 1.3F);
         poseStack.mulPose(Axis.YN.rotationDegrees(90.0F - renderState.yRot));
@@ -28,8 +29,9 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
         } else {
             poseStack.mulPose(Axis.ZN.rotationDegrees(90.0F));
         }
-        renderState.item.render(poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
+        renderState.item.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
         poseStack.popPose();
+        super.submit(renderState, poseStack, nodeCollector, cameraRenderState);
     }
 
     @Override
@@ -38,7 +40,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
     }
 
     @Override
-    public void extractRenderState(ThrownAxe entity, ThrownAxeRenderState renderState, float partialTick) {
+    public void extractRenderState(@NotNull ThrownAxe entity, @NotNull ThrownAxeRenderState renderState, float partialTick) {
         super.extractRenderState(entity, renderState, partialTick);
         renderState.yRot = entity.getYRot(partialTick);
         renderState.xRot = entity.getXRot(partialTick);

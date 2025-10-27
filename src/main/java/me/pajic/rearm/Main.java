@@ -20,7 +20,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
-//? if >= 1.21.8 {
+//? if > 1.21.1 {
 /*import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.enchantment.Enchantable;
@@ -41,7 +41,7 @@ public class Main {
         modEventBus.addListener(ReArmData::registerDatapacks);
         modEventBus.addListener(this::registerData);
         modEventBus.addListener(this::addCreative);
-        //? if >= 1.21.8
+        //? if > 1.21.1
         /*modEventBus.addListener(this::modifyComponents);*/
         modEventBus.addListener(ReArmNetworking::init);
         modEventBus.addListener(this::onInitialize);
@@ -74,7 +74,7 @@ public class Main {
         }
     }
 
-    //? if >= 1.21.8 {
+    //? if > 1.21.1 {
     /*private void modifyComponents(ModifyDefaultComponentsEvent event) {
         event.modifyMatching(
                 item -> item.components().has(DataComponents.BLOCKS_ATTACKS) && item instanceof ShieldItem,

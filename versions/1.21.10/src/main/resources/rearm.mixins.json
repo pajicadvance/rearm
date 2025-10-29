@@ -27,6 +27,7 @@
     "AtlasManagerMixin",
     "AtlasProviderMixin",
     "AvatarRendererMixin",
+    "ClientMainMixin",
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",

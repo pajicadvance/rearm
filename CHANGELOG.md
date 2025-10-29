@@ -1,3 +1,7 @@
+2.4.2:
+- "Total armor overrides" setting now actually works on modded armor materials.
+- Available armor materials are now printed out to `config/rearm/armor_materials.txt` to help with configuring armor from other mods.
+
 2.4.1: Fixed mixin crash on launch.
 
 2.4.0:

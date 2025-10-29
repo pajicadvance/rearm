@@ -6,7 +6,7 @@
   "mixins": [
     "AbstractArrowMixin",
     "AnvilMenuMixin",
-    "ArmorMaterialsMixin",
+    "ArmorMaterialMixin",
     "AttributeMixin",
     "AxeItemMixin",
     "BowItemMixin",
@@ -29,6 +29,7 @@
   ],
   "client": [
     "BlockEntityWithoutLevelRendererMixin",
+    "ClientMainMixin",
     "GuiMixin",
     "HeartTypeMixin",
     "ItemInHandRendererMixin",

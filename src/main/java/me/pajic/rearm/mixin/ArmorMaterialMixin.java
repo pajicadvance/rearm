@@ -1,5 +1,6 @@
 package me.pajic.rearm.mixin;
 
+import com.google.common.collect.Maps;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.rearm.Main;
 import me.pajic.rearm.config.ArmorMaterialHelper;
@@ -35,13 +36,15 @@ public class ArmorMaterialMixin {
     @Shadow @Final @Mutable
     private float toughness;
 
+    @Shadow @Final @Mutable
+    private Map</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> defense;
+
     @Inject(
             method = "<init>",
             at = @At("TAIL")
     )
     private void modifyMaterial(
             CallbackInfo ci,
-            @Local(argsOnly = true) Map</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> map,
             @Local(argsOnly = true) /*? if 1.21.1 {*/List<ArmorMaterial.Layer>/*?} else {*//*ResourceKey<EquipmentAsset>*//*?}*/ id
     ) {
         ResourceLocation rl = /*? if 1.21.1 {*/id.getFirst().assetName/*?} else {*//*id.location()*//*?}*/;
@@ -50,7 +53,7 @@ public class ArmorMaterialMixin {
             int targetTotal = 0;
             if (Main.CONFIG.armor.totalArmorOverrides.get().containsKey(rl)) {
                 targetTotal = Main.CONFIG.armor.totalArmorOverrides.get().get(rl);
-            } else for (Map.Entry</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> entry : map.entrySet()) {
+            } else for (Map.Entry</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> entry : defense.entrySet()) {
                 if (entry.getKey() != /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.BODY) targetTotal += (int) (entry.getValue() * Main.CONFIG.armor.armorMultiplier.get());
             }
             int[] values = {
@@ -74,13 +77,13 @@ public class ArmorMaterialMixin {
                     i = i == 3 ? 0 : i + 1;
                 }
             }
-            map.replaceAll((type, i) -> switch (type) {
-                case HELMET -> values[2];
-                case CHESTPLATE -> values[0];
-                case LEGGINGS -> values[1];
-                case BOOTS -> values[3];
-                case BODY -> body;
-            });
+            defense = Maps.newEnumMap(Map.of(
+                    /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.HELMET, values[2],
+                    /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.CHESTPLATE, values[0],
+                    /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.LEGGINGS, values[1],
+                    /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.BOOTS, values[3],
+                    /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.BODY, body
+            ));
             toughness = 0;
             if (Main.CONFIG.armor.defenseBasedKnockbackResist.get()) {
                 knockbackResistance = Mth.lerp(

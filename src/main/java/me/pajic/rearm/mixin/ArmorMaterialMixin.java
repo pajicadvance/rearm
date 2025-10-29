@@ -47,14 +47,17 @@ public class ArmorMaterialMixin {
             CallbackInfo ci,
             @Local(argsOnly = true) /*? if 1.21.1 {*/List<ArmorMaterial.Layer>/*?} else {*//*ResourceKey<EquipmentAsset>*//*?}*/ id
     ) {
-        ResourceLocation rl = /*? if 1.21.1 {*/id.getFirst().assetName/*?} else {*//*id.location()*//*?}*/;
-        ArmorMaterialHelper.add(rl);
+        ResourceLocation rl = /*? if 1.21.1 {*/id.isEmpty() ? null : id.getFirst().assetName/*?} else {*//*id.location()*//*?}*/;
+        if (rl != null) ArmorMaterialHelper.add(rl);
         if (Main.CONFIG.armor.armorRebalance.get()) {
             int targetTotal = 0;
-            if (Main.CONFIG.armor.totalArmorOverrides.get().containsKey(rl)) {
+            if (rl != null && Main.CONFIG.armor.totalArmorOverrides.get().containsKey(rl)) {
                 targetTotal = Main.CONFIG.armor.totalArmorOverrides.get().get(rl);
-            } else for (Map.Entry</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> entry : defense.entrySet()) {
-                if (entry.getKey() != /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.BODY) targetTotal += (int) (entry.getValue() * Main.CONFIG.armor.armorMultiplier.get());
+            } else {
+                for (Map.Entry</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> entry : defense.entrySet()) {
+                    if (entry.getKey() != /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.BODY)
+                        targetTotal += (int) (entry.getValue() * Main.CONFIG.armor.armorMultiplier.get());
+                }
             }
             int[] values = {
                     Math.round(targetTotal * ((float) Main.CONFIG.armor.chestplateArmorPercent.get() / 100)),

@@ -6,12 +6,14 @@ import me.fzzyhmstrs.fzzy_config.annotations.Version;
 import me.fzzyhmstrs.fzzy_config.config.Config;
 import me.fzzyhmstrs.fzzy_config.config.ConfigSection;
 import me.fzzyhmstrs.fzzy_config.validation.collection.ValidatedMap;
+import me.fzzyhmstrs.fzzy_config.validation.minecraft.ValidatedIdentifier;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedBoolean;
 import me.fzzyhmstrs.fzzy_config.validation.misc.ValidatedString;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedDouble;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedFloat;
 import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 import me.pajic.rearm.Main;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Map;
 
@@ -49,19 +51,19 @@ public class ModConfig extends Config {
         public ValidatedInt bootsArmorPercent = new ValidatedInt(15, 100, 0);
         public ValidatedInt bodyArmorPercent = new ValidatedInt(80, 100, 0);
         @SuppressWarnings({"unchecked", "rawtypes"})
-        public ValidatedMap<String, Integer> totalArmorOverrides = (new ValidatedMap.Builder())
-                .keyHandler(new ValidatedString())
+        public ValidatedMap<ResourceLocation, Integer> totalArmorOverrides = (new ValidatedMap.Builder())
+                .keyHandler(new ValidatedIdentifier())
                 .valueHandler(new ValidatedInt(0, (int) (20 * armorMultiplier.get()), 0))
                 .defaults(Map.of(
-                        "leather", 8,
-                        "copper", 16,
-                        "gold", 16,
-                        "iron", 24,
-                        "chainmail", 24,
-                        "diamond", 32,
-                        "netherite", 40,
-                        "turtle_scute", 24,
-                        "armadillo_scute", 40
+                        ResourceLocation.withDefaultNamespace("leather"), 8,
+                        ResourceLocation.withDefaultNamespace("copper"), 16,
+                        ResourceLocation.withDefaultNamespace("gold"), 16,
+                        ResourceLocation.withDefaultNamespace("iron"), 24,
+                        ResourceLocation.withDefaultNamespace("chainmail"), 24,
+                        ResourceLocation.withDefaultNamespace("diamond"), 32,
+                        ResourceLocation.withDefaultNamespace("netherite"), 40,
+                        ResourceLocation.withDefaultNamespace("turtle_scute"), 24,
+                        ResourceLocation.withDefaultNamespace("armadillo_scute"), 40
                 ))
                 .build();
         public ValidatedBoolean enchantmentBasedToughness = new ValidatedBoolean(true);

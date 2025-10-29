@@ -1,42 +1,57 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import me.pajic.rearm.Main;
-import net.minecraft.core.Holder;
+import me.pajic.rearm.config.ArmorMaterialHelper;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+//? if 1.21.1 {
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import java.util.List;
+//?} else {
+/*import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorType;
+import net.minecraft.world.item.equipment.EquipmentAsset;
+*///?}
 
 import java.util.Arrays;
-import java.util.EnumMap;
 import java.util.Map;
 
-@Mixin(ArmorMaterials.class)
-public class ArmorMaterialsMixin {
+@Mixin(ArmorMaterial.class)
+public class ArmorMaterialMixin {
+
+    @Shadow @Final @Mutable
+    private float knockbackResistance;
+
+    @Shadow @Final @Mutable
+    private float toughness;
 
     @Inject(
-            method = "register(Ljava/lang/String;Ljava/util/EnumMap;ILnet/minecraft/core/Holder;FFLjava/util/function/Supplier;Ljava/util/List;)Lnet/minecraft/core/Holder;",
-            at = @At("HEAD")
+            method = "<init>",
+            at = @At("TAIL")
     )
-    private static void modifyMaterial(
-            CallbackInfoReturnable<Holder<ArmorMaterial>> cir,
-            @Local(argsOnly = true) String name,
-            @Local(argsOnly = true) EnumMap<ArmorItem.Type, Integer> map,
-            @Local(argsOnly = true, ordinal = 0) LocalFloatRef toughness,
-            @Local(argsOnly = true, ordinal = 1) LocalFloatRef knockbackResistance
+    private void modifyMaterial(
+            CallbackInfo ci,
+            @Local(argsOnly = true) Map</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> map,
+            @Local(argsOnly = true) /*? if 1.21.1 {*/List<ArmorMaterial.Layer>/*?} else {*//*ResourceKey<EquipmentAsset>*//*?}*/ id
     ) {
+        ResourceLocation rl = /*? if 1.21.1 {*/id.getFirst().assetName/*?} else {*//*id.location()*//*?}*/;
+        ArmorMaterialHelper.add(rl);
         if (Main.CONFIG.armor.armorRebalance.get()) {
             int targetTotal = 0;
-            if (Main.CONFIG.armor.totalArmorOverrides.get().containsKey(name)) {
-                targetTotal = Main.CONFIG.armor.totalArmorOverrides.get().get(name);
-            } else for (Map.Entry<ArmorItem.Type, Integer> entry : map.entrySet()) {
-                if (entry.getKey() != ArmorItem.Type.BODY) targetTotal += (int) (entry.getValue() * Main.CONFIG.armor.armorMultiplier.get());
+            if (Main.CONFIG.armor.totalArmorOverrides.get().containsKey(rl)) {
+                targetTotal = Main.CONFIG.armor.totalArmorOverrides.get().get(rl);
+            } else for (Map.Entry</*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/, Integer> entry : map.entrySet()) {
+                if (entry.getKey() != /*? if 1.21.1 {*/ArmorItem.Type/*?} else {*//*ArmorType*//*?}*/.BODY) targetTotal += (int) (entry.getValue() * Main.CONFIG.armor.armorMultiplier.get());
             }
             int[] values = {
                     Math.round(targetTotal * ((float) Main.CONFIG.armor.chestplateArmorPercent.get() / 100)),
@@ -66,11 +81,11 @@ public class ArmorMaterialsMixin {
                 case BOOTS -> values[3];
                 case BODY -> body;
             });
-            toughness.set(0);
+            toughness = 0;
             if (Main.CONFIG.armor.defenseBasedKnockbackResist.get()) {
-                knockbackResistance.set(Mth.lerp(
+                knockbackResistance = Mth.lerp(
                         targetTotal / (20 * Main.CONFIG.armor.armorMultiplier.get()), 0, 0.1F
-                ));
+                );
             }
         }
     }

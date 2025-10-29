@@ -1,1 +1,1 @@
-- Further improved compatibility of the armor rebalance with other mods.
+- Fixed crash with mods which create armor materials without any layers. These armor materials cannot be used in the config, but ReArm still rebalances them automatically.

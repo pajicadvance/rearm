@@ -25,7 +25,8 @@
     "ShieldDecorationRecipeMixin",
     "ShieldItemMixin",
     "TippedArrowRecipeMixin",
-    "compat.emi.VanillaPluginMixin"
+    "compat.emi.VanillaPluginMixin",
+    "compat.ia.ItemsMixin"
   ],
   "client": [
     "BlockEntityWithoutLevelRendererMixin",

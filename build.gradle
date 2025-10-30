@@ -92,8 +92,9 @@ dependencies {
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) {
         implementation "dev.emi:emi-neoforge:${property("emi_version")}"
     }
-    runtimeOnly("maven.modrinth:item-descriptions:${property("enchdesc_version")}")
-    runtimeOnly("folk.sisby:kaleido-config:${property("kaleido_version")}")
+    compileOnly "maven.modrinth:immersive-armors:${property("ia_version")}"
+    runtimeOnly "maven.modrinth:item-descriptions:${property("enchdesc_version")}"
+    runtimeOnly "folk.sisby:kaleido-config:${property("kaleido_version")}"
 }
 
 tasks.withType(ProcessResources).configureEach {

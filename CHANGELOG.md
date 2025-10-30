@@ -1,1 +1,1 @@
-- Fixed crash with mods which create armor materials without any layers. These armor materials cannot be used in the config, but ReArm still rebalances them automatically.
+- Armor rebalance now supports armors from Immersive Armors.

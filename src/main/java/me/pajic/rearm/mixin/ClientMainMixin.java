@@ -1,6 +1,6 @@
 package me.pajic.rearm.mixin;
 
-import me.pajic.rearm.config.ArmorMaterialHelper;
+import me.pajic.rearm.util.ArmorMaterialHelper;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

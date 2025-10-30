@@ -151,6 +151,7 @@
   "rearm.config.armor.bodyArmorPercent.desc": "The percentage of the total armor the body piece should have. This affects horse and wolf armor for example.",
   "rearm.config.armor.totalArmorOverrides": "Total armor overrides",
   "rearm.config.armor.totalArmorOverrides.desc": "By default, the mod will automatically rescale armor values on all armor in the game using the default total armor gained from the set. Total armor can be overridden here for any material type. See file config/rearm/armor_materials.txt for a list of currently available armor materials.",
+  "rearm.config.armor.armorMaterialList": "These are all the armor materials for which you can override the total defense value by adding them to the \"Total armor overrides\" setting inside the mod configuration.",
   "rearm.config.armor.enchantmentBasedToughness": "Enchantment-based toughness",
   "rearm.config.armor.enchantmentBasedToughness.desc": "When enabled, toughness on armor will depend on the type and the amount of protection enchantments on the armor. All armor will also have their base toughness removed.",
   "rearm.config.armor.toughnessPerEnchantment": "Toughness per enchantment level",

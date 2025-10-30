@@ -51,12 +51,15 @@ dependencies {
     modImplementation(include("com.github.ramixin:mixson-fabric:${project.mixson_version}")) {
         exclude group: "net.fabricmc.fabric-api", module: "fabric-api"
     }
-    modImplementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
+    modImplementation "com.terraformersmc:modmenu:${property("modmenu_version")}"
+
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) modImplementation "dev.emi:emi-fabric:${property("emi_version")}"
     else modCompileOnly "dev.emi:emi-fabric:${property("emi_version")}"
-    //modRuntimeOnly("maven.modrinth:idwtialsimmoedm:${property("enchdesc_version")}")
-    modRuntimeOnly("maven.modrinth:item-descriptions:${property("enchdesc_version")}")
-    modRuntimeOnly("folk.sisby:kaleido-config:${property("kaleido_version")}")
+
+    modCompileOnly "maven.modrinth:immersive-armors:${property("ia_version")}"
+
+    modRuntimeOnly "maven.modrinth:item-descriptions:${property("enchdesc_version")}"
+    modRuntimeOnly "folk.sisby:kaleido-config:${property("kaleido_version")}"
 }
 
 processResources {

@@ -178,32 +178,6 @@ public class ResourceModifications {
                     }
                 }
         );
-        if (Main.CONFIG.armor.armorRebalance.get() && Main.CONFIG.armor.enchantmentBasedToughness.get()) {
-            Main.CONFIG.armor.toughnessPerEnchantment.forEach((s, t) -> Mixson.registerEvent(
-                    Mixson.DEFAULT_PRIORITY,
-                    rl -> {
-                        int index = rl.getPath().lastIndexOf('/');
-                        if (index != -1) return rl.getPath().substring(index + 1).equals(s);
-                        return false;
-                    },
-                    "Assign toughness bonus to " + s,
-                    context -> {
-                        JsonArray attributes = new JsonArray();
-                        JsonObject attribute = new JsonObject();
-                        attribute.addProperty("attribute", /*? if 1.21.1 {*/"minecraft:generic.armor_toughness"/*?} else {*//*"minecraft:armor_toughness"*//*?}*/);
-                        attribute.addProperty("id", context.getResourceId().getNamespace() + ":enchantment." + s);
-                        attribute.addProperty("operation", "add_value");
-                        JsonObject amount = new JsonObject();
-                        amount.addProperty("type", "minecraft:linear");
-                        amount.addProperty("base", t);
-                        amount.addProperty("per_level_above_first", t);
-                        attribute.add("amount", amount);
-                        attributes.add(attribute);
-                        context.getFile().getAsJsonObject().get("effects").getAsJsonObject().add("minecraft:attributes", attributes);
-                    },
-                    true
-            ));
-        }
 
         // Enchantable tags
         Mixson.registerEvent(

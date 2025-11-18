@@ -17,6 +17,7 @@
     "FireworkRocketEntityMixin",
     "ItemAttributeModifiersDefaultDisplayMixin",
     "ItemMixin",
+    "ItemStackMixin",
     "LivingEntityMixin",
     "PlayerMixin",
     "RangedBowAttackGoalMixin",

@@ -88,6 +88,7 @@ dependencies {
         jarJar.ranged(it, "[v1.3.1,)")
     }
     implementation "me.fzzyhmstrs:fzzy_config:${property("fzzy_version")}"
+    compileOnly "maven.modrinth:trimica:${property("trimica_version")}"
     compileOnly "dev.emi:emi-neoforge:${property("emi_version")}"
     if (stonecutter.eval(stonecutter.current.version, "1.21.1")) {
         implementation "dev.emi:emi-neoforge:${property("emi_version")}"

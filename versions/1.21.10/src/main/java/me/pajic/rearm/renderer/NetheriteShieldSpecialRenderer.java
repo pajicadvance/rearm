@@ -2,6 +2,7 @@ package me.pajic.rearm.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
+import me.pajic.rearm.CompatFlags;
 import me.pajic.rearm.Main;
 import net.minecraft.client.model.ShieldModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -33,7 +34,16 @@ public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
     }
 
     @Override
-    public void submit(@Nullable DataComponentMap dataComponentMap, @NotNull ItemDisplayContext displayContext, PoseStack poseStack, SubmitNodeCollector nodeCollector, int packedLight, int packedOverlay, boolean hasFoil, int outlineColor) {
+    public void submit(
+            @Nullable DataComponentMap dataComponentMap,
+            @NotNull ItemDisplayContext displayContext,
+            PoseStack poseStack,
+            SubmitNodeCollector nodeCollector,
+            int packedLight,
+            int packedOverlay,
+            boolean hasFoil,
+            int outlineColor
+    ) {
         BannerPatternLayers bannerPatternLayers = dataComponentMap != null
                 ? dataComponentMap.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
                 : BannerPatternLayers.EMPTY;
@@ -93,6 +103,9 @@ public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
                     outlineColor
             );
         }
+        if (CompatFlags.TRIMICA_LOADED) TrimicaCompat.submitTrim(
+                model.plate(), dataComponentMap, poseStack, nodeCollector, packedLight, packedOverlay, hasFoil, outlineColor
+        );
 
         poseStack.popPose();
     }

@@ -10,6 +10,7 @@ public class CompatFlags {
             "idwtialsimmoedm", "desc",
             "item-descriptions", "description"
     );
+    public static boolean TRIMICA_LOADED = FabricLoader.getInstance().isModLoaded("trimica");
     public static boolean HMI_LOADED = FabricLoader.getInstance().isModLoaded("hold-my-items");
     public static boolean SHIELD_LIB_LOADED = FabricLoader.getInstance().isModLoaded("fabricshieldlib") || FabricLoader.getInstance().isModLoaded("shieldlib");
     public static boolean ENCHDESC_MOD_LOADED = ENCHANTMENT_DESCRIPTION_MODS.keySet().stream().anyMatch(mod -> FabricLoader.getInstance().isModLoaded(mod));

@@ -46,6 +46,7 @@ The axe is meant for **very high single target damage**. With a fully enchanted 
 - New **Parry** mechanic - Raising the shield to block a projectile shortly before it lands parries it and sends it flying towards the shooter.
 - New **Bash** enchantment - Allows performing a shield bash by pressing the action key while blocking with a shield, knocking enemies away and dealing minor damage. The intensity of the knockback and damage dealt scales with enchantment level (max 3). The shield takes durability damage based on how many targets were hit, and is put on an 8-second cooldown.
 - **Netherite Shield** - Shields can now be upgraded to a netherite shield in the same way you upgrade tools and armor to netherite, which gives it fire resistance, significantly increased durability, and a new look.
+- Netherite shields can be trimmed if [Trimica](https://modrinth.com/mod/trimica) is installed.
 
 ### Armor rebalance
 

@@ -1,1 +1,1 @@
-- Fixed missing attribute text and odd formatting on the tooltips of armor items enchanted with protection enchantments when "Enchantment-based toughness" is on.
+- Added compatibility for Trimica, allowing netherite shields to be trimmed.

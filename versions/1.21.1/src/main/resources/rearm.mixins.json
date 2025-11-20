@@ -29,6 +29,7 @@
     "compat.ia.ItemsMixin"
   ],
   "client": [
+    "AbstractClientPlayerMixin",
     "BlockEntityWithoutLevelRendererMixin",
     "ClientMainMixin",
     "GuiMixin",

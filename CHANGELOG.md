@@ -1,1 +1,1 @@
-- Added compatibility for Trimica, allowing netherite shields to be trimmed.
+- Fixed netherite bow not affecting FOV when being used.

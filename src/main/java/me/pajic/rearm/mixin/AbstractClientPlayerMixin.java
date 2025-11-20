@@ -1,0 +1,23 @@
+package me.pajic.rearm.mixin;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import me.pajic.rearm.item.ReArmItems;
+import net.minecraft.client.player.AbstractClientPlayer;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
+@Mixin(AbstractClientPlayer.class)
+public class AbstractClientPlayerMixin {
+
+    @SuppressWarnings("ConstantValue")
+    @ModifyExpressionValue(
+            method = "getFieldOfViewModifier",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
+            )
+    )
+    private boolean checkForModdedBows(boolean original) {
+        return original || ReArmItems.isBow(((AbstractClientPlayer) (Object) this).getUseItem());
+    }
+}

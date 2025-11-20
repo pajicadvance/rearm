@@ -28,6 +28,7 @@
     "compat.ia.ItemsMixin"
   ],
   "client": [
+    "AbstractClientPlayerMixin",
     "AtlasManagerMixin",
     "AtlasProviderMixin",
     "AvatarRendererMixin",

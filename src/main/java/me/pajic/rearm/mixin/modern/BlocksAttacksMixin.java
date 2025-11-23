@@ -19,16 +19,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class BlocksAttacksMixin {
 
     @Inject(
-			//? if 1.21.1
-            /*method = "hurtBlockingItem",*/
-			//? if > 1.21.1
-			method = "hurtBlockingItem(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/InteractionHand;FI)V",
+			//? if fabric
+            method = "hurtBlockingItem",
+			//? if neoforge
+			/*method = "hurtBlockingItem(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/InteractionHand;FI)V",*/
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/player/Player;awardStat(Lnet/minecraft/stats/Stat;)V"
             )
     )
-    private void criticalCounter_startTimer(Level level, ItemStack stack, LivingEntity entity, InteractionHand hand, float damage, /*? if > 1.21.1 {*/int fixedDamage,/*?}*/ CallbackInfo ci) {
+    private void criticalCounter_startTimer(Level level, ItemStack stack, LivingEntity entity, InteractionHand hand, float damage, /*? if neoforge {*//*int fixedDamage,*//*?}*/ CallbackInfo ci) {
         if (CriticalCounterAbility.canCounter(entity.getWeaponItem())) {
             ReArm.xplat().sendToClient((ServerPlayer) entity, new CriticalCounterAbility.S2CStartCriticalCounterTimer());
         }

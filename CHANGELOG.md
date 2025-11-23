@@ -1,2 +1,1 @@
-- Added option "Disable vanilla crits" for the sword and axe. This allows having both types of crits at the same time (Critical Counter crits and vanilla crits), or disabling both crits if desired. The default configuration of the mod is unchanged (only Critical Counter crits for swords, only vanilla crits for axe).
-- Internal changes. This should not affect anything in the mod in any way. Please report any bugs or discrepancies at the issue tracker.
+- Fixed crash on launch.

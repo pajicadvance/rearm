@@ -21,13 +21,16 @@
   "icon": "icon.png",
   "license": "${license}",
   "environment": "*",
-  "accessWidener": "${id}.accesswidener",
+  "accessWidener": "aw/${minecraft}.accesswidener",
   "entrypoints": {
     "main": [
       "${group}.${id}.platform.fabric.FabricEntrypoint"
     ],
     "client": [
       "${group}.${id}.platform.fabric.FabricClientEntrypoint"
+    ],
+    "mm:early_risers": [
+      "${group}.${id}.platform.fabric.EarlyRiser"
     ]
   },
   "mixins": [

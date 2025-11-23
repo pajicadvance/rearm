@@ -16,6 +16,10 @@ credits = "${contributors}"
 
 description = '''${description}'''
 
+enumExtensions="META-INF/enumextensions.json"
+
 [[mixins]]
 config = "${id}.mixins.json"
+[[accessTransformers]]
+file = "aw/${minecraft}.cfg"
 ${dependencies}

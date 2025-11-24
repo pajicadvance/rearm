@@ -27,9 +27,9 @@ public abstract class PlayerShieldMixin extends LivingEntity {
             at = @At(
                     value = "INVOKE",
 					//? if fabric
-                    /^target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"^/
+                    target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
 					//? if neoforge
-					target = "Lnet/minecraft/world/item/ItemStack;canPerformAction(Lnet/neoforged/neoforge/common/ItemAbility;)Z"
+					/^target = "Lnet/minecraft/world/item/ItemStack;canPerformAction(Lnet/neoforged/neoforge/common/ItemAbility;)Z"^/
             )
     )
     private boolean extendShieldCheck(boolean original) {

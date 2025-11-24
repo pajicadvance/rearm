@@ -16,9 +16,9 @@ import org.spongepowered.asm.mixin.injection.At;
 public class AnvilMenuMixin {
 
     @ModifyExpressionValue(
-			//? if fabric
+			//? if fabric || (neoforge && 1.21.1)
             method = "createResult",
-			//? if neoforge
+			//? if neoforge && > 1.21.1
 			/*method = "createResultInternal",*/
             at = @At(
                     value = "INVOKE",

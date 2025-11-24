@@ -5,6 +5,7 @@ package me.pajic.rearm.platform.neoforge;
 import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.keybind.ReArmKeybinds;
+import me.pajic.rearm.mixson.ClientResourceModifications;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
@@ -29,6 +30,7 @@ public class NeoforgeClientEventSubscriber {
 
 	@SubscribeEvent
 	private static void onClientSetup(final FMLClientSetupEvent event) {
+		ClientResourceModifications.init();
 		ReArm.onInitializeClient();
 	}
 

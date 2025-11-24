@@ -13,7 +13,10 @@ import java.util.List;
 
 @SuppressWarnings("removal")
 public class CommonResourceModifications {
+	private static boolean initialized = false;
+
     public static void init() {
+		if (initialized) return;
         if (ReArm.xplat().isDebug()) Mixson.setDebugMode(DebugMode.EXPORT);
 
         // Enchantments
@@ -259,6 +262,7 @@ public class CommonResourceModifications {
                     }
                 }
         );
+		initialized = true;
     }
 
     private static void normalizeEnchantmentCosts(EventContext<JsonElement> context) {

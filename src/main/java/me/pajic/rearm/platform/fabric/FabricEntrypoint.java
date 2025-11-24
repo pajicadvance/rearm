@@ -10,6 +10,7 @@ import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
+import me.pajic.rearm.mixson.CommonResourceModifications;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -19,7 +20,6 @@ import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 //? if > 1.21.1 {
@@ -34,6 +34,7 @@ public class FabricEntrypoint implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		CommonResourceModifications.init();
 		ReArm.onInitialize();
 		ReArmItems.init();
 		ReArmEffects.init();

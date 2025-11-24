@@ -10,7 +10,7 @@ import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
-import net.minecraft.core.registries.BuiltInRegistries;
+import me.pajic.rearm.mixson.CommonResourceModifications;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -126,6 +126,7 @@ public class NeoforgeEntrypoint {
 
 	@SubscribeEvent
 	private static void registerFeatures(RegisterEvent event) {
+		CommonResourceModifications.init();
 		ReArmItems.init();
 		ReArmEffects.init();
 		event.register(

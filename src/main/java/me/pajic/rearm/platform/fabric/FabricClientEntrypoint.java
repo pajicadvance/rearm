@@ -7,6 +7,7 @@ import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.keybind.ReArmKeybinds;
+import me.pajic.rearm.mixson.ClientResourceModifications;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -26,6 +27,7 @@ public class FabricClientEntrypoint implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
+		ClientResourceModifications.init();
 		ReArm.onInitializeClient();
 		initClientResources();
 		initCooldownTracker();

@@ -1,1 +1,1 @@
-- Fixed crash on launch.
+- Fixed rare crash on launch due to a race condition when patching game resources.

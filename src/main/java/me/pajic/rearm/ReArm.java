@@ -41,13 +41,11 @@ public class ReArm {
 	);
 
 	public static void onInitialize() {
-		CommonResourceModifications.init();
 	}
 
 	public static void onInitializeClient() {
 		//? if 1.21.1
 		/*ReArmModels.initModels();*/
-		ClientResourceModifications.init();
 		ConfigApi.event().onUpdateClient((rl, config) -> {
 			if (rl.equals(ReArm.CONFIG_RL) &&
 					ReArm.CONFIG.armor.helmetArmorPercent.get() +

@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableMap;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import me.pajic.rearm.renderer.RendererConstants;
-import net.minecraft.client.model.ShieldModel;
+import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.model.geom.LayerDefinitions;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;

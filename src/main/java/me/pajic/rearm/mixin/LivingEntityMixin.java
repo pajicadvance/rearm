@@ -51,7 +51,7 @@ public abstract class LivingEntityMixin extends Entity {
             int piercingLevel = source.getWeaponItem() != null ?
                     EnchantmentHelper.getItemEnchantmentLevel(
                             //? if 1.21.1
-                            /*registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING),*/
+                            //registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.PIERCING),
                             //? if > 1.21.1
                             registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.PIERCING),
                             source.getWeaponItem()
@@ -86,7 +86,7 @@ public abstract class LivingEntityMixin extends Entity {
 					//? if fabric
                     target = "Lnet/minecraft/world/item/component/BlocksAttacks;hurtBlockingItem(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/InteractionHand;F)V"
 					//? if neoforge
-					/*target = "Lnet/neoforged/neoforge/common/CommonHooks;onDamageBlock(Lnet/minecraft/world/entity/LivingEntity;Lnet/neoforged/neoforge/common/damagesource/DamageContainer;FZ)Lnet/neoforged/neoforge/event/entity/living/LivingShieldBlockEvent;"*/
+					//target = "Lnet/neoforged/neoforge/common/CommonHooks;onDamageBlock(Lnet/minecraft/world/entity/LivingEntity;Lnet/neoforged/neoforge/common/damagesource/DamageContainer;FZ)Lnet/neoforged/neoforge/event/entity/living/LivingShieldBlockEvent;"
             )
     )
     private void parry_onHurtShield(ServerLevel level, DamageSource source, float damageAmount, CallbackInfoReturnable<Float> cir) {
@@ -95,7 +95,7 @@ public abstract class LivingEntityMixin extends Entity {
             projectile.setDeltaMovement(projectile.getDeltaMovement().scale(7.5));
             float f = 170.0F + random.nextFloat() * 20.0F;
             projectile.setYRot(projectile.getYRot() + f);
-            projectile.hasImpulse = true;
+            projectile./*? if < 1.21.11 {*//*hasImpulse*//*?} else {*/needsSync/*?}*/ = true;
         }
     }
     //?}

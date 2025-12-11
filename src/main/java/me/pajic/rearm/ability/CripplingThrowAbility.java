@@ -10,7 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -19,13 +19,13 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 //? if 1.21.1
-/*import net.minecraft.world.InteractionResultHolder;*/
+//import net.minecraft.world.InteractionResultHolder;
 //? if > 1.21.1 {
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionResult;
@@ -37,7 +37,7 @@ import java.util.UUID;
 
 public class CripplingThrowAbility {
 
-    public static final ResourceLocation RECALL_AXE = ReArm.id("recall_axe");
+    public static final Identifier RECALL_AXE = ReArm.id("recall_axe");
 
     public record C2SUpdatePlayerRecallCondition(UUID activePlayerUUID) implements CustomPacketPayload {
         public static final Type<C2SUpdatePlayerRecallCondition> TYPE = new Type<>(RECALL_AXE);
@@ -60,7 +60,7 @@ public class CripplingThrowAbility {
 					//? if fabric && > 1.21.1 || neoforge && > 1.21.1
 					ResourceKey.create(Registries.ENTITY_TYPE, ReArm.id("axe"))
 					//? if neoforge && 1.21.1
-					/*"axe"*/
+					//"axe"
 			);
 
     public static final Set<UUID> recallSignals = new HashSet<>();
@@ -70,7 +70,7 @@ public class CripplingThrowAbility {
     ) {
         int cripplingThrowLevel = EnchantmentHelper.getItemEnchantmentLevel(
                 //? if 1.21.1
-                /*level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),*/
+                //level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
                 //? if > 1.21.1
                 level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW),
                 stack
@@ -78,19 +78,19 @@ public class CripplingThrowAbility {
         if (cripplingThrowLevel > 0) {
             if (stack.getDamageValue() >= stack.getMaxDamage() - 1) {
                 //? if 1.21.1
-                /*return InteractionResultHolder.fail(stack);*/
+                //return InteractionResultHolder.fail(stack);
                 //? if > 1.21.1
                 return InteractionResult.FAIL;
             } else {
                 player.startUsingItem(usedHand);
                 //? if 1.21.1
-                /*return InteractionResultHolder.consume(stack);*/
+                //return InteractionResultHolder.consume(stack);
                 //? if > 1.21.1
                 return InteractionResult.CONSUME;
             }
         }
         //? if 1.21.1
-        /*return InteractionResultHolder.fail(stack);*/
+        //return InteractionResultHolder.fail(stack);
         //? if > 1.21.1
         return InteractionResult.FAIL;
     }

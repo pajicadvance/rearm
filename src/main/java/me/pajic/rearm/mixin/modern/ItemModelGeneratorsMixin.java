@@ -15,7 +15,7 @@ import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.item.properties.numeric.CrossbowPull;
 import net.minecraft.client.renderer.item.properties.numeric.UseDuration;
 import net.minecraft.client.renderer.item.properties.select.Charge;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import org.spongepowered.asm.mixin.Final;
@@ -32,7 +32,7 @@ import java.util.Optional;
 public abstract class ItemModelGeneratorsMixin {
 
     @Shadow @Final public ItemModelOutput itemModelOutput;
-    @Shadow public abstract ResourceLocation createFlatItemModel(Item item, String suffix, ModelTemplate modelTemplate);
+    @Shadow public abstract Identifier createFlatItemModel(Item item, String suffix, ModelTemplate modelTemplate);
 
     @Inject(
             method = "run",

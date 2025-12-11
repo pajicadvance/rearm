@@ -82,7 +82,7 @@ public class ItemInHandRendererMixin {
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
                     //? if 1.21.1
-                    /*, ordinal = 1*/
+                    //, ordinal = 1
             )
     )
     private boolean crossbow_renderArmWithItem(boolean original, @Local(argsOnly = true) ItemStack itemStack) {

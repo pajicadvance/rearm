@@ -1,8 +1,8 @@
 package me.pajic.rearm.platform.neoforge;
 
 //? neoforge {
-/*
-import me.pajic.rearm.platform.Platform;
+
+/*import me.pajic.rearm.platform.Platform;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.fml.ModList;
@@ -43,7 +43,7 @@ public class NeoforgePlatform implements Platform {
 	@Override
 	public void sendToServer(CustomPacketPayload payload) {
 		//? if 1.21.1
-		/^PacketDistributor.sendToServer(payload);^/
+		//PacketDistributor.sendToServer(payload);
 		//? if > 1.21.1
 		ClientPacketDistributor.sendToServer(payload);
 	}

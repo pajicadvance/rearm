@@ -49,22 +49,27 @@ loom {
 }
 
 stonecutter {
+	filters.exclude("**/*.accesswidener", "**/*.cfg")
 	val dir = eval(current.version, ">1.21.10")
 	replacements.string {
 		direction = dir
-		replace(".ResourceLocation", ".Identifier")
+		replace("ValidatedIdentifier", "ValidatedIdentifier")
 	}
 	replacements.string {
 		direction = dir
-		replace("ResourceLocation.", "Identifier.")
+		replace("ResourceLocation", "Identifier")
 	}
 	replacements.string {
 		direction = dir
-		replace("<ResourceLocation", "<Identifier")
+		replace(".location()", ".identifier()")
 	}
 	replacements.string {
 		direction = dir
-		replace(" ResourceLocation ", " Identifier ")
+		replace("net.minecraft.world.entity.projectile.AbstractArrow", "net.minecraft.world.entity.projectile.arrow.AbstractArrow")
+	}
+	replacements.string {
+		direction = dir
+		replace("net.minecraft.client.model.ShieldModel", "net.minecraft.client.model.object.equipment.ShieldModel")
 	}
 }
 

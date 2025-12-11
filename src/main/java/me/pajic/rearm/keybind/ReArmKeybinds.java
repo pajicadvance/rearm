@@ -47,7 +47,7 @@ public class ReArmKeybinds {
             Player player = client.player;
             int backstepLevel = Math.min(EnchantmentHelper.getItemEnchantmentLevel(
                     //? if 1.21.1
-                    /*client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),*/
+                    //client.level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BACKSTEP),
                     //? if > 1.21.1
                     client.level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.BACKSTEP),
                     player.getMainHandItem()

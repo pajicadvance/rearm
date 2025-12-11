@@ -16,7 +16,7 @@ credits = "${contributors}"
 
 description = '''${description}'''
 
-enumExtensions="META-INF/enumextensions.json"
+enumExtensions="META-INF/${minecraft}-enumextensions.json"
 
 [[mixins]]
 config = "${id}.mixins.json"

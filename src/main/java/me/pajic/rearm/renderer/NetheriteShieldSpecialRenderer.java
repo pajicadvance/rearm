@@ -6,7 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import me.pajic.rearm.CompatFlags;
 import me.pajic.rearm.ReArm;
-import net.minecraft.client.model.ShieldModel;
+import net.minecraft.client.model.object.equipment.ShieldModel;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.special.ShieldSpecialRenderer;

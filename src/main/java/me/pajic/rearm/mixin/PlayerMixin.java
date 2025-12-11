@@ -16,11 +16,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 //? if 1.21.1 {
 /*import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -39,37 +39,43 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @SuppressWarnings("resource")
-    @ModifyArgs(
-            method = "attack",
+	//? if >= 1.21.11 && neoforge {
+	/*@ModifyArg(
+			method = "doSweepAttack(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;FLnet/minecraft/world/phys/AABB;)V",
+			at = @At(
+					value = "INVOKE",
+					target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"
+			),
+			index = 1
+	)
+	*///?} else {
+    @ModifyExpressionValue(
+            /*? if < 1.21.11 {*//*method = "attack"*//*?} else if fabric {*/method = "doSweepAttack"/*?} else {*//*method = "doSweepAttack(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;FLnet/minecraft/world/phys/AABB;)V"*//*?}*/,
             at = @At(
                     value = "INVOKE",
 					//? if fabric
                     target = "Lnet/minecraft/world/phys/AABB;inflate(DDD)Lnet/minecraft/world/phys/AABB;"
 					//? if neoforge
-					/*target = "Lnet/minecraft/world/item/ItemStack;getSweepHitBox(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/phys/AABB;"*/
+					//target = "Lnet/minecraft/world/item/ItemStack;getSweepHitBox(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;)Lnet/minecraft/world/phys/AABB;"
             )
     )
-    private void sweepingEdge_increaseAttackRadius(Args args) {
+	//?}
+    private AABB sweepingEdge_increaseAttackRadius(AABB original) {
         if (ReArm.CONFIG.sword.improvedSweepingEdge.get()) {
             int sweepingEdgeLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     //? if 1.21.1
-                    /*level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SWEEPING_EDGE),*/
+                    //level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.SWEEPING_EDGE),
                     //? if > 1.21.1
                     level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.SWEEPING_EDGE),
                     getWeaponItem()
             );
-            if (sweepingEdgeLevel > 0) {
-                args.set(0, (double) args.get(0) * sweepingEdgeLevel);
-                args.set(2, (double) args.get(2) * sweepingEdgeLevel);
-                if (sweepingEdgeLevel >= 3) {
-                    args.set(1, 1.0);
-                }
-            }
+            if (sweepingEdgeLevel > 0) return original.inflate(sweepingEdgeLevel, (double) sweepingEdgeLevel / 4, sweepingEdgeLevel);
         }
-    }
+		return original;
+	}
 
     @ModifyExpressionValue(
-            method = "attack",
+			/*? if < 1.21.11 {*//*method = "attack"*//*?} else if fabric {*/method = "doSweepAttack"/*?} else {*//*method = "doSweepAttack(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;FLnet/minecraft/world/phys/AABB;)V"*//*?}*/,
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/level/Level;getEntitiesOfClass(Ljava/lang/Class;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"
@@ -85,11 +91,11 @@ public abstract class PlayerMixin extends LivingEntity {
     }
 
     @ModifyArg(
-            method = "attack",
+			/*? if < 1.21.11 {*//*method = "attack"*//*?} else if fabric {*/method = "doSweepAttack"/*?} else {*//*method = "doSweepAttack(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;FLnet/minecraft/world/phys/AABB;)V"*//*?}*/,
             at = @At(
                     value = "INVOKE",
                     //? if 1.21.1
-                    /*target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"*/
+                    //target = "Lnet/minecraft/world/entity/LivingEntity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"
                     //? if > 1.21.1
                     target = "Lnet/minecraft/world/entity/LivingEntity;hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z"
             ),
@@ -155,7 +161,7 @@ public abstract class PlayerMixin extends LivingEntity {
         if (ReArm.CONFIG.tweaks.infinityFix.get()) {
             int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     //? if 1.21.1
-                    /*level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.INFINITY),*/
+                    //level().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.INFINITY),
                     //? if >= 1.21.7
                     level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.INFINITY),
                     weaponStack

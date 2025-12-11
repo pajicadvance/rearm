@@ -7,7 +7,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public class CriticalCounterAbility {
 
-    public static final ResourceLocation COUNTER_START_TIMER = ReArm.id("counter_start_timer");
-    public static final ResourceLocation UPDATE_PLAYER_COUNTER_CONDITION = ReArm.id("update_player_counter_condition");
+    public static final Identifier COUNTER_START_TIMER = ReArm.id("counter_start_timer");
+    public static final Identifier UPDATE_PLAYER_COUNTER_CONDITION = ReArm.id("update_player_counter_condition");
 
     public record C2SUpdatePlayerCounterCondition(UUID activePlayerUUID, boolean shouldCounter) implements CustomPacketPayload {
         public static final Type<C2SUpdatePlayerCounterCondition> TYPE = new Type<>(UPDATE_PLAYER_COUNTER_CONDITION);

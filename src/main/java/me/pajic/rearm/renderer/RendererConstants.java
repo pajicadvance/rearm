@@ -3,11 +3,11 @@ package me.pajic.rearm.renderer;
 import me.pajic.rearm.ReArm;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class RendererConstants {
-    public static final ResourceLocation NETHERITE_SHIELD_SHEET = ReArm.id("textures/atlas/netherite_shield_patterns.png");
-    public static final ResourceLocation NETHERITE_SHIELD_PATTERNS = ReArm.id("netherite_shield_patterns");
+    public static final Identifier NETHERITE_SHIELD_SHEET = ReArm.id("textures/atlas/netherite_shield_patterns.png");
+    public static final Identifier NETHERITE_SHIELD_PATTERNS = ReArm.id("netherite_shield_patterns");
     public static final Material NETHERITE_SHIELD_BASE = new Material(
             NETHERITE_SHIELD_SHEET,
             ReArm.id("entity/netherite_shield_base")

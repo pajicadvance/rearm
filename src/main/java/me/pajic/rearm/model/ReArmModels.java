@@ -1,8 +1,8 @@
 package me.pajic.rearm.model;
 
 //? if 1.21.1 {
-/*
-import me.pajic.rearm.item.NetheriteCrossbowItem;
+
+/*import me.pajic.rearm.item.NetheriteCrossbowItem;
 import me.pajic.rearm.item.ReArmItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.component.DataComponents;

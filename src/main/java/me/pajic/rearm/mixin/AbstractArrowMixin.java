@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
@@ -77,7 +77,10 @@ public abstract class AbstractArrowMixin extends Projectile {
             method = "onHitEntity",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;isCritArrow()Z"
+					//? if < 1.21.11
+                    //target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;isCritArrow()Z"
+					//? if >= 1.21.11
+					target = "Lnet/minecraft/world/entity/projectile/arrow/AbstractArrow;isCritArrow()Z"
             )
     )
     private boolean modifyCrit(
@@ -109,7 +112,10 @@ public abstract class AbstractArrowMixin extends Projectile {
             method = "onHitEntity",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;getPierceLevel()B",
+					//? if < 1.21.11
+                    //target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;getPierceLevel()B",
+					//? if >= 1.21.11
+					target = "Lnet/minecraft/world/entity/projectile/arrow/AbstractArrow;getPierceLevel()B",
                     ordinal = 3
             )
     )

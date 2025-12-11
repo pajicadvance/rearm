@@ -1,8 +1,8 @@
 package me.pajic.rearm.mixin.legacy;
 
 //? if 1.21.1 {
-/*
-import com.moulberry.mixinconstraints.annotations.IfModAbsent;
+
+/*import com.moulberry.mixinconstraints.annotations.IfModAbsent;
 import com.moulberry.mixinconstraints.annotations.IfModAbsents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ShieldItem;

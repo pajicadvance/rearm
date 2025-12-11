@@ -21,7 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -157,7 +157,7 @@ public class ThrownAxe extends AbstractArrow {
 
         dealtDamage = true;
         //? if 1.21.1
-        /*if (entity.hurt(damageSource, f + g)) {*/
+        //if (entity.hurt(damageSource, f + g)) {
         //? if > 1.21.1
         if (entity.hurtOrSimulate(damageSource, f + g)) {
             if (entity.getType() == EntityType.ENDERMAN) {
@@ -183,7 +183,7 @@ public class ThrownAxe extends AbstractArrow {
     private int getCripplingThrowLevel() {
         return EnchantmentHelper.getItemEnchantmentLevel(
                 //? if 1.21.1
-                /*registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),*/
+                //registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.CRIPPLING_THROW),
                 //? if > 1.21.1
                 registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.CRIPPLING_THROW),
                 entityData.get(THROWN_AXE_ITEM_STACK)

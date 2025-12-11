@@ -1,8 +1,8 @@
 package me.pajic.rearm.mixin.legacy;
 
 //? if 1.21.1 {
-/*
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.pajic.rearm.ReArm;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +29,7 @@ public abstract class PlayerShieldMixin extends LivingEntity {
 					//? if fabric
                     target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
 					//? if neoforge
-					/^target = "Lnet/minecraft/world/item/ItemStack;canPerformAction(Lnet/neoforged/neoforge/common/ItemAbility;)Z"^/
+					//target = "Lnet/minecraft/world/item/ItemStack;canPerformAction(Lnet/neoforged/neoforge/common/ItemAbility;)Z"
             )
     )
     private boolean extendShieldCheck(boolean original) {

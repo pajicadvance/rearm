@@ -17,7 +17,7 @@ public class EarlyRiser implements Runnable {
     private static final String targetType = // Gui$HeartType
             mappingResolver.mapClassName("intermediary", "net.minecraft.class_329$class_6411");
 
-    private static final String paramType = // ResourceLocation
+    private static final String paramType = // ResourceLocation / Identifier
             "L" + mappingResolver.mapClassName("intermediary", "net.minecraft.class_2960") + ";";
 
     @Override

@@ -58,7 +58,7 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             at = @At(
                     value = "INVOKE",
                     //? if 1.21.1
-                    /*target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"*/
+                    //target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"
                     //? if > 1.21.1
                     target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/Entity;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"
             ),
@@ -80,7 +80,7 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
     )
     private void playPlayerBowDrawingSound(Level level, Player player, InteractionHand interactionHand,
                                            //? if 1.21.1
-                                           /*CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir*/
+                                           //CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir
                                            //? if > 1.21.1
                                            CallbackInfoReturnable<InteractionResult> cir
     ) {

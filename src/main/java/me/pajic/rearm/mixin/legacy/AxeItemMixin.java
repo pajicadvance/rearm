@@ -1,8 +1,8 @@
 package me.pajic.rearm.mixin.legacy;
 
 //? if 1.21.1 {
-/*
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.rearm.ReArm;
 import net.minecraft.world.item.AxeItem;

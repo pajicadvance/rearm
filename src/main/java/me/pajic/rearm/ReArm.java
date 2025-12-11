@@ -9,13 +9,13 @@ import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.mixson.CommonResourceModifications;
 import me.pajic.rearm.platform.Platform;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //? if 1.21.1
-/*import me.pajic.rearm.model.ReArmModels;*/
+//import me.pajic.rearm.model.ReArmModels;
 
 //? fabric {
 import me.pajic.rearm.platform.fabric.FabricPlatform;
@@ -27,17 +27,17 @@ import me.pajic.rearm.platform.fabric.FabricPlatform;
 public class ReArm {
 
 	public static final String MOD_ID = /*$ mod_id*/ "rearm";
-	public static final String MOD_VERSION = /*$ mod_version*/ "2.4.10";
+	public static final String MOD_VERSION = /*$ mod_version*/ "2.4.12";
 	public static final String MOD_FRIENDLY_NAME = /*$ mod_name*/ "ReArm";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-	public static final ResourceLocation CONFIG_RL = ResourceLocation.fromNamespaceAndPath(MOD_ID, "config");
+	public static final Identifier CONFIG_RL = Identifier.fromNamespaceAndPath(MOD_ID, "config");
 	public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
 	private static final Platform PLATFORM = createPlatformInstance();
 	public static final String PACK_VERSION = PLATFORM.mcVersion().replace(".", "_");
 
 	public static final TagKey<Item> SHIELDS = TagKey.create(
 			Registries.ITEM,
-			ResourceLocation.fromNamespaceAndPath("c", "tools/shield")
+			Identifier.fromNamespaceAndPath("c", "tools/shield")
 	);
 
 	public static void onInitialize() {
@@ -45,7 +45,7 @@ public class ReArm {
 
 	public static void onInitializeClient() {
 		//? if 1.21.1
-		/*ReArmModels.initModels();*/
+		//ReArmModels.initModels();
 		ConfigApi.event().onUpdateClient((rl, config) -> {
 			if (rl.equals(ReArm.CONFIG_RL) &&
 					ReArm.CONFIG.armor.helmetArmorPercent.get() +
@@ -73,8 +73,8 @@ public class ReArm {
 		*///?}
 	}
 
-	public static ResourceLocation id(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	public static Identifier id(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 
 	public static void debugLog(String message, Object ... args) {

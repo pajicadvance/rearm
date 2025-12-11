@@ -1,8 +1,8 @@
 package me.pajic.rearm.mixin.legacy;
 
 //? if 1.21.1 {
-/*
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import me.pajic.rearm.item.ReArmItems;

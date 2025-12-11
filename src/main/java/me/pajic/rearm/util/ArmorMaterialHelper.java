@@ -3,12 +3,12 @@ package me.pajic.rearm.util;
 import com.google.common.collect.Maps;
 import me.pajic.rearm.ReArm;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //? if 1.21.1
-/*import net.minecraft.world.item.ArmorItem;*/
+//import net.minecraft.world.item.ArmorItem;
 //? if > 1.21.1
 import net.minecraft.world.item.equipment.ArmorType;
 
@@ -22,7 +22,7 @@ import java.util.Map;
 public class ArmorMaterialHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger("ReArm Armor Material Helper");
     private static final Path FILE_PATH = ReArm.xplat().getConfigDir().resolve("rearm/armor_materials.txt");
-    private static final List<ResourceLocation> ARMOR_MATERIALS = new ArrayList<>();
+    private static final List<Identifier> ARMOR_MATERIALS = new ArrayList<>();
 
     public static Map</*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/, Integer> calculateDefenses(int targetTotal) {
         int[] values = {
@@ -59,7 +59,7 @@ public class ArmorMaterialHelper {
         return Mth.lerp(targetTotal / (20 * ReArm.CONFIG.armor.armorMultiplier.get()), 0, 0.1F);
     }
 
-    public static void add(ResourceLocation rl) {
+    public static void add(Identifier rl) {
         ARMOR_MATERIALS.add(rl);
     }
 
@@ -69,7 +69,7 @@ public class ArmorMaterialHelper {
             writer.write(Component.translatable("rearm.config.armor.armorMaterialList").getString());
             writer.newLine();
             writer.newLine();
-            for (ResourceLocation rl : ARMOR_MATERIALS) {
+            for (Identifier rl : ARMOR_MATERIALS) {
                 writer.write(rl.toString());
                 writer.newLine();
             }

@@ -3,7 +3,7 @@ package me.pajic.rearm.mixin;
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import me.pajic.rearm.ReArm;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -67,13 +67,13 @@ public abstract class ItemStackMixin {
     @SuppressWarnings("rawtypes")
     @ModifyReceiver(
             //? if <= 1.21.1
-            /*method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Ljava/util/function/BiConsumer;)V",*/
+            //method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Ljava/util/function/BiConsumer;)V",
             //? if > 1.21.1
             method = "forEachModifier(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V",
             at = @At(
                     value = "INVOKE",
                     //? if <= 1.21.1
-                    /*target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlotGroup;Ljava/util/function/BiConsumer;)V"*/
+                    //target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlotGroup;Ljava/util/function/BiConsumer;)V"
                     //? if > 1.21.1
                     target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V"
             )
@@ -122,7 +122,7 @@ public abstract class ItemStackMixin {
                     default -> "body";
                 };
                 return instance.withModifierAdded(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                        ResourceLocation.withDefaultNamespace("armor." + type),
+                        Identifier.withDefaultNamespace("armor." + type),
                         toughness,
                         AttributeModifier.Operation.ADD_VALUE
                 ), EquipmentSlotGroup.bySlot(equippable.slot()));

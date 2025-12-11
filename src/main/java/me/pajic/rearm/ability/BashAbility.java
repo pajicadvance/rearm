@@ -7,7 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class BashAbility {
 
-    public static final ResourceLocation BASH_SIGNAL = ReArm.id("bash_signal");
+    public static final Identifier BASH_SIGNAL = ReArm.id("bash_signal");
 
     public record C2SBashSignal() implements CustomPacketPayload {
         public static final Type<C2SBashSignal> TYPE = new Type<>(BASH_SIGNAL);
@@ -39,7 +39,7 @@ public class BashAbility {
 		ServerLevel level = player./*? if 1.21.1 {*//*serverLevel*//*?} else {*/level/*?}*/();
 		int bashLevel = EnchantmentHelper.getItemEnchantmentLevel(
 				//? if 1.21.1
-				/*level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BASH),*/
+				//level.registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(ReArmEnchantments.BASH),
 				//? if > 1.21.1
 				level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(ReArmEnchantments.BASH),
 				player.getUseItem()

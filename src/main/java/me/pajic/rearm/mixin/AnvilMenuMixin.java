@@ -19,7 +19,7 @@ public class AnvilMenuMixin {
 			//? if fabric || (neoforge && 1.21.1)
             method = "createResult",
 			//? if neoforge && > 1.21.1
-			/*method = "createResultInternal",*/
+			//method = "createResultInternal",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/enchantment/Enchantment;areCompatible(Lnet/minecraft/core/Holder;Lnet/minecraft/core/Holder;)Z"

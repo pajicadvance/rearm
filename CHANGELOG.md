@@ -1,1 +1,2 @@
-- Fixed rare crash on launch due to a race condition when patching game resources.
+- Updated to Minecraft 1.21.11.
+- Improved how sweeping edge range increase works and fixed a possible bug of it not applying on NeoForge.

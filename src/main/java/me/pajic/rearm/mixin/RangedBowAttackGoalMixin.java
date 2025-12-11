@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //? if fabric
 import net.minecraft.world.entity.monster.Monster;
 //? if neoforge
-/*import net.minecraft.world.entity.Mob;*/
+//import net.minecraft.world.entity.Mob;
 
 @Mixin(RangedBowAttackGoal.class)
 public class RangedBowAttackGoalMixin<T extends /*? if fabric {*/Monster/*?} else {*//*Mob*//*?}*/ & RangedAttackMob> {
@@ -27,7 +27,7 @@ public class RangedBowAttackGoalMixin<T extends /*? if fabric {*/Monster/*?} els
 					//? if fabric
 					target = "Lnet/minecraft/world/entity/monster/Monster;startUsingItem(Lnet/minecraft/world/InteractionHand;)V"
 					//? if neoforge
-                    /*target = "Lnet/minecraft/world/entity/Mob;startUsingItem(Lnet/minecraft/world/InteractionHand;)V"*/
+                    //target = "Lnet/minecraft/world/entity/Mob;startUsingItem(Lnet/minecraft/world/InteractionHand;)V"
             )
     )
     private void playMobBowDrawingSound(CallbackInfo ci) {

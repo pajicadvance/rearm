@@ -1,8 +1,8 @@
 package me.pajic.rearm.platform.neoforge;
 
 //? if neoforge {
-/*
-import me.pajic.rearm.ReArm;
+
+/*import me.pajic.rearm.ReArm;
 import net.minecraft.client.gui.Gui;
 import net.neoforged.fml.common.asm.enumextension.EnumProxy;
 

@@ -1,8 +1,8 @@
 package me.pajic.rearm.platform.neoforge;
 
 //? neoforge {
-/*
-import me.pajic.rearm.ReArm;
+
+/*import me.pajic.rearm.ReArm;
 import me.pajic.rearm.ability.BackstepAbility;
 import me.pajic.rearm.ability.BashAbility;
 import me.pajic.rearm.ability.CooldownTracker;

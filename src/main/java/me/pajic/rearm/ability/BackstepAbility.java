@@ -5,11 +5,11 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public class BackstepAbility {
-    public static final ResourceLocation BACKSTEP_EXHAUSTION = ReArm.id("backstep_exhaustion");
+    public static final Identifier BACKSTEP_EXHAUSTION = ReArm.id("backstep_exhaustion");
 
     public record C2SCauseBackstepExhaustionPayload(float exhaustion) implements CustomPacketPayload {
         public static final Type<C2SCauseBackstepExhaustionPayload> TYPE = new Type<>(BACKSTEP_EXHAUSTION);

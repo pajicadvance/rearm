@@ -6,12 +6,12 @@ import immersive_armors.Items;
 import immersive_armors.item.ExtendedArmorMaterial;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.util.ArmorMaterialHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 //? if 1.21.1
-/*import net.minecraft.world.item.ArmorItem;*/
+//import net.minecraft.world.item.ArmorItem;
 
 import java.util.Map;
 

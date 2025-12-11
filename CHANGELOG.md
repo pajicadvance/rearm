@@ -1,2 +1,3 @@
 - Updated to Minecraft 1.21.11.
 - Improved how sweeping edge range increase works and fixed a possible bug of it not applying on NeoForge.
+- Fixed bug that caused some harmless "Class not found" errors to appear in the log on startup.

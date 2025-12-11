@@ -36,6 +36,6 @@ public class GuiMixin {
             )
     )
     private static int scaleArmorBar(int original) {
-        return ReArm.CONFIG.armor.armorRebalance.get() ? Math.round(original / ReArm.CONFIG.armor.armorMultiplier.get()) : original;
+        return ReArm.armorRebalanceActive() ? Math.round(original / ReArm.CONFIG.armor.armorMultiplier.get()) : original;
     }
 }

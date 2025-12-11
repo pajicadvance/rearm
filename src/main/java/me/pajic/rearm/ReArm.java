@@ -27,7 +27,7 @@ import me.pajic.rearm.platform.fabric.FabricPlatform;
 public class ReArm {
 
 	public static final String MOD_ID = /*$ mod_id*/ "rearm";
-	public static final String MOD_VERSION = /*$ mod_version*/ "2.4.12";
+	public static final String MOD_VERSION = /*$ mod_version*/ "2.4.13";
 	public static final String MOD_FRIENDLY_NAME = /*$ mod_name*/ "ReArm";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 	public static final Identifier CONFIG_RL = Identifier.fromNamespaceAndPath(MOD_ID, "config");
@@ -71,6 +71,10 @@ public class ReArm {
 		//?} neoforge {
 		/*return new NeoforgePlatform();
 		*///?}
+	}
+
+	public static boolean armorRebalanceActive() {
+		return CONFIG.armor.armorRebalance.get() && !CompatFlags.APOTHEOSIS_LOADED;
 	}
 
 	public static Identifier id(String path) {

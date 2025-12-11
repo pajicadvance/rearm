@@ -1,6 +1,7 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.moulberry.mixinconstraints.annotations.IfModAbsent;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.util.ArmorMaterialHelper;
 import net.minecraft.resources.Identifier;
@@ -24,6 +25,7 @@ import net.minecraft.world.item.equipment.EquipmentAsset;
 
 import java.util.Map;
 
+@IfModAbsent("apothic_attributes")
 @Mixin(ArmorMaterial.class)
 public class ArmorMaterialMixin {
 

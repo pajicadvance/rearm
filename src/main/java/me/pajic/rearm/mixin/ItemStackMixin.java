@@ -84,7 +84,7 @@ public abstract class ItemStackMixin {
 
     @Unique
     private ItemAttributeModifiers rearm$addToughness(ItemAttributeModifiers instance) {
-        if (ReArm.CONFIG.armor.armorRebalance.get() && ReArm.CONFIG.armor.enchantmentBasedToughness.get()) {
+        if (ReArm.armorRebalanceActive() && ReArm.CONFIG.armor.enchantmentBasedToughness.get()) {
             ItemStack self = (ItemStack) (Object) this;
             //? if <= 1.21.1 {
             /*if (self.getItem() instanceof ArmorItem armor) {

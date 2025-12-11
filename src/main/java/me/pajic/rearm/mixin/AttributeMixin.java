@@ -1,11 +1,13 @@
 package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.moulberry.mixinconstraints.annotations.IfModAbsent;
 import me.pajic.rearm.ReArm;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+@IfModAbsent("apothic_attributes")
 @Mixin(Attributes.class)
 public class AttributeMixin {
 

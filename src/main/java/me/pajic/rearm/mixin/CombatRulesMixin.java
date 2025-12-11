@@ -2,6 +2,7 @@ package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.moulberry.mixinconstraints.annotations.IfModAbsent;
 import me.pajic.rearm.ReArm;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.CombatRules;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+@IfModAbsent("apothic_attributes")
 @Mixin(CombatRules.class)
 public class CombatRulesMixin {
 
@@ -27,7 +29,7 @@ public class CombatRulesMixin {
             @Local(argsOnly = true, ordinal = 1) float armor,
             @Local(argsOnly = true, ordinal = 2) float toughness
     ) {
-        if (ReArm.CONFIG.armor.armorRebalance.get()) {
+        if (ReArm.armorRebalanceActive()) {
             float m = ReArm.CONFIG.armor.armorMultiplier.get();
             float t = (3.5F * toughness) / (toughness + 1);
             float d = (6 * damage) / (toughness + 8);
@@ -47,6 +49,6 @@ public class CombatRulesMixin {
             )
     )
     private static float modifyProtectionDivisor(float original) {
-        return ReArm.CONFIG.armor.armorRebalance.get() ? original * ReArm.CONFIG.armor.armorMultiplier.get() : original;
+        return ReArm.armorRebalanceActive() ? original * ReArm.CONFIG.armor.armorMultiplier.get() : original;
     }
 }

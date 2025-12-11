@@ -1,6 +1,7 @@
 package me.pajic.rearm.mixin.compat.ia;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.moulberry.mixinconstraints.annotations.IfModAbsent;
 import com.moulberry.mixinconstraints.annotations.IfModLoaded;
 import immersive_armors.Items;
 import immersive_armors.item.ExtendedArmorMaterial;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.util.Map;
 
+@IfModAbsent("apothic_attributes")
 @IfModLoaded("immersive_armors")
 @Mixin(Items.class)
 public interface ItemsMixin {

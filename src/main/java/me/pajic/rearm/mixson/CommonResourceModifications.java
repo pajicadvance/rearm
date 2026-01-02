@@ -96,13 +96,17 @@ public class CommonResourceModifications {
                         tags.add(tag1);
                         tags.add(tag2);
 
-                        context.getFile().getAsJsonObject()
+                        JsonObject reqs = context.getFile().getAsJsonObject()
                                 .getAsJsonObject("effects")
                                 .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
-                                .getAsJsonObject("requirements")
-                                .getAsJsonArray("terms").get(0).getAsJsonObject()
-                                .getAsJsonObject("predicate")
-                                .add("tags", tags);
+                                .getAsJsonObject("requirements");
+						if (reqs.has("terms")) {
+							reqs.getAsJsonArray("terms").get(0).getAsJsonObject()
+									.getAsJsonObject("predicate")
+									.add("tags", tags);
+						} else {
+							reqs.getAsJsonObject("predicate").add("tags", tags);
+						}
                     }
                 }
         );

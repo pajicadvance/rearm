@@ -6,7 +6,7 @@ package me.pajic.rearm.model;
 import me.pajic.rearm.item.ReArmItems;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.ChargedProjectiles;
 
@@ -20,7 +20,7 @@ public class ReArmModels {
 
     private static void registerNetheriteBow() {
         ItemProperties.register(
-                ReArmItems.NETHERITE_BOW, ResourceLocation.withDefaultNamespace("pull"),
+                ReArmItems.NETHERITE_BOW, Identifier.withDefaultNamespace("pull"),
                 (itemStack, clientLevel, livingEntity, i) -> {
                     if (livingEntity == null) {
                         return 0.0F;
@@ -34,7 +34,7 @@ public class ReArmModels {
         );
         ItemProperties.register(
                 ReArmItems.NETHERITE_BOW,
-                ResourceLocation.withDefaultNamespace("pulling"),
+                Identifier.withDefaultNamespace("pulling"),
                 (itemStack, clientLevel, livingEntity, i) ->
                         livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F
         );
@@ -43,7 +43,7 @@ public class ReArmModels {
     private static void registerNetheriteCrossbow() {
         ItemProperties.register(
                 ReArmItems.NETHERITE_CROSSBOW,
-                ResourceLocation.withDefaultNamespace("pull"),
+                Identifier.withDefaultNamespace("pull"),
                 (itemStack, clientLevel, livingEntity, i) -> {
                     if (livingEntity == null) {
                         return 0.0F;
@@ -57,7 +57,7 @@ public class ReArmModels {
         );
         ItemProperties.register(
                 ReArmItems.NETHERITE_CROSSBOW,
-                ResourceLocation.withDefaultNamespace("pulling"),
+                Identifier.withDefaultNamespace("pulling"),
                 (itemStack, clientLevel, livingEntity, i) -> livingEntity != null
                         && livingEntity.isUsingItem()
                         && livingEntity.getUseItem() == itemStack
@@ -67,12 +67,12 @@ public class ReArmModels {
         );
         ItemProperties.register(
                 ReArmItems.NETHERITE_CROSSBOW,
-                ResourceLocation.withDefaultNamespace("charged"),
+                Identifier.withDefaultNamespace("charged"),
                 (itemStack, clientLevel, livingEntity, i) ->
                         NetheriteCrossbowItem.isCharged(itemStack) ? 1.0F : 0.0F
         );
         ItemProperties.register(
-                ReArmItems.NETHERITE_CROSSBOW, ResourceLocation.withDefaultNamespace("firework"),
+                ReArmItems.NETHERITE_CROSSBOW, Identifier.withDefaultNamespace("firework"),
                 (itemStack, clientLevel, livingEntity, i) -> {
                     ChargedProjectiles chargedProjectiles = itemStack.get(DataComponents.CHARGED_PROJECTILES);
                     return chargedProjectiles != null && chargedProjectiles.contains(Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
@@ -83,7 +83,7 @@ public class ReArmModels {
     private static void registerNetheriteShield() {
         ItemProperties.register(
                 ReArmItems.NETHERITE_SHIELD,
-                ResourceLocation.withDefaultNamespace("blocking"),
+                Identifier.withDefaultNamespace("blocking"),
                 (itemStack, clientLevel, livingEntity, i) ->
                         livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == itemStack ? 1.0F : 0.0F
         );

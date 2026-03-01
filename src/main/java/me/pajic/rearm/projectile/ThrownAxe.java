@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -80,18 +81,9 @@ public class ThrownAxe extends AbstractArrow {
         }
 
         Entity entity = getOwner();
-        if (entity != null) {
+        if (entity != null && checkLoyalty()) {
             if (((dealtDamage || isNoPhysics()) && (CripplingThrowAbility.recallSignals.contains(entity.getUUID())) || getY() < -65) && !failedPickup) {
-                if (stuckEntity != null && !stuckEntity.getType().is(EntityTypeTags.SKELETONS)) {
-                    stuckEntity.addEffect(
-                            new MobEffectInstance(
-                                    ReArmEffects.BLEEDING,
-                                    ReArm.CONFIG.axe.cripplingThrowBleedingDuration.get(),
-                                    getCripplingThrowLevel()
-                            ), entity
-                    );
-                    playSound(SoundEvents.HOSTILE_HURT, 1.0F, 1.0F);
-                }
+                applyBleedingToStuckEntity(entity);
                 if (!isAcceptableReturnOwner()) {
                     if (!level().isClientSide() && pickup == Pickup.ALLOWED) {
                         spawnAtLocation(/*? if > 1.21.1 {*/(ServerLevel) level(),/*?}*/ getPickupItem(), 0.1F);
@@ -127,6 +119,7 @@ public class ThrownAxe extends AbstractArrow {
             );
             timeInTarget++;
             if (!stuckEntity.isAlive() || timeInTarget > ReArm.CONFIG.axe.maxTimeStuckInTarget.get()) {
+				if (stuckEntity.isAlive()) applyBleedingToStuckEntity(entity);
                 stuckEntity = null;
                 stuckEntityId = null;
                 setNoGravity(false);
@@ -137,6 +130,30 @@ public class ThrownAxe extends AbstractArrow {
 
         super.tick();
     }
+
+	private boolean checkLoyalty() {
+		if (ReArm.CONFIG.axe.requireLoyaltyForRecall.get()) return EnchantmentHelper.getItemEnchantmentLevel(
+				//? if 1.21.1
+				//registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOYALTY),
+				//? if > 1.21.1
+				registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.LOYALTY),
+				entityData.get(THROWN_AXE_ITEM_STACK)
+		) > 0;
+		return true;
+	}
+
+	private void applyBleedingToStuckEntity(Entity dealer) {
+		if (stuckEntity != null && !stuckEntity.getType().is(EntityTypeTags.SKELETONS)) {
+			stuckEntity.addEffect(
+					new MobEffectInstance(
+							ReArmEffects.BLEEDING,
+							ReArm.CONFIG.axe.cripplingThrowBleedingDuration.get(),
+							getCripplingThrowLevel()
+					), dealer
+			);
+			playSound(SoundEvents.HOSTILE_HURT, 1.0F, 1.0F);
+		}
+	}
 
     private boolean isAcceptableReturnOwner() {
         Entity entity = getOwner();

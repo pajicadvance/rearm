@@ -88,7 +88,8 @@ public class ModConfig extends Config {
         public ValidatedBoolean infinityFix = new ValidatedBoolean(true);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean infinimending = new ValidatedBoolean(false);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean craftTippedArrowsWithRegularPotions = new ValidatedBoolean(true);
-    }
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean hideDisabledItemsFromRecipeViewers = new ValidatedBoolean(true);
+	}
 
     public static class Bow extends ConfigSection {
         public ValidatedBoolean enablePerfectShot = new ValidatedBoolean(true);
@@ -140,10 +141,11 @@ public class ModConfig extends Config {
         public ValidatedInt cripplingThrowBaseSlownessAmplifier = new  ValidatedInt(1, Integer.MAX_VALUE, 1);
         public ValidatedInt cripplingThrowSlownessAmplifierIncreasePerLevel = new ValidatedInt(1, Integer.MAX_VALUE, 1);
         public ValidatedInt maxTimeStuckInTarget = new ValidatedInt(240, Integer.MAX_VALUE, 1);
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean requireLoyaltyForRecall = new ValidatedBoolean(false);
         public ValidatedBoolean enableCriticalCounter = new ValidatedBoolean(false);
 		public ValidatedBoolean disableVanillaCrits = new ValidatedBoolean(false);
-        public ValidatedBoolean acceptKnockback = new ValidatedBoolean(true);
-        public ValidatedBoolean acceptLooting = new ValidatedBoolean(true);
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptKnockback = new ValidatedBoolean(true);
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptLooting = new ValidatedBoolean(true);
     }
 
     public static class Shield extends ConfigSection {

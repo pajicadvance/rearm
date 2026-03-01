@@ -42,7 +42,7 @@ public abstract class ItemMixin {
     ) {
         if (ReArm.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
             if (CompatFlags.HMI_LOADED) return /*? if 1.21.1 {*//*UseAnim*//*?} else {*/ItemUseAnimation/*?}*/.NONE;
-            return /*? if 1.21.1 {*//*UseAnim*//*?} else {*/ItemUseAnimation/*?}*/.SPEAR;
+            return /*? if 1.21.1 {*//*UseAnim.SPEAR*//*?} else {*/ItemUseAnimation.TRIDENT/*?}*/;
         }
         return original.call(stack);
     }

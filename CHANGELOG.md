@@ -1,1 +1,3 @@
-- Fixed incompatibility with Enchiridion.
+- Added an option to require having Loyalty on a thrown axe in order to recall it using the action key. Disabled by default. Enabling this option will also make axes support Loyalty.
+- Added an option to hide netherite item variants from recipe viewers when they're disabled in the config. Enabled by default.
+- Fixed axe throw charge animation not working in 1.21.11.

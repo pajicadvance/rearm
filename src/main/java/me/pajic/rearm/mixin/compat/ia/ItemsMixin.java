@@ -46,7 +46,7 @@ public interface ItemsMixin {
     @Unique
     private static ExtendedArmorMaterial rearm$modifyMaterial(ExtendedArmorMaterial original) {
         //? if 1.21.1 {
-        /*ResourceLocation rl = ResourceLocation.fromNamespaceAndPath("immersive_armors", original.getName());
+        /*Identifier rl = Identifier.fromNamespaceAndPath("immersive_armors", original.getName());
         ArmorMaterialHelper.add(rl);
         if (ReArm.CONFIG.armor.armorRebalance.get()) {
             int targetTotal = 0;

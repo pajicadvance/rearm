@@ -45,6 +45,13 @@ public class CommonResourceModifications {
                     }
                 }
         );
+		Mixson.registerEvent(
+				Mixson.DEFAULT_PRIORITY,
+				"minecraft:enchantment/loyalty",
+				"Change Loyalty supported items",
+				context -> context.getFile().getAsJsonObject()
+						.addProperty("supported_items", "#minecraft:enchantable/loyalty_enchantable")
+		);
         Mixson.registerEvent(
                 Mixson.DEFAULT_PRIORITY,
                 "minecraft:enchantment/multishot",
@@ -245,6 +252,18 @@ public class CommonResourceModifications {
                     }
                 }
         );
+		Mixson.registerEvent(
+				Mixson.DEFAULT_PRIORITY,
+				"minecraft:tags/item/enchantable/loyalty_enchantable",
+				"Modify Loyalty Enchantable tag",
+				context -> {
+					if (ReArm.CONFIG.axe.requireLoyaltyForRecall.get()) {
+						context.getFile().getAsJsonObject()
+								.getAsJsonArray("values")
+								.add("#minecraft:enchantable/axe");
+					}
+				}
+		);
 
         // Enchantment exclusive set tags
         Mixson.registerEvent(
@@ -266,6 +285,25 @@ public class CommonResourceModifications {
                     }
                 }
         );
+
+		// Recipe viewer stuff
+		if (ReArm.CONFIG.tweaks.hideDisabledItemsFromRecipeViewers.get()) Mixson.registerEvent(
+				Mixson.DEFAULT_PRIORITY,
+				"c:tags/item/hidden_from_recipe_viewers",
+				"Hide disabled items from recipe viewers",
+				context -> {
+					if (!ReArm.CONFIG.crossbow.crossbowNetheriteVariant.get()) {
+						context.getFile().getAsJsonObject().getAsJsonArray("values").add("rearm:netherite_crossbow");
+					}
+					if (!ReArm.CONFIG.bow.bowNetheriteVariant.get()) {
+						context.getFile().getAsJsonObject().getAsJsonArray("values").add("rearm:netherite_bow");
+					}
+					if (!ReArm.CONFIG.shield.shieldNetheriteVariant.get()) {
+						context.getFile().getAsJsonObject().getAsJsonArray("values").add("rearm:netherite_shield");
+					}
+				}
+		);
+
 		initialized = true;
     }
 

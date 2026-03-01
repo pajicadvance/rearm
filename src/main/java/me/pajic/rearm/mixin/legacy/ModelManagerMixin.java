@@ -6,7 +6,7 @@ package me.pajic.rearm.mixin.legacy;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import me.pajic.rearm.renderer.RendererConstants;
 import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -24,8 +24,8 @@ public class ModelManagerMixin {
                     target = "Lnet/minecraft/client/resources/model/ModelManager;VANILLA_ATLASES:Ljava/util/Map;"
             )
     )
-    private Map<ResourceLocation, ResourceLocation> addModAtlas(Map<ResourceLocation, ResourceLocation> original) {
-        Map<ResourceLocation, ResourceLocation> map = new HashMap<>(original);
+    private Map<Identifier, Identifier> addModAtlas(Map<Identifier, Identifier> original) {
+        Map<Identifier, Identifier> map = new HashMap<>(original);
         map.put(RendererConstants.NETHERITE_SHIELD_SHEET, RendererConstants.NETHERITE_SHIELD_PATTERNS);
         return map;
     }

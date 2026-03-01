@@ -1,6 +1,0 @@
-{
-    "parent": "rearm:item/netherite_crossbow",
-    "textures": {
-        "layer0": "rearm:item/netherite_crossbow_pulling_1"
-    }
-}

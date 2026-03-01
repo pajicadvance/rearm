@@ -97,7 +97,7 @@ public abstract class ItemStackMixin {
                     }
                 }
                 return instance.withModifierAdded(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(
-                        ResourceLocation.withDefaultNamespace("armor." + armor.getType().getName()),
+                        Identifier.withDefaultNamespace("armor." + armor.getType().getName()),
                         toughness,
                         AttributeModifier.Operation.ADD_VALUE
                 ), EquipmentSlotGroup.bySlot(armor.getType().getSlot()));

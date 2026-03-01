@@ -51,6 +51,7 @@
   "tag.minecraft.enchantable.multishot_enchantable": "Multishot Enchantable",
   "tag.minecraft.enchantable.power_enchantable": "Power Enchantable",
   "tag.minecraft.enchantable.knockback_enchantable": "Knockback Enchantable",
+  "tag.minecraft.enchantable.loyalty_enchantable": "Loyalty Enchantable",
 
   "rearm.config": "ReArm Mod Configuration",
   "rearm.config.protection": "Protection settings",
@@ -109,6 +110,8 @@
   "rearm.config.axe.cripplingThrowBaseSlownessAmplifier": "Base slowness amplifier",
   "rearm.config.axe.cripplingThrowSlownessAmplifierIncreasePerLevel": "Slowness amplifier increase per level",
   "rearm.config.axe.maxTimeStuckInTarget": "Max time stuck in target (ticks)",
+  "rearm.config.axe.requireLoyaltyForRecall": "Require Loyalty for recalling thrown axe",
+  "rearm.config.axe.requireLoyaltyForRecall.desc": "This will also make axes accept Loyalty.",
   "rearm.config.axe.enableCriticalCounter": "Enable Critical Counter",
   "rearm.config.axe.disableVanillaCrits": "Disable vanilla crits",
   "rearm.config.axe.acceptKnockback": "Accept Knockback enchantment",
@@ -167,5 +170,6 @@
   "rearm.config.tweaks.craftTippedArrowsWithRegularPotions.desc": "Changes the tipped arrow recipe to use regular potions instead of lingering ones.",
   "rearm.config.tweaks.infinityFix": "Infinity fix",
   "rearm.config.tweaks.infinityFix.desc": "Makes bows and crossbows enchanted with Infinity not require having an arrow in the inventory.",
-  "rearm.config.tweaks.infinimending": "Compatible Infinity and Mending"
+  "rearm.config.tweaks.infinimending": "Compatible Infinity and Mending",
+  "rearm.config.tweaks.hideDisabledItemsFromRecipeViewers": "Hide disabled items from recipe viewers"
 }

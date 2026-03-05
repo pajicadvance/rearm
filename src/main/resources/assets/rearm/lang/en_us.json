@@ -171,5 +171,12 @@
   "rearm.config.tweaks.infinityFix": "Infinity fix",
   "rearm.config.tweaks.infinityFix.desc": "Makes bows and crossbows enchanted with Infinity not require having an arrow in the inventory.",
   "rearm.config.tweaks.infinimending": "Compatible Infinity and Mending",
-  "rearm.config.tweaks.hideDisabledItemsFromRecipeViewers": "Hide disabled items from recipe viewers"
+  "rearm.config.tweaks.hideDisabledItemsFromRecipeViewers": "Hide disabled items from recipe viewers",
+  "rearm.config.bugFixes": "Vanilla bug fixes",
+  "rearm.config.bugFixes.dragonBreathDamageTypeFix": "Dragon breath damage type fix",
+  "rearm.config.bugFixes.dragonBreathDamageTypeFix.desc": "\"MC-84595: \"Roasted in dragon's breath\" death message does not appear when player is killed by dragon's breath\"",
+  "rearm.config.bugFixes.enderDragonVelocityFix": "Ender Dragon vertical velocity fix",
+  "rearm.config.bugFixes.enderDragonVelocityFix.desc": "\"MC-272431: Ender Dragon incorrect vertical velocity causes erratic behavior\"\n\"MC-197201: The Ender Dragon does not dive toward the player (missing \"diving\" attack)\"",
+  "rearm.config.bugFixes.powerDamageFix": "Power damage fix",
+  "rearm.config.bugFixes.powerDamageFix.desc": "\"MC-277617: The base damage of the Power enchantment was reduced in 1.21\""
 }

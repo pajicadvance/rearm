@@ -1,11 +1,13 @@
 package me.pajic.rearm.effect;
 
 import me.pajic.rearm.ReArm;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
+//? if > 1.21.1 {
+import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
+//?}
 
 public class BleedingEffect extends MobEffect {
     public BleedingEffect() {

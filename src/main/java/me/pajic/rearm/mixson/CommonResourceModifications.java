@@ -79,7 +79,7 @@ public class CommonResourceModifications {
                     context.getFile().getAsJsonObject()
                             .addProperty("supported_items", "#minecraft:enchantable/power_enchantable");
                     JsonObject effects = context.getFile().getAsJsonObject().getAsJsonObject("effects");
-                    if (effects.has("minecraft:damage")) effects
+                    if (ReArm.CONFIG.bugFixes.powerDamageFix.get() && effects.has("minecraft:damage")) effects
                             .getAsJsonArray("minecraft:damage").get(0).getAsJsonObject()
                             .getAsJsonObject("effect")
                             .getAsJsonObject("value")

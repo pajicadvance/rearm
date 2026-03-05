@@ -1,3 +1,4 @@
-- Added an option to require having Loyalty on a thrown axe in order to recall it using the action key. Disabled by default. Enabling this option will also make axes support Loyalty.
-- Added an option to hide netherite item variants from recipe viewers when they're disabled in the config. Enabled by default.
-- Fixed axe throw charge animation not working in 1.21.11.
+- Warden's sonic boom attack and the Wither effect are now considered magic damage and are affected by Magic Protection.
+- Added a new "Vanilla bug fixes" config section, where all the vanilla bug fixes ReArm implements can be toggled on or off.
+- Fixed a vanilla bug which caused the Ender Dragon to behave erratically during certain attacks ([MC-272431](https://mojira.dev/MC-272431) and [MC-197201](https://mojira.dev/MC-197201)).
+- Fixed a vanilla bug where the dragon breath attack wasn't using its intended `minecraft:dragon_breath` damage type ([MC-84595](https://mojira.dev/MC-84595)).

@@ -20,5 +20,11 @@ public class ReArmEffects {
             new BleedingEffect()
     );
 
+	public static final Holder<MobEffect> DRAGON_BREATH = Registry.registerForHolder(
+			BuiltInRegistries.MOB_EFFECT,
+			ReArm.id("dragon_breath"),
+			new DragonBreathEffect()
+	);
+
     public static void init() {}
 }

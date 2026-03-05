@@ -71,6 +71,10 @@ stonecutter {
 		direction = dir
 		replace("net.minecraft.client.model.ShieldModel", "net.minecraft.client.model.object.equipment.ShieldModel")
 	}
+	replacements.string {
+		direction = dir
+		replace("net.minecraft.world.entity.projectile.DragonFireball", "net.minecraft.world.entity.projectile.hurtingprojectile.DragonFireball")
+	}
 }
 
 fletchingTable {

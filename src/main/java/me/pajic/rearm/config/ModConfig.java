@@ -31,6 +31,7 @@ public class ModConfig extends Config {
     public Armor armor = new Armor();
     public Protection protection = new Protection();
     public Tweaks tweaks = new Tweaks();
+	public BugFixes bugFixes = new BugFixes();
 
     public static class Protection extends ConfigSection {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean meleeProtection = new ValidatedBoolean(true);
@@ -161,4 +162,10 @@ public class ModConfig extends Config {
         public ValidatedInt parryTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean shieldNetheriteVariant = new ValidatedBoolean(true);
     }
+
+	public static class BugFixes extends ConfigSection {
+		public ValidatedBoolean dragonBreathDamageTypeFix = new ValidatedBoolean(true);
+		public ValidatedBoolean enderDragonVelocityFix = new ValidatedBoolean(true);
+		public ValidatedBoolean powerDamageFix = new ValidatedBoolean(true);
+	}
 }

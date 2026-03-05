@@ -1,10 +1,12 @@
 package me.pajic.rearm.effect;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
+//? if > 1.21.1 {
+import net.minecraft.server.level.ServerLevel;
+//?}
 
 public class BackstepEffect extends MobEffect {
     public BackstepEffect() {

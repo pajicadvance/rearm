@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:crafting_special_shielddecoration",
+  "banner": "#minecraft:banners",
+  "result": {
+    "id": "rearm:netherite_shield"
+  },
+  "target": "rearm:netherite_shield"
+}

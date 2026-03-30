@@ -1,6 +1,1 @@
-- Fixed crash on launch with NeoForge 26.1.0.10-beta and above.
-- Reduced vanilla shield enchantability from 14 to 1.
-- Increased netherite shield enchantability from 14 to 15.
-- Added option "Enchantable vanilla shield".
-  - Enabled by default and has always been enabled by default in past versions.
-  - Can be disabled if another mod is modifying vanilla shield enchantability to make sure it doesn't get overriden.
+- Updated Mixson library mod used by this mod to v2.1.0 to FINALLY fix the issue where sometimes the game would fail to start with a `ConcurrentModificationException` error on NeoForge! The Fabric version didn't suffer from this problem but the Mixson version was bumped anyway.

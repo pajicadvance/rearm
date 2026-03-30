@@ -3,7 +3,6 @@ package me.pajic.rearm.platform.fabric;
 //? fabric {
 
 import me.pajic.rearm.effect.ReArmEffects;
-import me.pajic.rearm.mixson.DataPatches;
 import me.pajic.rearm.ReArm;
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import me.pajic.rearm.ability.BackstepAbility;
@@ -32,7 +31,6 @@ public class FabricEntrypoint implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		DataPatches.init();
 		ReArm.onInitialize();
 		ReArmItems.init();
 		ReArmEffects.init();

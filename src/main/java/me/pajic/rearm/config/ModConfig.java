@@ -35,17 +35,17 @@ public class ModConfig extends Config {
 	public BugFixes bugFixes = new BugFixes();
 
     public static class Protection extends ConfigSection {
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean meleeProtection = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean elementalProtection = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean magicProtection = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean normalizeEnchantmentCosts = new ValidatedBoolean(true);
-        public ValidatedBoolean allowMultipleProtectionEnchantments = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean meleeProtection = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean elementalProtection = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean magicProtection = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean normalizeEnchantmentCosts = new ValidatedBoolean();
+        public ValidatedBoolean allowMultipleProtectionEnchantments = new ValidatedBoolean();
         public ValidatedInt maxProtectionEnchantments = new ValidatedInt(2, Integer.MAX_VALUE, 1);
     }
 
     @RequiresAction(action = Action.RESTART)
     public static class Armor extends ConfigSection {
-        public ValidatedBoolean armorRebalance = new ValidatedBoolean(true);
+        public ValidatedBoolean armorRebalance = new ValidatedBoolean();
         public ValidatedFloat armorMultiplier = new ValidatedFloat(2.0F, Float.MAX_VALUE, 1.0F);
         public ValidatedInt helmetArmorPercent = new ValidatedInt(20, 100, 0);
         public ValidatedInt chestplateArmorPercent = new ValidatedInt(35, 100, 0);
@@ -68,7 +68,7 @@ public class ModConfig extends Config {
                         Identifier.withDefaultNamespace("armadillo_scute"), 40
                 ))
                 .build();
-        public ValidatedBoolean enchantmentBasedToughness = new ValidatedBoolean(true);
+        public ValidatedBoolean enchantmentBasedToughness = new ValidatedBoolean();
         @SuppressWarnings({"unchecked", "rawtypes"})
         public ValidatedMap<String, Float> toughnessPerEnchantment = (new ValidatedMap.Builder())
                 .keyHandler(new ValidatedString())
@@ -81,62 +81,62 @@ public class ModConfig extends Config {
                         "magic_protection", 0.8F
                 ))
                 .build();
-        public ValidatedBoolean defenseBasedKnockbackResist = new ValidatedBoolean(true);
+        public ValidatedBoolean defenseBasedKnockbackResist = new ValidatedBoolean();
     }
 
     public static class Tweaks extends ConfigSection {
-        public ValidatedBoolean improvedSneaking = new ValidatedBoolean(true);
+        public ValidatedBoolean improvedSneaking = new ValidatedBoolean();
         public ValidatedInt detectionRangeReduction = new ValidatedInt(80, 100, 0);
-        public ValidatedBoolean infinityFix = new ValidatedBoolean(true);
+        public ValidatedBoolean infinityFix = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean infinimending = new ValidatedBoolean(false);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean craftTippedArrowsWithRegularPotions = new ValidatedBoolean(true);
-		@RequiresAction(action = Action.RESTART) public ValidatedBoolean hideDisabledItemsFromRecipeViewers = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean craftTippedArrowsWithRegularPotions = new ValidatedBoolean();
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean hideDisabledItemsFromRecipeViewers = new ValidatedBoolean();
 	}
 
     public static class Bow extends ConfigSection {
-        public ValidatedBoolean enablePerfectShot = new ValidatedBoolean(true);
+        public ValidatedBoolean enablePerfectShot = new ValidatedBoolean();
         public ValidatedInt perfectShotAdditionalDamage = new ValidatedInt(2, Integer.MAX_VALUE, 1);
         public ValidatedFloat perfectShotTimeframe = new ValidatedFloat(0.2F);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBackstep = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBackstep = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedInt backstepTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedMultishot = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedMultishot = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedInt maxMultishotLevel = new ValidatedInt(3, Integer.MAX_VALUE, 1);
         @RequiresAction(action = Action.RESTART) public ValidatedInt additionalArrowsPerLevel = new ValidatedInt(1, Integer.MAX_VALUE, 1);
-        public ValidatedBoolean playerDrawingSounds = new ValidatedBoolean(true);
-        public ValidatedBoolean mobDrawingSounds = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptMultishot = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean bowNetheriteVariant = new ValidatedBoolean(true);
+        public ValidatedBoolean playerDrawingSounds = new ValidatedBoolean();
+        public ValidatedBoolean mobDrawingSounds = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptMultishot = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean bowNetheriteVariant = new ValidatedBoolean();
     }
 
     public static class Crossbow extends ConfigSection {
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedPiercing = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedPiercing = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedInt percentArmorIgnoredPerLevel = new ValidatedInt(15, Integer.MAX_VALUE, 1);
-        public ValidatedBoolean stopPiercingOnArmoredEntity = new ValidatedBoolean(true);
-        public ValidatedBoolean fixedArrowDamage = new ValidatedBoolean(true);
+        public ValidatedBoolean stopPiercingOnArmoredEntity = new ValidatedBoolean();
+        public ValidatedBoolean fixedArrowDamage = new ValidatedBoolean();
         public ValidatedInt fixedArrowDamageAmount = new ValidatedInt(10, Integer.MAX_VALUE, 1);
-        public ValidatedBoolean modifyFireworkDamage = new ValidatedBoolean(true);
+        public ValidatedBoolean modifyFireworkDamage = new ValidatedBoolean();
         public ValidatedInt baseFireworkDamage = new ValidatedInt(12, Integer.MAX_VALUE, 1);
         public ValidatedInt damagePerFireworkStar = new ValidatedInt(3, Integer.MAX_VALUE, 0);
-        public ValidatedBoolean modifyLoadSpeed = new ValidatedBoolean(true);
+        public ValidatedBoolean modifyLoadSpeed = new ValidatedBoolean();
         public ValidatedFloat loadTime = new ValidatedFloat(2F);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean rejectMultishot = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptPower = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptInfinity = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean crossbowNetheriteVariant = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean rejectMultishot = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptPower = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptInfinity = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean crossbowNetheriteVariant = new ValidatedBoolean();
     }
 
     public static class Sword extends ConfigSection {
-        public ValidatedBoolean enableCriticalCounter = new ValidatedBoolean(true);
+        public ValidatedBoolean enableCriticalCounter = new ValidatedBoolean();
         public ValidatedInt criticalCounterTimeframe = new ValidatedInt(10, Integer.MAX_VALUE, 1);
-		public ValidatedBoolean disableVanillaCrits = new ValidatedBoolean(true);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedSweepingEdge = new ValidatedBoolean(true);
+		public ValidatedBoolean disableVanillaCrits = new ValidatedBoolean();
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedSweepingEdge = new ValidatedBoolean();
         public ValidatedFloat sweepingEdgeAdditionalDamagePerMob = new ValidatedFloat(1.0F);
         public ValidatedInt maxMobAmountUsedForDamageIncrease = new ValidatedInt(10, Integer.MAX_VALUE, 1);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean rejectKnockback = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean rejectKnockback = new ValidatedBoolean();
     }
 
     public static class Axe extends ConfigSection {
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean cripplingThrow = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean cripplingThrow = new ValidatedBoolean();
         public ValidatedInt cripplingThrowBleedingDuration = new ValidatedInt(120, Integer.MAX_VALUE, 1);
         public ValidatedFloat cripplingThrowBaseBleedingDPS = new ValidatedFloat(1.0F);
         public ValidatedFloat cripplingThrowBleedingDPSIncreasePerLevel = new ValidatedFloat(0.5F);
@@ -146,12 +146,12 @@ public class ModConfig extends Config {
 		@RequiresAction(action = Action.RESTART) public ValidatedBoolean requireLoyaltyForRecall = new ValidatedBoolean(false);
         public ValidatedBoolean enableCriticalCounter = new ValidatedBoolean(false);
 		public ValidatedBoolean disableVanillaCrits = new ValidatedBoolean(false);
-		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptKnockback = new ValidatedBoolean(true);
-		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptLooting = new ValidatedBoolean(true);
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptKnockback = new ValidatedBoolean();
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptLooting = new ValidatedBoolean();
     }
 
     public static class Shield extends ConfigSection {
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBash = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBash = new ValidatedBoolean();
         public ValidatedInt bashShieldCooldown = new ValidatedInt(8, Integer.MAX_VALUE, 1);
         public ValidatedFloat bashBaseDamage = new ValidatedFloat(0, Float.MAX_VALUE, 0);
         public ValidatedFloat bashDamagePerLevel =  new ValidatedFloat(2, Float.MAX_VALUE, 0);
@@ -159,14 +159,15 @@ public class ModConfig extends Config {
         public ValidatedDouble bashRangePerLevel =  new ValidatedDouble(0.5, Double.MAX_VALUE, 0);
         public ValidatedDouble bashBaseKnockback = new ValidatedDouble(0.75, Double.MAX_VALUE, 0);
         public ValidatedDouble bashKnockbackPerLevel =  new ValidatedDouble(0.75, Double.MAX_VALUE, 0);
-        public ValidatedBoolean enableParry = new ValidatedBoolean(true);
+        public ValidatedBoolean enableParry = new ValidatedBoolean();
         public ValidatedInt parryTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean shieldNetheriteVariant = new ValidatedBoolean(true);
+        @RequiresAction(action = Action.RESTART) public ValidatedBoolean shieldNetheriteVariant = new ValidatedBoolean();
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean enchantableVanillaShield = new ValidatedBoolean();
     }
 
 	public static class BugFixes extends ConfigSection {
-		public ValidatedBoolean dragonBreathDamageTypeFix = new ValidatedBoolean(true);
-		public ValidatedBoolean enderDragonVelocityFix = new ValidatedBoolean(true);
-		public ValidatedBoolean powerDamageFix = new ValidatedBoolean(true);
+		public ValidatedBoolean dragonBreathDamageTypeFix = new ValidatedBoolean();
+		public ValidatedBoolean enderDragonVelocityFix = new ValidatedBoolean();
+		public ValidatedBoolean powerDamageFix = new ValidatedBoolean();
 	}
 }

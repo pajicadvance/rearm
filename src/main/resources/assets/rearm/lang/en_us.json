@@ -129,6 +129,7 @@
   "rearm.config.shield.enableParry.desc": "Raising the shield to block a projectile shortly before it lands parries it and sends it flying towards the shooter.",
   "rearm.config.shield.parryTimeframe": "Parry timeframe (ticks)",
   "rearm.config.shield.shieldNetheriteVariant": "Enable Netherite Shield",
+  "rearm.config.shield.enchantableVanillaShield": "Enchantable vanilla shield",
   "rearm.config.protection.meleeProtection": "Melee Protection",
   "rearm.config.protection.meleeProtection.desc": "Changes Protection to only work against physical damage and renames it to Melee Protection.",
   "rearm.config.protection.elementalProtection": "Elemental Protection",

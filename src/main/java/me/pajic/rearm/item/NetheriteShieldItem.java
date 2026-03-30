@@ -23,7 +23,7 @@ public class NetheriteShieldItem extends ShieldItem {
         super(
                 new Properties().fireResistant().stacksTo(1).durability(614)
                 .component(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY)
-                .repairable(Items.NETHERITE_INGOT).enchantable(14)
+                .repairable(Items.NETHERITE_INGOT).enchantable(15)
                 .equippableUnswappable(EquipmentSlot.OFFHAND)
                 .delayedComponent(
                         DataComponents.BLOCKS_ATTACKS,

@@ -1,1 +1,6 @@
-- Updated to Minecraft 26.1.
+- Fixed crash on launch with NeoForge 26.1.0.10-beta and above.
+- Reduced vanilla shield enchantability from 14 to 1.
+- Increased netherite shield enchantability from 14 to 15.
+- Added option "Enchantable vanilla shield".
+  - Enabled by default and has always been enabled by default in past versions.
+  - Can be disabled if another mod is modifying vanilla shield enchantability to make sure it doesn't get overriden.

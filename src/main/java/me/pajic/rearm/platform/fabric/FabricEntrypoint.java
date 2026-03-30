@@ -4,7 +4,6 @@ package me.pajic.rearm.platform.fabric;
 
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.mixson.DataPatches;
-import me.pajic.rearm.util.CompatFlags;
 import me.pajic.rearm.ReArm;
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import me.pajic.rearm.ability.BackstepAbility;
@@ -137,8 +136,8 @@ public class FabricEntrypoint implements ModInitializer {
 	}
 
 	private static void enchantableShield() {
-		if (!CompatFlags.SHIELD_LIB_LOADED) DefaultItemComponentEvents.MODIFY.register(context -> context.modify(
-				item -> item.components().has(DataComponents.BLOCKS_ATTACKS) && item instanceof ShieldItem,
+		if (ReArm.CONFIG.shield.enchantableVanillaShield.get()) DefaultItemComponentEvents.MODIFY.register(context -> context.modify(
+				item -> item instanceof ShieldItem && !item.components().has(DataComponents.ENCHANTABLE),
 				(builder, item) -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(14)).build()
 		));
 	}

@@ -158,7 +158,7 @@ public class NeoforgeEntrypoint {
 	@SubscribeEvent
 	private static void enchantableShield(ModifyDefaultComponentsEvent event) {
 		if (ReArm.CONFIG.shield.enchantableVanillaShield.get()) event.modifyMatching(
-				(item, components) -> item instanceof ShieldItem && !components.contains(DataComponents.ENCHANTABLE),
+				(item, components) -> item instanceof ShieldItem && !components.has(DataComponents.ENCHANTABLE),
 				builder -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(1)).build()
 		);
 	}

@@ -14,7 +14,7 @@ public class AssetPatches {
 
 	public static void init() {
 		// Enchantment tooltip order
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Adjust enchantment tooltip order",
 				new Index("minecraft:tags/enchantment/tooltip_order"),
 				context -> {
@@ -34,7 +34,7 @@ public class AssetPatches {
 		);
 
 		// Language files
-		MixsonHelper.registerMultiJsonPersistent(
+		MixsonHelper.registerMultiJson(
 				"Apply enchantment name overrides",
 				index -> index.id().toString().startsWith("minecraft:lang/"),
 				context -> {
@@ -49,7 +49,7 @@ public class AssetPatches {
 				}
 		);
 		if (CompatFlags.ENCHDESC_MOD_LOADED) {
-			CompatFlags.ENCHANTMENT_DESCRIPTION_MODS.forEach((mod, suffix) -> MixsonHelper.registerMultiJsonPersistent(
+			CompatFlags.ENCHANTMENT_DESCRIPTION_MODS.forEach((mod, suffix) -> MixsonHelper.registerMultiJson(
 					"Apply enchantment description overrides for " + mod,
 					index -> index.id().toString().startsWith(mod.replace('-', '_') + ":lang/"),
 					context -> {

@@ -6,8 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import me.pajic.rearm.ReArm;
 import net.ramixin.mixson.EventContext;
-import net.ramixin.mixson.Mixson;
-import net.ramixin.mixson.enums.DebugOption;
 import net.ramixin.mixson.util.Index;
 
 import java.util.List;
@@ -15,25 +13,20 @@ import java.util.List;
 public class DataPatches {
 
 	public static void init() {
-		if (ReArm.xplat().isDebug()) {
-			Mixson.enableDebugOption(DebugOption.BASIC_LOGGING);
-			Mixson.enableDebugOption(DebugOption.EXTRA_LOGGING);
-			Mixson.enableDebugOption(DebugOption.EXPORT_PATCHED_FILE);
-		}
 		// Enchantments
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Change Infinity supported items",
 				new Index("minecraft:enchantment/infinity"),
 				context -> context.getFile().getAsJsonObject()
 						.addProperty("supported_items", "#minecraft:enchantable/infinity_enchantable")
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Change Knockback supported items",
 				new Index("minecraft:enchantment/knockback"),
 				context -> context.getFile().getAsJsonObject()
 						.addProperty("supported_items", "#minecraft:enchantable/knockback_enchantable")
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Change Looting supported items",
 				new Index("minecraft:enchantment/looting"),
 				context -> {
@@ -43,13 +36,13 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Change Loyalty supported items",
 				new Index("minecraft:enchantment/loyalty"),
 				context -> context.getFile().getAsJsonObject()
 						.addProperty("supported_items", "#minecraft:enchantable/loyalty_enchantable")
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Modify Multishot enchantment",
 				new Index("minecraft:enchantment/multishot"),
 				context -> {
@@ -67,7 +60,7 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Change Power supported items",
 				new Index("minecraft:enchantment/power"),
 				context -> {
@@ -81,7 +74,7 @@ public class DataPatches {
 							.addProperty("base", 1.0);
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Transform Fire Protection into Elemental Protection",
 				new Index("minecraft:enchantment/fire_protection"),
 				context -> {
@@ -111,7 +104,7 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Transform Protection into Melee Protection",
 				new Index("minecraft:enchantment/protection"),
 				context -> {
@@ -157,17 +150,17 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Normalize Projectile Protection cost",
 				new Index("minecraft:enchantment/projectile_protection"),
 				DataPatches::normalizeEnchantmentCosts
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Normalize Blast Protection cost",
 				new Index("minecraft:enchantment/blast_protection"),
 				DataPatches::normalizeEnchantmentCosts
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Set Backstep effect values",
 				new Index("rearm:enchantment/backstep"),
 				context -> {
@@ -183,7 +176,7 @@ public class DataPatches {
 		);
 
 		// Enchantable tags
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Modify Infinity Enchantable tag",
 				new Index("minecraft:tags/item/enchantable/infinity_enchantable"),
 				context -> {
@@ -194,7 +187,7 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Modify Knockback Enchantable tag",
 				new Index("minecraft:tags/item/enchantable/knockback_enchantable"),
 				context -> {
@@ -210,7 +203,7 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Modify Multishot Enchantable tag",
 				new Index("minecraft:tags/item/enchantable/multishot_enchantable"),
 				context -> {
@@ -227,7 +220,7 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Modify Power Enchantable tag",
 				new Index("minecraft:tags/item/enchantable/power_enchantable"),
 				context -> {
@@ -238,7 +231,7 @@ public class DataPatches {
 					}
 				}
 		);
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Modify Loyalty Enchantable tag",
 				new Index("minecraft:tags/item/enchantable/loyalty_enchantable"),
 				context -> {
@@ -251,7 +244,7 @@ public class DataPatches {
 		);
 
 		// Enchantment exclusive set tags
-		MixsonHelper.registerSingleJsonPersistent(
+		MixsonHelper.registerSingleJson(
 				"Allow Mending with Infinity",
 				new Index("minecraft:tags/enchantment/exclusive_set/bow"),
 				context -> {
@@ -272,14 +265,14 @@ public class DataPatches {
 
 		// Recipes
 		if (ReArm.CONFIG.tweaks.craftTippedArrowsWithRegularPotions.get())
-			MixsonHelper.registerSingleJsonPersistent(
+			MixsonHelper.registerSingleJson(
 					"Modify tipped arrow recipe",
 					new Index("minecraft:recipe/tipped_arrow"),
 					context -> context.getFile().getAsJsonObject().addProperty("source", "minecraft:potion")
 			);
 
 		// Recipe viewer stuff
-		if (ReArm.CONFIG.tweaks.hideDisabledItemsFromRecipeViewers.get()) MixsonHelper.registerSingleJsonPersistent(
+		if (ReArm.CONFIG.tweaks.hideDisabledItemsFromRecipeViewers.get()) MixsonHelper.registerSingleJson(
 				"Hide disabled items from recipe viewers",
 				new Index("c:tags/item/hidden_from_recipe_viewers"),
 				context -> {

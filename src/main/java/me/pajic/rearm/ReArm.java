@@ -5,6 +5,7 @@ import me.fzzyhmstrs.fzzy_config.api.ConfigApiJava;
 import me.pajic.rearm.config.ModConfig;
 import me.pajic.rearm.mixson.AssetPatches;
 import me.pajic.rearm.mixson.DataPatches;
+import me.pajic.rearm.mixson.MixsonHelper;
 import me.pajic.rearm.platform.Platform;
 import me.pajic.rearm.util.CompatFlags;
 import net.minecraft.resources.Identifier;
@@ -26,6 +27,7 @@ public class ReArm {
 	public static ModConfig CONFIG = ConfigApiJava.registerAndLoadConfig(ModConfig::new);
 
 	public static void onInitialize() {
+		MixsonHelper.setDebugFlags();
 		DataPatches.init();
 	}
 

@@ -91,7 +91,7 @@ public abstract class PlayerMixin extends LivingEntity {
             index = 2
     )
     private <T extends Entity> float sweepingEdge_increaseDamage(
-            float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float sweepDamage
+            float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(name = "sweepDamage") float sweepDamage
     ) {
         if (ReArm.CONFIG.sword.improvedSweepingEdge.get()) {
             float additionalDamage = ReArm.CONFIG.sword.sweepingEdgeAdditionalDamagePerMob.get() *
@@ -106,15 +106,15 @@ public abstract class PlayerMixin extends LivingEntity {
 			at = @At("STORE"),
 			name = "criticalAttack"
 	)
-    private boolean criticalCounter_critOnlyIfCriticalCounter(boolean original) {
+    private boolean criticalCounter_critOnlyIfCriticalCounter(boolean criticalAttack) {
         if (
                 (Player) (Object) this instanceof ServerPlayer serverPlayer &&
                 CriticalCounterAbility.canCounter(getWeaponItem())
         ) {
             return CriticalCounterAbility.getPlayerCounterCondition(serverPlayer.getUUID()) ||
-					(CriticalCounterAbility.canVanillaCrit(getWeaponItem()) && original);
+					(CriticalCounterAbility.canVanillaCrit(getWeaponItem()) && criticalAttack);
         }
-        return original;
+        return criticalAttack;
     }
 
     @SuppressWarnings("resource")
@@ -130,11 +130,11 @@ public abstract class PlayerMixin extends LivingEntity {
                     //?}
             )
     )
-    private boolean infinityFix(boolean original, @Local(argsOnly = true) ItemStack weaponStack) {
+    private boolean infinityFix(boolean original, @Local(argsOnly = true, name = "heldWeapon") ItemStack heldWeapon) {
         if (ReArm.CONFIG.tweaks.infinityFix.get()) {
             int infinityLevel = EnchantmentHelper.getItemEnchantmentLevel(
                     level().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.INFINITY),
-                    weaponStack
+					heldWeapon
             );
             return original || infinityLevel > 0;
         }

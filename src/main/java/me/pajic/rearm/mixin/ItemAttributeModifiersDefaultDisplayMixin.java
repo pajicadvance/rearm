@@ -23,7 +23,7 @@ public class ItemAttributeModifiersDefaultDisplayMixin {
     )
     private String changeKnockbackResistDisplayStyle(
 			String original,
-			@Local(argsOnly = true) Holder<Attribute> attribute,
+			@Local(argsOnly = true, name = "attribute") Holder<Attribute> attribute,
 			@Local(name = "amount") double amount
 	) {
         return attribute.is(Attributes.KNOCKBACK_RESISTANCE) ?

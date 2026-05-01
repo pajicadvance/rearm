@@ -30,7 +30,7 @@ import java.util.Optional;
 public abstract class ItemModelGeneratorsMixin {
 
     @Shadow @Final public ItemModelOutput itemModelOutput;
-    @Shadow public abstract Identifier createFlatItemModel(Item item, String suffix, ModelTemplate modelTemplate);
+    @Shadow public abstract Identifier createFlatItemModel(Item item, String suffix, ModelTemplate template);
 
     @Inject(
             method = "run",

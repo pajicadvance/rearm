@@ -37,7 +37,7 @@ public abstract class ItemStackMixin {
                     target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlot;Ljava/util/function/BiConsumer;)V"
             )
     )
-    private ItemAttributeModifiers addToughness(ItemAttributeModifiers instance, EquipmentSlot equipmentSlot, BiConsumer<Holder<Attribute>, AttributeModifier> action) {
+    private ItemAttributeModifiers addToughness(ItemAttributeModifiers instance, EquipmentSlot slot, BiConsumer<Holder<Attribute>, AttributeModifier> consumer) {
         return rearm$addToughness(instance);
     }
 
@@ -49,7 +49,7 @@ public abstract class ItemStackMixin {
                     target = "Lnet/minecraft/world/item/component/ItemAttributeModifiers;forEach(Lnet/minecraft/world/entity/EquipmentSlotGroup;Lorg/apache/commons/lang3/function/TriConsumer;)V"
             )
     )
-    private ItemAttributeModifiers addToughness(ItemAttributeModifiers instance, EquipmentSlotGroup slotGroup, TriConsumer action) {
+    private ItemAttributeModifiers addToughness(ItemAttributeModifiers instance, EquipmentSlotGroup slot, TriConsumer consumer) {
         return rearm$addToughness(instance);
     }
 

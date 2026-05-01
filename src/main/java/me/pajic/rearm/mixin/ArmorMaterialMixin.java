@@ -34,9 +34,9 @@ public class ArmorMaterialMixin {
     )
     private void modifyMaterial(
             CallbackInfo ci,
-            @Local(argsOnly = true) ResourceKey<EquipmentAsset> id
+            @Local(argsOnly = true, name = "assetId") ResourceKey<EquipmentAsset> assetId
     ) {
-        Identifier rl = id.identifier();
+        Identifier rl = assetId.identifier();
         if (rl != null) ArmorMaterialHelper.add(rl);
         if (ReArm.CONFIG.armor.armorRebalance.get()) {
             int targetTotal = 0;

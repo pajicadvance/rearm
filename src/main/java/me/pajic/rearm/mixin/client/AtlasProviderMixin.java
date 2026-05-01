@@ -25,7 +25,7 @@ import java.util.concurrent.CompletableFuture;
 public abstract class AtlasProviderMixin {
 
     @Shadow
-    protected abstract CompletableFuture<?> storeAtlas(CachedOutput output, Identifier atlasId, List<SpriteSource> sources);
+    protected abstract CompletableFuture<?> storeAtlas(CachedOutput cache, Identifier atlasId, List<SpriteSource> contents);
 
     @WrapOperation(
             method = "run",
@@ -34,12 +34,16 @@ public abstract class AtlasProviderMixin {
                     target = "Ljava/util/concurrent/CompletableFuture;allOf([Ljava/util/concurrent/CompletableFuture;)Ljava/util/concurrent/CompletableFuture;"
             )
     )
-    private CompletableFuture<Void> addModAtlas(CompletableFuture<?>[] cfs, Operation<CompletableFuture<Void>> original, @Local(argsOnly = true) CachedOutput output) {
+    private CompletableFuture<Void> addModAtlas(
+			CompletableFuture<?>[] cfs,
+			Operation<CompletableFuture<Void>> original,
+			@Local(argsOnly = true, name = "cache") CachedOutput cache
+	) {
         SpriteMapper NETHERITE_SHIELD_MAPPER = new SpriteMapper(
                 RendererConstants.NETHERITE_SHIELD_PATTERNS, "entity/shield"
         );
         List<CompletableFuture<?>> futures = Arrays.asList(cfs);
-        futures.add(storeAtlas(output, RendererConstants.NETHERITE_SHIELD_PATTERNS, List.of(
+        futures.add(storeAtlas(cache, RendererConstants.NETHERITE_SHIELD_PATTERNS, List.of(
                 new SingleFile(RendererConstants.NETHERITE_SHIELD_BASE.texture()),
                 new SingleFile(RendererConstants.NO_PATTERN_NETHERITE_SHIELD.texture()),
                 new DirectoryLister(

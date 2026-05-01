@@ -20,7 +20,10 @@ public class AvatarRendererMixin {
                     target = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z"
             )
     )
-    private static boolean crossbow_getArmPose(boolean original, @Local(argsOnly = true) ItemStack itemStack) {
-        return ReArmItems.isCrossbow(itemStack);
+    private static boolean crossbow_getArmPose(
+			boolean original,
+			@Local(argsOnly = true, name = "itemInHand") ItemStack itemInHand
+	) {
+        return ReArmItems.isCrossbow(itemInHand);
     }
 }

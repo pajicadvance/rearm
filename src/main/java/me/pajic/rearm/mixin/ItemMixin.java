@@ -20,49 +20,49 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(Item.class)
 public abstract class ItemMixin {
 
-    @Shadow public abstract int getUseDuration(ItemStack stack, LivingEntity entity);
+    @Shadow public abstract int getUseDuration(ItemStack itemStack, LivingEntity user);
 
     @WrapMethod(method = "getUseDuration")
-    private int axe_useDuration(ItemStack stack, LivingEntity entity, Operation<Integer> original) {
-        if (ReArm.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
+    private int axe_useDuration(ItemStack itemStack, LivingEntity user, Operation<Integer> original) {
+        if (ReArm.CONFIG.axe.cripplingThrow.get() && itemStack.is(ItemTags.AXES)) {
             return 72000;
         }
-        return original.call(stack, entity);
+        return original.call(itemStack, user);
     }
 
     @WrapMethod(method = "getUseAnimation")
     private ItemUseAnimation axe_useAnimaton(
-            ItemStack stack,
+            ItemStack itemStack,
             Operation<ItemUseAnimation> original
     ) {
-        if (ReArm.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
+        if (ReArm.CONFIG.axe.cripplingThrow.get() && itemStack.is(ItemTags.AXES)) {
             if (CompatFlags.HMI_LOADED) return ItemUseAnimation.NONE;
             return ItemUseAnimation.TRIDENT;
         }
-        return original.call(stack);
+        return original.call(itemStack);
     }
 
     @WrapMethod(method = "use")
     private InteractionResult axe_use(
-            Level level, Player player, InteractionHand usedHand,
+            Level level, Player player, InteractionHand hand,
             Operation<InteractionResult> original) {
         if (ReArm.CONFIG.axe.cripplingThrow.get()) {
-            ItemStack stack = player.getItemInHand(usedHand);
+            ItemStack stack = player.getItemInHand(hand);
             if (stack.is(ItemTags.AXES)) {
-                return CripplingThrowAbility.useAxe(level, player, usedHand, stack);
+                return CripplingThrowAbility.useAxe(level, player, hand, stack);
             }
         }
-        return original.call(level, player, usedHand);
+        return original.call(level, player, hand);
     }
 
     @WrapMethod(method = "releaseUsing")
     private boolean axe_releaseUsing(
-            ItemStack stack, Level level, LivingEntity livingEntity, int timeCharged,
-            Operation<Boolean> original
+			ItemStack itemStack, Level level, LivingEntity entity, int remainingTime,
+		    Operation<Boolean> original
     ) {
-        if (ReArm.CONFIG.axe.cripplingThrow.get() && stack.is(ItemTags.AXES)) {
-            CripplingThrowAbility.throwAxe(stack, level, livingEntity, timeCharged, getUseDuration(stack, livingEntity));
+        if (ReArm.CONFIG.axe.cripplingThrow.get() && itemStack.is(ItemTags.AXES)) {
+            CripplingThrowAbility.throwAxe(itemStack, level, entity, remainingTime, getUseDuration(itemStack, entity));
         }
-        return original.call(stack, level, livingEntity, timeCharged);
+        return original.call(itemStack, level, entity, remainingTime);
     }
 }

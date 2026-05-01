@@ -14,20 +14,20 @@ import java.util.List;
 public class EnchantmentHelperMixin {
 
     @WrapMethod(method = "filterCompatibleEnchantments")
-    private static void allowMultipleProtectionEnchantments(List<EnchantmentInstance> dataList, EnchantmentInstance data, Operation<Void> original) {
-        if (ReArm.CONFIG.protection.allowMultipleProtectionEnchantments.get() && data.enchantment().is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+    private static void allowMultipleProtectionEnchantments(List<EnchantmentInstance> enchants, EnchantmentInstance target, Operation<Void> original) {
+        if (ReArm.CONFIG.protection.allowMultipleProtectionEnchantments.get() && target.enchantment().is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
             int itemProtEnchants = 0;
-            for (EnchantmentInstance ei : dataList) {
-                if (!ei.enchantment().equals(data.enchantment()) && ei.enchantment().is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+            for (EnchantmentInstance ei : enchants) {
+                if (!ei.enchantment().equals(target.enchantment()) && ei.enchantment().is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
                     itemProtEnchants++;
                 }
             }
             if (itemProtEnchants >= ReArm.CONFIG.protection.maxProtectionEnchantments.get()) {
-                original.call(dataList, data);
+                original.call(enchants, target);
             }
         }
         else {
-            original.call(dataList, data);
+            original.call(enchants, target);
         }
     }
 }

@@ -48,7 +48,7 @@ public class AtlasManagerMixin {
 	)
 	private static boolean disableDuplicateAtlasWarning(
 			Logger instance, String s, Object[] objects,
-			@Local(name = "id") SpriteId id,
+			@Local(name = "id", argsOnly = true) SpriteId id,
 			@Local(name = "previous") TextureAtlasSprite previous
 	) {
 		return !id.atlasLocation().getNamespace().equals(ReArm.MOD_ID) && !previous.atlasLocation().getNamespace().equals(ReArm.MOD_ID);

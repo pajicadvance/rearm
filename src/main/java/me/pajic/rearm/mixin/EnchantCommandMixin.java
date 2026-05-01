@@ -27,17 +27,17 @@ public class EnchantCommandMixin {
     private static boolean allowMultipleProtectionEnchantments(
             boolean original,
             @Local(name = "item") ItemStack item,
-            @Local(argsOnly = true) Holder<Enchantment> enchantment,
-            @Local(argsOnly = true) int level
+            @Local(argsOnly = true, name = "enchantmentHolder") Holder<Enchantment> enchantmentHolder,
+            @Local(argsOnly = true, name = "level") int level
     ) {
-        if (ReArm.CONFIG.protection.allowMultipleProtectionEnchantments.get() && enchantment.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
+        if (ReArm.CONFIG.protection.allowMultipleProtectionEnchantments.get() && enchantmentHolder.is(EnchantmentTags.ARMOR_EXCLUSIVE)) {
             ItemEnchantments.Mutable protectionEnchantments = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
             ReArmEnchantments.updateProtectionEnchantments(protectionEnchantments, EnchantmentHelper.getEnchantmentsForCrafting(item));
-            if (protectionEnchantments.getLevel(enchantment) == 0) {
-                protectionEnchantments.set(enchantment, level);
+            if (protectionEnchantments.getLevel(enchantmentHolder) == 0) {
+                protectionEnchantments.set(enchantmentHolder, level);
             }
             else {
-                protectionEnchantments.upgrade(enchantment, level);
+                protectionEnchantments.upgrade(enchantmentHolder, level);
             }
             if (protectionEnchantments.keySet().size() <= ReArm.CONFIG.protection.maxProtectionEnchantments.get()) {
                 return true;

@@ -20,11 +20,11 @@ public class ItemInHandRendererMixin {
 			name = "holdsBow"
 	)
     private static boolean bow_evaluateWhichHandsToRender(
-            boolean bl,
+            boolean holdsBow,
             @Local(name = "mainHandItem") ItemStack mainHandItem,
             @Local(name = "offhandItem") ItemStack offhandItem
     ) {
-        return bl || ReArmItems.isBow(mainHandItem) || ReArmItems.isBow(offhandItem);
+        return holdsBow || ReArmItems.isBow(mainHandItem) || ReArmItems.isBow(offhandItem);
     }
 
     @ModifyVariable(
@@ -33,11 +33,11 @@ public class ItemInHandRendererMixin {
 			name = "holdsCrossbow"
 	)
     private static boolean crossbow_evaluateWhichHandsToRender(
-            boolean bl,
+            boolean holdsCrossbow,
             @Local(name = "mainHandItem") ItemStack mainHandItem,
             @Local(name = "offhandItem") ItemStack offhandItem
     ) {
-        return bl || ReArmItems.isCrossbow(mainHandItem) || ReArmItems.isCrossbow(offhandItem);
+        return holdsCrossbow || ReArmItems.isCrossbow(mainHandItem) || ReArmItems.isCrossbow(offhandItem);
     }
 
     @ModifyExpressionValue(
@@ -77,8 +77,8 @@ public class ItemInHandRendererMixin {
                     target = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z"
             )
     )
-    private static boolean crossbow_isChargedCrossbow(boolean original, @Local(argsOnly = true) ItemStack itemStack) {
-        return original || ReArmItems.isCrossbow(itemStack);
+    private static boolean crossbow_isChargedCrossbow(boolean original, @Local(argsOnly = true, name = "item") ItemStack item) {
+        return original || ReArmItems.isCrossbow(item);
     }
 
 	//? if fabric {
@@ -89,7 +89,7 @@ public class ItemInHandRendererMixin {
                     target = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z"
             )
     )
-    private boolean crossbow_renderArmWithItem(boolean original, @Local(argsOnly = true) ItemStack itemStack) {
+    private boolean crossbow_renderArmWithItem(boolean original, @Local(argsOnly = true, name = "itemStack") ItemStack itemStack) {
         return original || ReArmItems.isCrossbow(itemStack);
     }
 	//?}

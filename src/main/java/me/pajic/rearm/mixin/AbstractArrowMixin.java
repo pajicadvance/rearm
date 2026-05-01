@@ -95,8 +95,8 @@ public abstract class AbstractArrowMixin extends Projectile {
                     ordinal = 3
             )
     )
-    private byte stopPiercingArrowOnArmoredEntity(byte original, @Local(argsOnly = true) EntityHitResult result) {
-        if (ReArm.CONFIG.crossbow.stopPiercingOnArmoredEntity.get() && original > 0 && result.getEntity() instanceof LivingEntity entity) {
+    private byte stopPiercingArrowOnArmoredEntity(byte original, @Local(argsOnly = true, name = "hitResult") EntityHitResult hitResult) {
+        if (ReArm.CONFIG.crossbow.stopPiercingOnArmoredEntity.get() && original > 0 && hitResult.getEntity() instanceof LivingEntity entity) {
             if (
                     !entity.equipment.get(EquipmentSlot.HEAD).isEmpty() ||
                     !entity.equipment.get(EquipmentSlot.CHEST).isEmpty() ||

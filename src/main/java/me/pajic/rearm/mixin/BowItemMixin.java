@@ -71,10 +71,10 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             )
     )
     private void playPlayerBowDrawingSound(
-			Level level, Player player, InteractionHand interactionHand,
+			Level level, Player player, InteractionHand hand,
 			CallbackInfoReturnable<InteractionResult> cir
     ) {
-        if (ReArm.CONFIG.bow.playerDrawingSounds.get() && !player.getProjectile(player.getItemInHand(interactionHand)).isEmpty()) {
+        if (ReArm.CONFIG.bow.playerDrawingSounds.get() && !player.getProjectile(player.getItemInHand(hand)).isEmpty()) {
             level.playSound(
                     null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.CROSSBOW_QUICK_CHARGE_1,

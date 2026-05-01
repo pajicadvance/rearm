@@ -47,12 +47,12 @@ public abstract class LivingEntityMixin extends Entity {
             ),
             index = 3
     )
-    private float crossbow_pierceArmor(float original, @Local(argsOnly = true) DamageSource source) {
+    private float crossbow_pierceArmor(float original, @Local(argsOnly = true, name = "damageSource") DamageSource damageSource) {
         if (ReArm.CONFIG.crossbow.improvedPiercing.get()) {
-            int piercingLevel = source.getWeaponItem() != null ?
+            int piercingLevel = damageSource.getWeaponItem() != null ?
                     EnchantmentHelper.getItemEnchantmentLevel(
                             registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.PIERCING),
-                            source.getWeaponItem()
+                            damageSource.getWeaponItem()
                     ) : 0;
             return original * (1 - ((float) (ReArm.CONFIG.crossbow.percentArmorIgnoredPerLevel.get() * piercingLevel) / 100));
         }
@@ -69,7 +69,7 @@ public abstract class LivingEntityMixin extends Entity {
 					//target = "Lnet/neoforged/neoforge/common/CommonHooks;onDamageBlock(Lnet/minecraft/world/entity/LivingEntity;Lnet/neoforged/neoforge/common/damagesource/DamageContainer;FZ)Lnet/neoforged/neoforge/event/entity/living/LivingShieldBlockEvent;"
             )
     )
-    private void parry_onHurtShield(ServerLevel level, DamageSource source, float damageAmount, CallbackInfoReturnable<Float> cir) {
+    private void parry_onHurtShield(ServerLevel level, DamageSource source, float damage, CallbackInfoReturnable<Float> cir) {
         if (rearm$self instanceof Player && rearm$parryTimer > 0 && source.is(DamageTypeTags.IS_PROJECTILE) && source.getDirectEntity() instanceof Projectile projectile) {
             level.sendParticles(ParticleTypes.CRIT, projectile.getX(), projectile.getY(), projectile.getZ(), 8, 0.2, 0.2, 0.2, 0.2);
             projectile.setDeltaMovement(projectile.getDeltaMovement().scale(7.5));
@@ -107,11 +107,11 @@ public abstract class LivingEntityMixin extends Entity {
                     target = "Lnet/minecraft/world/item/component/BlocksAttacks;onBlocked(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/entity/LivingEntity;)V"
             )
     )
-    private boolean parry_increasePitch(BlocksAttacks instance, ServerLevel level, LivingEntity entity) {
+    private boolean parry_increasePitch(BlocksAttacks instance, ServerLevel level, LivingEntity user) {
         if (rearm$self instanceof Player && rearm$parryTimer > 0) {
             instance.blockSound().ifPresent(holder -> level.playSound(
-                    null, entity.getX(), entity.getY(), entity.getZ(),
-                    holder, entity.getSoundSource(), 1.0F, 1.2F + level.getRandom().nextFloat() * 0.4F
+                    null, user.getX(), user.getY(), user.getZ(),
+                    holder, user.getSoundSource(), 1.0F, 1.2F + level.getRandom().nextFloat() * 0.4F
             ));
             return false;
         }

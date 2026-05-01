@@ -25,18 +25,18 @@ public class CombatRulesMixin {
     )
     private static void modifyReduction(
             Args args,
-            @Local(argsOnly = true, ordinal = 0) float damage,
-            @Local(argsOnly = true, ordinal = 1) float armor,
-            @Local(argsOnly = true, ordinal = 2) float toughness
+            @Local(argsOnly = true, name = "damage") float damage,
+            @Local(argsOnly = true, name = "totalArmor") float totalArmor,
+            @Local(argsOnly = true, name = "armorToughness") float armorToughness
     ) {
         if (ReArm.armorRebalanceActive()) {
             float m = ReArm.CONFIG.armor.armorMultiplier.get();
-            float t = (3.5F * toughness) / (toughness + 1);
-            float d = (6 * damage) / (toughness + 8);
+            float t = (3.5F * armorToughness) / (armorToughness + 1);
+            float d = (6 * damage) / (armorToughness + 8);
             float l = Mth.lerp(t / 20, 1 / 5F, 1 / 3.8F);
 
-            args.set(0, ((armor / 2 + t) - d) * m);
-            args.set(1, armor * l * m);
+            args.set(0, ((totalArmor / 2 + t) - d) * m);
+            args.set(1, totalArmor * l * m);
             args.set(2, 20 * m);
         }
     }

@@ -26,9 +26,9 @@ public class BlocksAttacksMixin {
                     target = "Lnet/minecraft/world/entity/player/Player;awardStat(Lnet/minecraft/stats/Stat;)V"
             )
     )
-    private void criticalCounter_startTimer(Level level, ItemStack stack, LivingEntity entity, InteractionHand hand, float damage, /*? if neoforge {*//*int fixedDamage,*//*?}*/ CallbackInfo ci) {
-        if (CriticalCounterAbility.canCounter(entity.getWeaponItem())) {
-            ReArm.xplat().sendToClient((ServerPlayer) entity, new CriticalCounterAbility.S2CStartCriticalCounterTimer());
+    private void criticalCounter_startTimer(Level level, ItemStack item, LivingEntity user, InteractionHand hand, float damage, /*? if neoforge {*//*int fixedDamage,*//*?}*/ CallbackInfo ci) {
+        if (CriticalCounterAbility.canCounter(user.getWeaponItem())) {
+            ReArm.xplat().sendToClient((ServerPlayer) user, new CriticalCounterAbility.S2CStartCriticalCounterTimer());
         }
     }
 }

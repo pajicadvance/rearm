@@ -10,6 +10,7 @@ import me.pajic.rearm.ability.BashAbility;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.item.ReArmItems;
+import me.pajic.rearm.predicate.EntityInWaterOrRainPredicate;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
@@ -40,10 +41,11 @@ public class FabricEntrypoint implements ModInitializer {
 		initBash();
 		initCripplingThrow();
 		initCriticalCounter();
+		initPredicates();
 		enchantableShield();
 	}
 
-	private void initCommonResources() {
+	private static void initCommonResources() {
 		FabricLoader.getInstance().getModContainer(ReArm.MOD_ID).ifPresent(modContainer -> {
 			if (ReArm.CONFIG.bow.enableBackstep.get()) {
 				ResourceLoader.registerBuiltinPack(
@@ -99,7 +101,7 @@ public class FabricEntrypoint implements ModInitializer {
 		});
 	}
 
-	private void initBackstep() {
+	private static void initBackstep() {
 		PayloadTypeRegistry.serverboundPlay().register(BackstepAbility.C2SCauseBackstepExhaustionPayload.TYPE, BackstepAbility.C2SCauseBackstepExhaustionPayload.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(
 				BackstepAbility.C2SCauseBackstepExhaustionPayload.TYPE,
@@ -131,6 +133,10 @@ public class FabricEntrypoint implements ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(CriticalCounterAbility.C2SUpdatePlayerCounterCondition.TYPE, (payload, context) ->
 				CriticalCounterAbility.setPlayerCounterCondition(payload.activePlayerUUID(), payload.shouldCounter())
 		);
+	}
+
+	private static void initPredicates() {
+		Registry.register(BuiltInRegistries.ENTITY_SUB_PREDICATE_TYPE, ReArm.id("is_in_water_or_rain"), EntityInWaterOrRainPredicate.CODEC);
 	}
 
 	private static void enchantableShield() {

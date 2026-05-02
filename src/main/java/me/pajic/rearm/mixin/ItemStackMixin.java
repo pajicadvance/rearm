@@ -2,6 +2,7 @@ package me.pajic.rearm.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import me.pajic.rearm.ReArm;
+import me.pajic.rearm.util.CompatFlags;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.Identifier;
@@ -55,7 +56,7 @@ public abstract class ItemStackMixin {
 
     @Unique
     private ItemAttributeModifiers rearm$addToughness(ItemAttributeModifiers instance) {
-        if (ReArm.armorRebalanceActive() && ReArm.CONFIG.armor.enchantmentBasedToughness.get()) {
+        if (CompatFlags.armorRebalanceActive() && ReArm.CONFIG.armor.enchantmentBasedToughness.get()) {
             ItemStack self = (ItemStack) (Object) this;
             if (self.has(DataComponents.EQUIPPABLE)) {
                 Equippable equippable = self.get(DataComponents.EQUIPPABLE);

@@ -155,7 +155,7 @@ public class ThrownAxe extends AbstractArrow {
         return entity != null && entity.isAlive() && (!(entity instanceof ServerPlayer) || !entity.isSpectator());
     }
 
-    @SuppressWarnings({"resource"/*? if > 1.21.1 {*/, "deprecation"/*?}*/})
+    @SuppressWarnings({"resource", "deprecation"})
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         Entity entity = result.getEntity();
@@ -238,24 +238,26 @@ public class ThrownAxe extends AbstractArrow {
     protected boolean tryPickup(@NotNull Player player) {
         boolean result = switch (pickup) {
             case DISALLOWED -> false;
-            case ALLOWED -> entityData.get(ALLOW_PICKUP) && ownedBy(player);
+            case ALLOWED -> entityData.get(ALLOW_PICKUP) && ownedBy(player) && !player.hasInfiniteMaterials();
             case CREATIVE_ONLY -> player.hasInfiniteMaterials();
         };
         if (result) {
-            if (hand != null && player.getItemInHand(hand).isEmpty()) {
-                player.setItemInHand(hand, getPickupItem());
-            } else {
-                boolean added = player.getInventory().add(getPickupItem());
-                if (!added) {
-                    failedPickup = true;
-                    stuckEntity = null;
-                    setNoGravity(false);
-                    setNoPhysics(false);
-                    entityData.set(STUCK, false);
-                    timeInTarget = 0;
-                    return false;
-                }
-            }
+			if (!player.hasInfiniteMaterials()) {
+		        if (hand != null && player.getItemInHand(hand).isEmpty()) {
+					player.setItemInHand(hand, getPickupItem());
+				} else {
+					boolean added = player.getInventory().add(getPickupItem());
+					if (!added) {
+						failedPickup = true;
+						stuckEntity = null;
+						setNoGravity(false);
+						setNoPhysics(false);
+						entityData.set(STUCK, false);
+						timeInTarget = 0;
+						return false;
+					}
+				}
+	        }
             CripplingThrowAbility.recallSignals.remove(player.getUUID());
         }
         return result;
@@ -307,6 +309,7 @@ public class ThrownAxe extends AbstractArrow {
         }
     }
 
+	@Override
     public void tickDespawn() {
         if (pickup != Pickup.ALLOWED) {
             super.tickDespawn();

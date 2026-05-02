@@ -16,6 +16,8 @@ credits = "${contributors}"
 
 description = '''${description}'''
 
+enumExtensions="META-INF/${minecraft}-enumextensions.json"
+
 [[mixins]]
 config = "${id}.mixins.json"
 behaviorVersion = "0.17.1"

@@ -2,6 +2,10 @@
   "values": [
     "#minecraft:is_fire",
     "#minecraft:is_lightning",
-    "#minecraft:is_freezing"
+    "#minecraft:is_freezing",
+    {
+      "id": "#neoforge:is_environment",
+      "required": false
+    }
   ]
 }

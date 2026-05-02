@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.moulberry.mixinconstraints.annotations.IfModAbsent;
 import me.pajic.rearm.ReArm;
+import me.pajic.rearm.util.CompatFlags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.CombatRules;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +30,7 @@ public class CombatRulesMixin {
             @Local(argsOnly = true, name = "totalArmor") float totalArmor,
             @Local(argsOnly = true, name = "armorToughness") float armorToughness
     ) {
-        if (ReArm.armorRebalanceActive()) {
+        if (CompatFlags.armorRebalanceActive()) {
             float m = ReArm.CONFIG.armor.armorMultiplier.get();
             float t = (3.5F * armorToughness) / (armorToughness + 1);
             float d = (6 * damage) / (armorToughness + 8);
@@ -49,6 +50,6 @@ public class CombatRulesMixin {
             )
     )
     private static float modifyProtectionDivisor(float original) {
-        return ReArm.armorRebalanceActive() ? original * ReArm.CONFIG.armor.armorMultiplier.get() : original;
+        return CompatFlags.armorRebalanceActive() ? original * ReArm.CONFIG.armor.armorMultiplier.get() : original;
     }
 }

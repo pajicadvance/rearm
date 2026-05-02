@@ -28,6 +28,7 @@ public class ModConfig extends Config {
     public Crossbow crossbow = new Crossbow();
     public Sword sword = new Sword();
     public Axe axe = new Axe();
+	public Trident trident = new Trident();
     public Shield shield = new Shield();
     public Armor armor = new Armor();
     public Protection protection = new Protection();
@@ -96,16 +97,17 @@ public class ModConfig extends Config {
     public static class Bow extends ConfigSection {
         public ValidatedBoolean enablePerfectShot = new ValidatedBoolean();
         public ValidatedInt perfectShotAdditionalDamage = new ValidatedInt(2, Integer.MAX_VALUE, 1);
-        public ValidatedFloat perfectShotTimeframe = new ValidatedFloat(0.2F);
+        public ValidatedInt perfectShotTimeframe = new ValidatedInt(3, Integer.MAX_VALUE, 1);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBackstep = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedInt backstepTimeframe = new ValidatedInt(5, Integer.MAX_VALUE, 1);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedMultishot = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedInt maxMultishotLevel = new ValidatedInt(3, Integer.MAX_VALUE, 1);
         @RequiresAction(action = Action.RESTART) public ValidatedInt additionalArrowsPerLevel = new ValidatedInt(1, Integer.MAX_VALUE, 1);
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptMultishot = new ValidatedBoolean();
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean bowNetheriteVariant = new ValidatedBoolean();
+		public ValidatedBoolean chargeBar = new ValidatedBoolean();
         public ValidatedBoolean playerDrawingSounds = new ValidatedBoolean();
         public ValidatedBoolean mobDrawingSounds = new ValidatedBoolean();
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptMultishot = new ValidatedBoolean();
-        @RequiresAction(action = Action.RESTART) public ValidatedBoolean bowNetheriteVariant = new ValidatedBoolean();
     }
 
     public static class Crossbow extends ConfigSection {
@@ -123,6 +125,7 @@ public class ModConfig extends Config {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptPower = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptInfinity = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean crossbowNetheriteVariant = new ValidatedBoolean();
+		public ValidatedBoolean chargeBar = new ValidatedBoolean();
     }
 
     public static class Sword extends ConfigSection {
@@ -143,12 +146,20 @@ public class ModConfig extends Config {
         public ValidatedInt cripplingThrowBaseSlownessAmplifier = new  ValidatedInt(1, Integer.MAX_VALUE, 1);
         public ValidatedInt cripplingThrowSlownessAmplifierIncreasePerLevel = new ValidatedInt(1, Integer.MAX_VALUE, 1);
         public ValidatedInt maxTimeStuckInTarget = new ValidatedInt(240, Integer.MAX_VALUE, 1);
-		@RequiresAction(action = Action.RESTART) public ValidatedBoolean requireLoyaltyForRecall = new ValidatedBoolean(false);
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean requireLoyaltyForRecall = new ValidatedBoolean();
         public ValidatedBoolean enableCriticalCounter = new ValidatedBoolean(false);
 		public ValidatedBoolean disableVanillaCrits = new ValidatedBoolean(false);
 		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptKnockback = new ValidatedBoolean();
 		@RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptLooting = new ValidatedBoolean();
+		public ValidatedBoolean chargeBar = new ValidatedBoolean();
     }
+
+	public static class Trident extends ConfigSection {
+		@RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedImpaling = new ValidatedBoolean();
+		public ValidatedBoolean returnToHand = new ValidatedBoolean();
+		public ValidatedBoolean returnFromVoid = new ValidatedBoolean();
+		public ValidatedBoolean chargeBar = new ValidatedBoolean();
+	}
 
     public static class Shield extends ConfigSection {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean enableBash = new ValidatedBoolean();
@@ -169,5 +180,6 @@ public class ModConfig extends Config {
 		public ValidatedBoolean dragonBreathDamageTypeFix = new ValidatedBoolean();
 		public ValidatedBoolean enderDragonVelocityFix = new ValidatedBoolean();
 		public ValidatedBoolean powerDamageFix = new ValidatedBoolean();
+		public ValidatedBoolean shieldDelayFix = new ValidatedBoolean();
 	}
 }

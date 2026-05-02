@@ -39,7 +39,7 @@ public abstract class BowItemMixin extends ProjectileWeaponItem {
             @Local(name = "timeHeld") int timeHeld
     ) {
         if (ReArm.CONFIG.bow.enablePerfectShot.get()) {
-            if (timeHeld >= 20 && timeHeld <= 20 + ReArm.CONFIG.bow.perfectShotTimeframe.get() * 20) {
+            if (timeHeld >= 20 && timeHeld <= 20 + ReArm.CONFIG.bow.perfectShotTimeframe.get()) {
                 isPerfectShot.set(true);
                 return true;
             }

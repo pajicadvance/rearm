@@ -10,6 +10,7 @@ import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
+import me.pajic.rearm.predicate.EntityInWaterOrRainPredicate;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -131,6 +132,10 @@ public class NeoforgeEntrypoint {
 		event.register(
 				Registries.ENTITY_TYPE,
 				registry -> registry.register(ReArm.id("axe"), CripplingThrowAbility.AXE)
+		);
+		event.register(
+				Registries.ENTITY_SUB_PREDICATE_TYPE,
+				registry -> registry.register(ReArm.id("is_in_water_or_rain"), EntityInWaterOrRainPredicate.CODEC)
 		);
 	}
 

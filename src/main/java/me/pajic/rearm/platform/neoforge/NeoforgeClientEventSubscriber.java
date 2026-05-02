@@ -5,6 +5,7 @@ package me.pajic.rearm.platform.neoforge;
 /*import me.pajic.rearm.ReArm;
 import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
+import me.pajic.rearm.hud.ItemUseProgressBars;
 import me.pajic.rearm.keybind.ReArmKeybinds;
 import me.pajic.rearm.renderer.ThrownAxeRenderer;
 import net.minecraft.client.Minecraft;
@@ -14,7 +15,9 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 
 @EventBusSubscriber(modid = ReArm.MOD_ID, value = Dist.CLIENT)
 public class NeoforgeClientEventSubscriber {
@@ -39,6 +42,13 @@ public class NeoforgeClientEventSubscriber {
 	@SubscribeEvent
 	private static void initThrownAxeRenderer(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerEntityRenderer(CripplingThrowAbility.AXE, ThrownAxeRenderer::new);
+	}
+
+	@SubscribeEvent
+	private static void initHudLayers(RegisterGuiLayersEvent event) {
+		ItemUseProgressBars.bars.forEach(bar ->
+				event.registerAbove(VanillaGuiLayers.CONTEXTUAL_INFO_BAR, bar.getId(), bar::extractBackground)
+		);
 	}
 }
 *///?}

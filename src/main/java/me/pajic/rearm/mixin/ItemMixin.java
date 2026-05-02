@@ -45,7 +45,8 @@ public abstract class ItemMixin {
     @WrapMethod(method = "use")
     private InteractionResult axe_use(
             Level level, Player player, InteractionHand hand,
-            Operation<InteractionResult> original) {
+            Operation<InteractionResult> original
+	) {
         if (ReArm.CONFIG.axe.cripplingThrow.get()) {
             ItemStack stack = player.getItemInHand(hand);
             if (stack.is(ItemTags.AXES)) {

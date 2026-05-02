@@ -4,6 +4,18 @@
     "minecraft:magic",
     "minecraft:indirect_magic",
     "minecraft:sonic_boom",
-    "minecraft:wither"
+    "minecraft:wither",
+    {
+      "id": "#c:is_magic",
+      "required": false
+    },
+    {
+      "id": "#neoforge:is_magic",
+      "required": false
+    },
+    {
+      "id": "#neoforge:is_wither",
+      "required": false
+    }
   ]
 }

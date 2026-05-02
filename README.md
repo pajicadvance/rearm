@@ -41,6 +41,12 @@ The axe is meant for **very high single target damage**. With a fully enchanted 
 - New **Crippling Throw** enchantment - Allows throwing the axe at an enemy, much like a trident. The axe sticks onto the enemy and slows them down. Pressing the action key recalls the axe to you and the enemy starts taking bleeding damage. Slow intensity and bleeding damage scales with enchantment level (max 3).
 - Support **Looting** and **Knockback** - Axes can now be enchanted with Looting and Knockback.
 
+### Trident
+
+- Improved **Impaling** enchantment - Impaling now also affects all mobs that are in water or rain instead of only specific aquatic mobs.
+- Return to hand - Tridents with Loyalty will always return to the hand they were thrown from instead of the first free inventory slot.
+- Return from the Void - Tridents with Loyalty will return to the player when they enter the Void instead of being destroyed.
+
 ### Shield
 
 - New **Parry** mechanic - Raising the shield to block a projectile shortly before it lands parries it and sends it flying towards the shooter.
@@ -81,6 +87,10 @@ ReArm rebalances most protection enchantments and introduces a new protection en
 - **Magic Protection** - New Protection enchantment which provides high resistance to magic attacks.
 - Normalized enchantment costs for every Protection enchantment. In vanilla, chances for each Protection enchantment to appear in the enchanting table vary wildly, with the most common ones being Protection and Projectile Protection, and the rest being quite rare. This reduces the huge gap in chances between Protection enchantments.
 
+### Item charge progress bar
+
+Bows, crossbows, axes and tridents now visually show how much they need to be charged in order to be used inside a progress bar that shows up in the hotbar when charging up the item. The bow bar also shows how much the bow needs to be charged for the shot to be a Perfect Shot.
+
 ### Tweaks
 
 - **Improved sneaking** - Increases the effectiveness of mob detection range reduction when sneaking. Enabled and set to 80% by default.
@@ -95,6 +105,7 @@ ReArm implements fixes for certain vanilla bugs, which are important for improvi
 - **Dragon breath damage type fix**: Fixes [MC-84595](https://mojira.dev/MC-84595) by assigning the correct damage type to the dragon breath attack.
 - **Ender Dragon vertical velocity fix**: Fixes [MC-272431](https://mojira.dev/MC-272431) and [MC-197201](https://mojira.dev/MC-197201) by increasing the Ender Dragon's vertical velocity.
 - **Power damage fix**: Fixes [MC-277617](https://mojira.dev/MC-277617) by setting the base damage of the Power enchantment to the correct value.
+- **Shield delay fix**: Fixes [MC-100949](https://mojira.dev/MC-100949) by removing the shield delay.
 
 ### Recommended mods
 

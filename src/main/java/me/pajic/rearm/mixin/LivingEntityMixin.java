@@ -126,7 +126,7 @@ public abstract class LivingEntityMixin extends Entity {
             )
     )
     private int parry_removeShieldBlockDelay(int original) {
-        return 0;
+        return ReArm.CONFIG.bugFixes.shieldDelayFix.get() ? 0 : original;
     }
 
     @ModifyExpressionValue(

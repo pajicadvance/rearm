@@ -3,6 +3,7 @@ package me.pajic.rearm.mixson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import me.pajic.rearm.ReArm;
 import net.ramixin.mixson.EventContext;
@@ -72,6 +73,59 @@ public class DataPatches {
 							.getAsJsonObject("effect")
 							.getAsJsonObject("value")
 							.addProperty("base", 1.0);
+				}
+		);
+		MixsonHelper.registerSingleJson(
+				"Modify Impaling enchantment",
+				new Index("minecraft:enchantment/impaling"),
+				context -> {
+					if (ReArm.CONFIG.trident.improvedImpaling.get()) {
+						JsonObject effects = context.getFile().getAsJsonObject().getAsJsonObject("effects");
+						if (effects.has("minecraft:damage")) {
+							JsonArray damage = effects.getAsJsonArray("minecraft:damage");
+							damage.forEach(element -> {
+								JsonObject object = element.getAsJsonObject();
+								if (object.has("requirements")) {
+									JsonElement reqElem = object.get("requirements");
+									if (reqElem.isJsonObject()) {
+										JsonObject requirements = reqElem.getAsJsonObject();
+										JsonObject match = new JsonObject();
+										match.addProperty("condition", "minecraft:entity_properties");
+										match.addProperty("entity", "this");
+										JsonObject predicate = new JsonObject();
+										predicate.addProperty("type", "#minecraft:sensitive_to_impaling");
+										match.add("predicate", predicate);
+										if (requirements.equals(match)) {
+											JsonElement newRequirements = JsonParser.parseString("""
+											{
+												"condition": "minecraft:any_of",
+												"terms": [
+												 {
+												   "condition": "minecraft:entity_properties",
+												   "entity": "this",
+												   "predicate": {
+													 "type": "#minecraft:sensitive_to_impaling"
+												   }
+												 },
+												 {
+												   "condition": "minecraft:entity_properties",
+												   "entity": "this",
+												   "predicate": {
+													 "type_specific": {
+													   "type": "rearm:is_in_water_or_rain"
+													 }
+												   }
+												 }
+												]
+											}
+											""");
+											object.add("requirements", newRequirements);
+										}
+									}
+								}
+							});
+						}
+					}
 				}
 		);
 		MixsonHelper.registerSingleJson(

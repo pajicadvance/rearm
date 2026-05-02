@@ -91,7 +91,7 @@ public abstract class PlayerMixin extends LivingEntity {
             index = 2
     )
     private <T extends Entity> float sweepingEdge_increaseDamage(
-            float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(name = "sweepDamage") float sweepDamage
+            float damage, @Share("original") LocalRef<List<T>> hitEntityList, @Local(ordinal = 2) float sweepDamage
     ) {
         if (ReArm.CONFIG.sword.improvedSweepingEdge.get()) {
             float additionalDamage = ReArm.CONFIG.sword.sweepingEdgeAdditionalDamagePerMob.get() *

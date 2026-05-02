@@ -7,7 +7,6 @@ import me.pajic.rearm.mixson.AssetPatches;
 import me.pajic.rearm.mixson.DataPatches;
 import me.pajic.rearm.mixson.MixsonHelper;
 import me.pajic.rearm.platform.Platform;
-import me.pajic.rearm.util.CompatFlags;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,10 +57,6 @@ public class ReArm {
 		//?} neoforge {
 		/*return new NeoforgePlatform();
 		 *///?}
-	}
-
-	public static boolean armorRebalanceActive() {
-		return CONFIG.armor.armorRebalance.get() && !CompatFlags.APOTHEOSIS_LOADED;
 	}
 
 	public static Identifier id(String path) {

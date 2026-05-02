@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.effect.ReArmEffects;
+import me.pajic.rearm.util.CompatFlags;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.world.effect.MobEffectInstance;
 import org.spongepowered.asm.mixin.Mixin;
@@ -34,6 +35,6 @@ public class GuiMixin {
             )
     )
     private static int scaleArmorBar(int original) {
-        return ReArm.armorRebalanceActive() ? Math.round(original / ReArm.CONFIG.armor.armorMultiplier.get()) : original;
+        return CompatFlags.armorRebalanceActive() ? Math.round(original / ReArm.CONFIG.armor.armorMultiplier.get()) : original;
     }
 }

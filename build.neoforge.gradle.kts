@@ -16,6 +16,10 @@ platform {
 			slug("fzzy-config")
 			forgeVersionRange = "[0,)"
 		}
+		required("mixson") {
+			slug("mixson")
+			forgeVersionRange = "[0,)"
+		}
 	}
 }
 
@@ -57,8 +61,7 @@ dependencies {
 	implementation(libs.moulberry.mixinconstraints)
 	jarJar(libs.moulberry.mixinconstraints)
 	implementation("me.fzzyhmstrs:fzzy_config:${prop("deps.fzzy_config")}+neoforge")
-	implementation("com.github.ramixin:mixson-neoforge:${prop("deps.mixson")}")
-	jarJar("com.github.ramixin:mixson-neoforge:${prop("deps.mixson")}")
+	implementation("maven.modrinth:mixson:${prop("deps.mixson")}")
 }
 
 tasks.named("createMinecraftArtifacts") {

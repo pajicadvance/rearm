@@ -83,7 +83,7 @@ public class ItemInHandRendererMixin {
 
 	//? if fabric {
     @ModifyExpressionValue(
-            method = "renderArmWithItem",
+            method = /*? if 26.1.2{*//*"renderArmWithItem"*//*?} else {*/"submitArmWithItem"/*?}*/,
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/ItemStack;is(Ljava/lang/Object;)Z"

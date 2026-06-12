@@ -93,7 +93,7 @@ public class DataPatches {
 										match.addProperty("condition", "minecraft:entity_properties");
 										match.addProperty("entity", "this");
 										JsonObject predicate = new JsonObject();
-										predicate.addProperty("type", "#minecraft:sensitive_to_impaling");
+										predicate.addProperty(/*? 26.1.2 {*//*"type"*//*?} else {*/"minecraft:entity_type"/*?}*/, "#minecraft:sensitive_to_impaling");
 										match.add("predicate", predicate);
 										if (requirements.equals(match)) {
 											JsonElement newRequirements = JsonParser.parseString("""
@@ -103,22 +103,25 @@ public class DataPatches {
 												 {
 												   "condition": "minecraft:entity_properties",
 												   "entity": "this",
-												   "predicate": {
-													 "type": "#minecraft:sensitive_to_impaling"
-												   }
+												   "predicate": {}
 												 },
 												 {
 												   "condition": "minecraft:entity_properties",
 												   "entity": "this",
-												   "predicate": {
-													 "type_specific": {
-													   "type": "rearm:is_in_water_or_rain"
-													 }
-												   }
+												   "predicate": {}
 												 }
 												]
 											}
 											""");
+											JsonArray terms = newRequirements.getAsJsonObject().getAsJsonArray("terms");
+											terms.get(0).getAsJsonObject().getAsJsonObject("predicate").addProperty(/*? 26.1.2 {*//*"type"*//*?} else {*/"minecraft:entity_type"/*?}*/, "#minecraft:sensitive_to_impaling");
+											//? 26.1.2 {
+											/*JsonObject typeSpecific = new JsonObject();
+											typeSpecific.addProperty("type", "rearm:is_in_water_or_rain");
+											terms.get(1).getAsJsonObject().getAsJsonObject("predicate").add("type_specific", typeSpecific);
+											*///?} else {
+											terms.get(1).getAsJsonObject().getAsJsonObject("predicate").add("rearm:is_in_water_or_rain", new JsonObject());
+											//?}
 											object.add("requirements", newRequirements);
 										}
 									}

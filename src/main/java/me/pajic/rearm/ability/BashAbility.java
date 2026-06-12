@@ -14,6 +14,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -46,15 +47,16 @@ public class BashAbility {
 			List<LivingEntity> targets = level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(bashRange, 1, bashRange))
 					.stream().filter(livingEntity -> livingEntity != player).toList();
 			if (!targets.isEmpty()) {
+				DamageSource source = level.damageSources().playerAttack(player);
+				float damage = ReArm.CONFIG.shield.bashBaseDamage.get() + 2 * ReArm.CONFIG.shield.bashDamagePerLevel.get();
 				targets.forEach(entity -> {
 					entity.knockback(
 							ReArm.CONFIG.shield.bashBaseKnockback.get() + bashLevel * ReArm.CONFIG.shield.bashKnockbackPerLevel.get(),
 							Mth.sin(player.getYRot() * (float) (Math.PI / 180.0)), -Mth.cos(player.getYRot() * (float) (Math.PI / 180.0))
+							//? >26.1.2
+							, source, damage, true
 					);
-					entity.hurtServer(
-							level, level.damageSources().playerAttack(player),
-							ReArm.CONFIG.shield.bashBaseDamage.get() + 2 * ReArm.CONFIG.shield.bashDamagePerLevel.get()
-					);
+					entity.hurtServer(level, source, damage);
 					level.sendParticles(
 							ParticleTypes.CRIT, entity.getX(), entity.getY() + 0.5, entity.getZ(),
 							8, 0.3, 0.3, 0.3, 0.2

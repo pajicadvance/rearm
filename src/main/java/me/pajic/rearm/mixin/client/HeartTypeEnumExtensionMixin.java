@@ -4,13 +4,13 @@ package me.pajic.rearm.mixin.client;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import me.pajic.rearm.ReArm;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.resources.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
-@Mixin(Gui.HeartType.class)
+@Mixin(Hud.HeartType.class)
 public enum HeartTypeEnumExtensionMixin {
 	REARM_BLEEDING(
 			ReArm.id("hud/heart/bleeding_full"), ReArm.id("hud/heart/bleeding_full_blinking"),

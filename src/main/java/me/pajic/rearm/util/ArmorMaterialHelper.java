@@ -23,7 +23,7 @@ public class ArmorMaterialHelper {
     private static final Path FILE_PATH = ReArm.xplat().getConfigDir().resolve("rearm/armor_materials.txt");
     private static final List<Identifier> ARMOR_MATERIALS = new ArrayList<>();
 
-    public static Map</*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/, Integer> calculateDefenses(int targetTotal) {
+    public static Map<ArmorType, Integer> calculateDefenses(int targetTotal) {
         int[] values = {
                 Math.round(targetTotal * ((float) ReArm.CONFIG.armor.chestplateArmorPercent.get() / 100)),
                 Math.round(targetTotal * ((float) ReArm.CONFIG.armor.leggingsArmorPercent.get() / 100)),
@@ -46,11 +46,11 @@ public class ArmorMaterialHelper {
             }
         }
         return Maps.newEnumMap(Map.of(
-                /*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/.HELMET, values[2],
-                /*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/.CHESTPLATE, values[0],
-                /*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/.LEGGINGS, values[1],
-                /*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/.BOOTS, values[3],
-                /*? if 1.21.1 {*//*ArmorItem.Type*//*?} else {*/ArmorType/*?}*/.BODY, body
+                ArmorType.HELMET, values[2],
+                ArmorType.CHESTPLATE, values[0],
+                ArmorType.LEGGINGS, values[1],
+                ArmorType.BOOTS, values[3],
+                ArmorType.BODY, body
         ));
     }
 

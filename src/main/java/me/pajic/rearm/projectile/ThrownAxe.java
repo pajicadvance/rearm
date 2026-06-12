@@ -5,10 +5,13 @@ import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
 import net.minecraft.core.UUIDUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -21,6 +24,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -48,6 +52,9 @@ public class ThrownAxe extends AbstractArrow {
     public static final EntityDataAccessor<Boolean> STUCK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> ALLOW_PICKUP = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<ItemStack> THROWN_AXE_ITEM_STACK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.ITEM_STACK);
+	@SuppressWarnings("unchecked")
+	private static final EntityType<EnderMan> ENDERMAN = (EntityType<EnderMan>) BuiltInRegistries.ENTITY_TYPE
+			.getValueOrThrow(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("enderman")));
 
     public ThrownAxe(EntityType<? extends AbstractArrow> entityType, Level level) {
         super(entityType, level);
@@ -169,7 +176,7 @@ public class ThrownAxe extends AbstractArrow {
 
         dealtDamage = true;
         if (entity.hurtOrSimulate(damageSource, f + g)) {
-            if (entity.getType() == EntityType.ENDERMAN) {
+            if (entity.getType() == ENDERMAN) {
                 return;
             }
             if (level() instanceof ServerLevel serverLevel) {

@@ -42,7 +42,7 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
     }
 
     @Override
-    public void extractRenderState(ThrownAxe entity, ThrownAxeRenderState renderState, float partialTick) {
+    public void extractRenderState(@NotNull ThrownAxe entity, @NotNull ThrownAxeRenderState renderState, float partialTick) {
         super.extractRenderState(entity, renderState, partialTick);
         renderState.yRot = entity.getYRot(partialTick);
         renderState.xRot = entity.getXRot(partialTick);

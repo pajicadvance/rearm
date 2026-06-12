@@ -5,7 +5,7 @@ import me.pajic.rearm.item.ReArmItems;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.contextualbar.ContextualBarRenderer;
+import net.minecraft.client.gui.contextualbar.ContextualBar;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
@@ -35,7 +35,7 @@ public class ItemUseProgressBars {
 	private static final Identifier PROGRESS = ReArm.id("hud/item_progress_bar_progress");
 	private static final Identifier CHARGED = ReArm.id("hud/item_progress_bar_charged");
 
-	public static class ItemUseProgressBar implements ContextualBarRenderer {
+	public static class ItemUseProgressBar implements ContextualBar {
 		private final Minecraft minecraft;
 		private final ItemUseProgressBarType type;
 		private final Identifier id;

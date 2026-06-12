@@ -40,4 +40,17 @@ stonecutter parameters {
 	swaps["mod_group"] = "\"" + property("mod.group") + "\";"
 	swaps["minecraft"] = "\"" + node.metadata.version + "\";"
 	constants["release"] = property("mod.id") != "modtemplate"
+
+	replacements {
+		filters.exclude("**/*.accesswidener", "**/*.cfg")
+		string(current.parsed > "26.1.2") {
+			replace("InstantenousMobEffect", "InstantaneousMobEffect")
+			replace("applyInstantenousEffect", "applyInstantaneousEffect")
+			replace("ContextualBarRenderer", "ContextualBar")
+			replace("import net.minecraft.advancements.criterion.EntitySubPredicate;", "import net.minecraft.advancements.predicates.entity.EntitySubPredicate;")
+			replace("import net.minecraft.client.gui.Gui;", "import net.minecraft.client.gui.Hud;")
+			replace("Gui.HeartType", "Hud.HeartType")
+			replace("@Mixin(Gui.class)", "@Mixin(Hud.class)")
+		}
+	}
 }

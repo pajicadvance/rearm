@@ -82,6 +82,7 @@ public abstract class PlayerMixin extends LivingEntity {
         return original;
     }
 
+    @SuppressWarnings("LocalMayUseName")
     @ModifyArg(
 			/*? if fabric {*/method = "doSweepAttack"/*?} else {*//*method = "doSweepAttack(Lnet/minecraft/world/entity/Entity;FLnet/minecraft/world/damagesource/DamageSource;FLnet/minecraft/world/phys/AABB;)V"*//*?}*/,
             at = @At(

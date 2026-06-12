@@ -1,14 +1,14 @@
 package me.pajic.rearm.effect;
 
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.effect.InstantenousMobEffect;
+import net.minecraft.world.effect.InstantaneousMobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class DragonBreathEffect extends InstantenousMobEffect {
+public class DragonBreathEffect extends InstantaneousMobEffect {
 
 	public DragonBreathEffect() {
 		super(MobEffectCategory.HARMFUL, 0xffc600c5);
@@ -21,7 +21,7 @@ public class DragonBreathEffect extends InstantenousMobEffect {
 	}
 
 	@Override
-	public void applyInstantenousEffect(
+	public void applyInstantaneousEffect(
 			@NotNull ServerLevel level,
 			@Nullable Entity source,
 			@Nullable Entity indirectSource,

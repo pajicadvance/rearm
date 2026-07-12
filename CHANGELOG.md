@@ -1,2 +1,2 @@
-- Update to Fabric 26.2.
-- Added enchantments from the mod to [Penchant](https://modrinth.com/mod/penchant) tags.
+- Added support for applying multiple protection enchantments on the same item when [Penchant](https://modrinth.com/mod/penchant) is installed.
+- Fixed [Penchant](https://modrinth.com/mod/penchant) enchantment tags.

@@ -66,4 +66,7 @@ dependencies {
 	implementation("maven.modrinth:mixson:${prop("deps.mixson")}") {
 		exclude(group = "net.fabricmc.fabric-api", module = "fabric-api")
 	}
+
+	compileOnly("maven.modrinth:penchant:${prop("deps.penchant")}")
+	runtimeOnly("maven.modrinth:penchant:${prop("deps.penchant")}")
 }

@@ -7,12 +7,14 @@ import me.pajic.rearm.mixson.AssetPatches;
 import me.pajic.rearm.mixson.DataPatches;
 import me.pajic.rearm.mixson.MixsonHelper;
 import me.pajic.rearm.platform.Platform;
+import me.pajic.rearm.util.CompatFlags;
 import net.minecraft.resources.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //? fabric {
 import me.pajic.rearm.platform.fabric.FabricPlatform;
+import me.pajic.rearm.compat.PenchantCompat;
 //?} neoforge {
 /*import me.pajic.rearm.platform.neoforge.NeoforgePlatform;
  *///?}
@@ -28,6 +30,8 @@ public class ReArm {
 	public static void onInitialize() {
 		MixsonHelper.setDebugFlags();
 		DataPatches.init();
+		//? fabric
+		if (CompatFlags.PENCHANT_LOADED) PenchantCompat.init();
 	}
 
 	public static void onInitializeClient() {

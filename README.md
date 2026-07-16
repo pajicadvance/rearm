@@ -9,9 +9,9 @@ The mod is **fully configurable**, from disabling entire features down to editin
 The bow is meant for **high mobility** and **skill dependent combat**. With a fully enchanted bow, you'll be moving around packs of enemies with ease while devastating them with well-timed shots.
 
 - New **Perfect Shot** mechanic - Releasing the bow in a short window after fully charging it makes the fired arrow deal additional critical damage. To indicate that the shot was a Perfect Shot, the arrow will leave trails behind it, and the firing sound will have a higher pitch. In turn, vanilla bow crits are removed. On default settings, this makes bows deal significantly less damage compared to vanilla if you're not making use of perfect shots.
-- New **Backstep** enchantment - Pressing the action key (default: Left Alt) in a short window after hitting an enemy with an arrow makes the player dash backwards a short distance based on the level of the enchantment. Backstep can be obtained by enchanting bows in the enchanting table with a rarity similar to the Flame enchantment or in looted enchanted books.
+- New **Quickstep** enchantment - Pressing the action key (default: Left Alt) in a short window after hitting an enemy with an arrow makes the player dash a short distance towards the direction they're moving in. Quickstep can be obtained by enchanting bows in the enchanting table with a rarity similar to the Flame enchantment or in looted enchanted books.
 - **Bow drawing sounds** - Drawing the bow now plays a sound, similar to the sound played when loading a crossbow. This applies to both players and mobs, so you can now hear skeletons and other players drawing their bow, indicating that you're about to get shot at.
-- Improved **Multishot** enchantment - Multishot now works on bows only, and has 3 levels which add one arrow for each level, up to 5 arrows.
+- Improved **Multishot** enchantment - Multishot now works on bows only, and has 3 levels which add one arrow for each level, up to 5 arrows. Additionally, arrows fired from Multishot bows now ignore the invulnerability timer, meaning they can hit the same target at the same time.
 - **Netherite Bow** - Bows can now be upgraded to a netherite bow in the same way you upgrade tools and armor to netherite, which gives it fire resistance, significantly increased durability, and a new look.
 
 ### Crossbow

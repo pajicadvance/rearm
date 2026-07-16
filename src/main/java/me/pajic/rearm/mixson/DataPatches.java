@@ -232,6 +232,19 @@ public class DataPatches {
 				}
 		);
 
+		// Damage type tags
+		MixsonHelper.registerMultiJson(
+				"Add multishot arrow to damage type tags",
+				index -> index.id().getPath().startsWith("tags/damage_type/"),
+				context -> {
+					JsonArray values = context.getFile().getAsJsonObject().getAsJsonArray("values");
+					JsonPrimitive arrow = new JsonPrimitive("minecraft:arrow");
+					if (values.contains(arrow)) {
+						values.add("rearm:multishot_arrow");
+					}
+				}
+		);
+
 		// Enchantable tags
 		MixsonHelper.registerSingleJson(
 				"Modify Infinity Enchantable tag",

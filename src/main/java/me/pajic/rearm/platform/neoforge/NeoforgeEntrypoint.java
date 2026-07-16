@@ -3,11 +3,11 @@ package me.pajic.rearm.platform.neoforge;
 //? neoforge {
 
 /*import me.pajic.rearm.ReArm;
-import me.pajic.rearm.ability.BackstepAbility;
 import me.pajic.rearm.ability.BashAbility;
 import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
+import me.pajic.rearm.ability.QuickstepAbility;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.item.ReArmItems;
 import me.pajic.rearm.predicate.EntityInWaterOrRainPredicate;
@@ -30,6 +30,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.RegisterEvent;
@@ -83,10 +84,10 @@ public class NeoforgeEntrypoint {
 	private static void initNetworkEvents(RegisterPayloadHandlersEvent event) {
 		final PayloadRegistrar registrar = event.registrar("1");
 		registrar.playToServer(
-				BackstepAbility.C2SCauseBackstepExhaustionPayload.TYPE,
-				BackstepAbility.C2SCauseBackstepExhaustionPayload.CODEC,
-				(payload, context) ->
-						context.player().causeFoodExhaustion(payload.exhaustion())
+				QuickstepAbility.C2SQuickstepSignal.TYPE,
+				QuickstepAbility.C2SQuickstepSignal.CODEC,
+				(_, context) ->
+						QuickstepAbility.handleQuickstep((ServerPlayer) context.player())
 		);
 		registrar.playToServer(
 				CriticalCounterAbility.C2SUpdatePlayerCounterCondition.TYPE,
@@ -161,10 +162,15 @@ public class NeoforgeEntrypoint {
 	}
 
 	@SubscribeEvent
+	private static void onServerTick(ServerTickEvent.Post event) {
+		QuickstepAbility.onServerTick(event.getServer());
+	}
+
+	@SubscribeEvent
 	private static void enchantableShield(ModifyDefaultComponentsEvent event) {
 		if (ReArm.CONFIG.shield.enchantableVanillaShield.get()) event.modifyMatching(
 				(item, components) -> item instanceof ShieldItem && !components.has(DataComponents.ENCHANTABLE),
-				builder -> builder.set(DataComponents.ENCHANTABLE, new Enchantable(1)).build()
+				(components, _, _) -> components.set(DataComponents.ENCHANTABLE, new Enchantable(1)).build()
 		);
 	}
 }

@@ -10,7 +10,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 
 public class ReArmEnchantments {
 
-    public static final ResourceKey<Enchantment> BACKSTEP = ResourceKey.create(
+    public static final ResourceKey<Enchantment> QUICKSTEP = ResourceKey.create(
             Registries.ENCHANTMENT,
             ReArm.id("backstep")
     );

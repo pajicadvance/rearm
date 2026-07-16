@@ -5,7 +5,7 @@ package me.pajic.rearm.platform.fabric;
 import me.pajic.rearm.effect.ReArmEffects;
 import me.pajic.rearm.ReArm;
 import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
-import me.pajic.rearm.ability.BackstepAbility;
+import me.pajic.rearm.ability.QuickstepAbility;
 import me.pajic.rearm.ability.BashAbility;
 import me.pajic.rearm.ability.CripplingThrowAbility;
 import me.pajic.rearm.ability.CriticalCounterAbility;
@@ -13,6 +13,7 @@ import me.pajic.rearm.item.ReArmItems;
 import me.pajic.rearm.predicate.EntityInWaterOrRainPredicate;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.item.v1.DefaultItemComponentEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -37,7 +38,7 @@ public class FabricEntrypoint implements ModInitializer {
 		ReArmEffects.init();
 		initCommonResources();
 		initItems();
-		initBackstep();
+		initQuickstep();
 		initBash();
 		initCripplingThrow();
 		initCriticalCounter();
@@ -101,12 +102,13 @@ public class FabricEntrypoint implements ModInitializer {
 		});
 	}
 
-	private static void initBackstep() {
-		PayloadTypeRegistry.serverboundPlay().register(BackstepAbility.C2SCauseBackstepExhaustionPayload.TYPE, BackstepAbility.C2SCauseBackstepExhaustionPayload.CODEC);
+	private static void initQuickstep() {
+		PayloadTypeRegistry.serverboundPlay().register(QuickstepAbility.C2SQuickstepSignal.TYPE, QuickstepAbility.C2SQuickstepSignal.CODEC);
 		ServerPlayNetworking.registerGlobalReceiver(
-				BackstepAbility.C2SCauseBackstepExhaustionPayload.TYPE,
-				(payload, context) -> context.player().causeFoodExhaustion(payload.exhaustion())
+				QuickstepAbility.C2SQuickstepSignal.TYPE,
+				(_, context) -> QuickstepAbility.handleQuickstep(context.player())
 		);
+		ServerTickEvents.END_SERVER_TICK.register(QuickstepAbility::onServerTick);
 	}
 
 	private static void initBash() {

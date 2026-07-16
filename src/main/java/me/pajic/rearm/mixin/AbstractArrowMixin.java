@@ -4,6 +4,9 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.pajic.rearm.ReArm;
+import me.pajic.rearm.enchantment.ReArmEnchantments;
+import me.pajic.rearm.extension.AbstractArrowExtension;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +18,7 @@ import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
@@ -22,9 +26,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractArrow.class)
-public abstract class AbstractArrowMixin extends Projectile {
+public abstract class AbstractArrowMixin extends Projectile implements AbstractArrowExtension {
 
     public AbstractArrowMixin(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -34,9 +40,36 @@ public abstract class AbstractArrowMixin extends Projectile {
     @Shadow public abstract ItemStack getWeaponItem();
     @Shadow private @Nullable ItemStack firedFromWeapon;
 
+	@Unique private boolean isMultishotArrow = false;
+
     @Unique private boolean rearm$shotFromCrossbow() {
         return firedFromWeapon != null && firedFromWeapon.getItem() instanceof CrossbowItem;
     }
+
+	@Override
+	public boolean rearm$isMultishotArrow() {
+		return isMultishotArrow;
+	}
+
+	@Inject(
+			method = "<init>(Lnet/minecraft/world/entity/EntityType;DDDLnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;)V",
+			at = @At("TAIL")
+	)
+	private void setMultishotArrow(
+			EntityType<? extends AbstractArrow> type,
+			double x,
+			double y,
+			double z,
+			Level level,
+			ItemStack pickupItemStack,
+			ItemStack firedFromWeapon,
+			CallbackInfo ci
+	) {
+		if (EnchantmentHelper.getItemEnchantmentLevel(
+				level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.MULTISHOT),
+				firedFromWeapon
+		) > 0) isMultishotArrow = true;
+	}
 
     @ModifyExpressionValue(
             method = "onHitEntity",

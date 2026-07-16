@@ -5,13 +5,13 @@ import net.minecraft.client.Minecraft;
 
 public class CooldownTracker {
 
-    public static int backstepCooldown = ReArm.CONFIG.bow.backstepTimeframe.get();
+    public static int quickstepCooldown = ReArm.CONFIG.bow.backstepTimeframe.get();
     public static int counterTimer = ReArm.CONFIG.sword.criticalCounterTimeframe.get();
     public static boolean counterTimerActive;
 
 	public static void onClientTick(Minecraft client) {
 		if (client.level != null && client.player != null && !client.isPaused()) {
-			if (backstepCooldown > 0) backstepCooldown--;
+			if (quickstepCooldown > 0) quickstepCooldown--;
 			if (counterTimer == 0) {
 				ReArm.xplat().sendToServer(new CriticalCounterAbility.C2SUpdatePlayerCounterCondition(
 						client.player.getUUID(),

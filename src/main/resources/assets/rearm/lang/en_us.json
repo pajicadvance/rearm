@@ -1,6 +1,6 @@
 {
-  "enchantment.rearm.backstep": "Backstep",
-  "enchantment.rearm.backstep.desc": "Press the Action key shortly after shooting an enemy to perform a backwards dash.",
+  "enchantment.rearm.backstep": "Quickstep",
+  "enchantment.rearm.backstep.desc": "Press the Action key shortly after shooting an enemy to perform a dash.",
   "enchantment.rearm.crippling_throw": "Crippling Throw",
   "enchantment.rearm.crippling_throw.desc": "Allows throwing the axe to slow down enemies and recalling it to deal bleeding damage with the Action key.",
   "enchantment.rearm.magic_protection": "Magic Protection",
@@ -18,7 +18,7 @@
   "enchantment.minecraft.power.desc": "Increases the damage of projectiles fired from the weapon.",
   "enchdesc.activate.message": "Shift for info",
 
-  "effect.rearm.backstep_effect": "Backstep Effect",
+  "effect.rearm.backstep_effect": "Quickstep Effect",
   "effect.rearm.bleeding": "Bleeding",
 
   "category.rearm.keybindings": "ReArm",
@@ -67,9 +67,9 @@
   "rearm.config.bow.enablePerfectShot.desc": "Arrows fired from bows will deal increased damage if they are fired shortly after fully charging the bow. Disables vanilla random arrow critical damage.",
   "rearm.config.bow.perfectShotAdditionalDamage": "Perfect Shot bonus damage",
   "rearm.config.bow.perfectShotTimeframe": "Perfect Shot timeframe (ticks)",
-  "rearm.config.bow.enableBackstep": "Enable Backstep enchantment",
-  "rearm.config.bow.enableBackstep.desc": "Press the action key shortly after shooting an enemy with a bow enchanted with Backstep to perform a backwards dash.",
-  "rearm.config.bow.backstepTimeframe": "Backstep timeframe (ticks)",
+  "rearm.config.bow.enableBackstep": "Enable Quickstep enchantment",
+  "rearm.config.bow.enableBackstep.desc": "Press the action key shortly after shooting an enemy with a bow enchanted with Quickstep to perform a dash.",
+  "rearm.config.bow.backstepTimeframe": "Quickstep timeframe (ticks)",
   "rearm.config.bow.improvedMultishot": "Improved Multishot",
   "rearm.config.bow.improvedMultishot.desc": "Changes Multishot to have 3 levels with each level increasing the amount of additional arrows fired.",
   "rearm.config.bow.maxMultishotLevel": "Max Multishot level",

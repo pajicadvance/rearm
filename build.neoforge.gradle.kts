@@ -62,6 +62,8 @@ dependencies {
 	jarJar(libs.moulberry.mixinconstraints)
 	implementation("me.fzzyhmstrs:fzzy_config:${prop("deps.fzzy_config")}+neoforge")
 	implementation("maven.modrinth:mixson:${prop("deps.mixson")}")
+
+	compileOnly("maven.modrinth:immersive-armors:${prop("deps.ia")}")
 }
 
 tasks.named("createMinecraftArtifacts") {

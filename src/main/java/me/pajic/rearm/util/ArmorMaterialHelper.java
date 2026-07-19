@@ -59,7 +59,7 @@ public class ArmorMaterialHelper {
     }
 
     public static void add(Identifier rl) {
-        ARMOR_MATERIALS.add(rl);
+        if (!ARMOR_MATERIALS.contains(rl)) ARMOR_MATERIALS.add(rl);
     }
 
     public static void write() {

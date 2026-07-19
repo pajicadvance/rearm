@@ -1,8 +1,1 @@
-- Backstep has been reworked into Quickstep:
-  - Renamed to Quickstep (the ID is still `backstep` for compatibility reasons).
-  - No longer limited to dashing backwards. Triggering the enchantment now dashes towards the direction the player is moving in.
-  - No longer adds any vertical movement. Instead, the player gets a temporary step height increase to allow moving up one block without jumping during the dash.
-  - Now only has 1 level instead of 3. The dash distance is roughly around 4 blocks.
-  - Reduced hunger exhaustion on use.
-- Arrows fired from Multishot bows now ignore the invulnerability timer, meaning they can hit the same target at the same time.
-- Fixed a bug that caused world loading errors when trying to rejoin a world after disabling any enchantment in the config.
+- Armor rebalance now supports armors from Immersive Armors for Minecraft 26.1+.

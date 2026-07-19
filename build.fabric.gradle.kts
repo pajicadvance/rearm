@@ -69,4 +69,5 @@ dependencies {
 
 	compileOnly("maven.modrinth:penchant:${prop("deps.penchant")}")
 	runtimeOnly("maven.modrinth:penchant:${prop("deps.penchant")}")
+	compileOnly("maven.modrinth:immersive-armors:${prop("deps.ia")}")
 }

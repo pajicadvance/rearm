@@ -1,1 +1,1 @@
-- Armor rebalance now supports armors from Immersive Armors for Minecraft 26.1+.
+- Fixed NPE when throwing a trident/axe.

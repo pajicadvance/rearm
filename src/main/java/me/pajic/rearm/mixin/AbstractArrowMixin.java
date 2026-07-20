@@ -4,7 +4,6 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import me.pajic.rearm.ReArm;
-import me.pajic.rearm.enchantment.ReArmEnchantments;
 import me.pajic.rearm.extension.AbstractArrowExtension;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
@@ -62,10 +61,10 @@ public abstract class AbstractArrowMixin extends Projectile implements AbstractA
 			double z,
 			Level level,
 			ItemStack pickupItemStack,
-			ItemStack firedFromWeapon,
+			@Nullable ItemStack firedFromWeapon,
 			CallbackInfo ci
 	) {
-		if (EnchantmentHelper.getItemEnchantmentLevel(
+		if (firedFromWeapon != null && EnchantmentHelper.getItemEnchantmentLevel(
 				level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.MULTISHOT),
 				firedFromWeapon
 		) > 0) isMultishotArrow = true;

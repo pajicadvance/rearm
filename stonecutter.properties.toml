@@ -1,26 +1,26 @@
 # general
-mod.id = "modid"
-mod.name = "Template mod"
+mod.id = "rearm"
+mod.name = "ReArm"
 mod.group = "me.pajic"
-mod.version = "1.0.0"
-mod.description = ""
+mod.version = "2.5.6"
+mod.description = "Remunition and Armament"
 mod.authors = "pajic"
-mod.contributors = ""
+mod.contributors = "Lufurrius, Moonkey"
 mod.license = "MIT"
 
 # links
-mod.sources_url = "https://github.com/pajicadvance/modid"
-mod.homepage_url = "https://modrinth.com/mod/modid"
-mod.issues_url = "https://github.com/pajicadvance/modid/issues"
+mod.sources_url = "https://github.com/pajicadvance/rearm"
+mod.homepage_url = "https://modrinth.com/mod/rearm"
+mod.issues_url = "https://github.com/pajicadvance/rearm/issues"
 mod.discord_url = "https://discord.gg/5RkzS66zWb"
 
 # publishing
-publish.modrinth = ""
-publish.curseforge = ""
+publish.modrinth = "NHzN2FGz"
+publish.curseforge = "1130102"
 publish.env.mr = "CLIENT_AND_SERVER" #https://modmuss50.github.io/mod-publish-plugin/platforms/modrinth/#all-options
 publish.env.cf.client = true
 publish.env.cf.server = true
-publish.dry_run = true
+publish.dry_run = false
 
 # loom
 loomx.loom_version = "1.17-SNAPSHOT"
@@ -31,6 +31,11 @@ dep.mixinconstraints.coords = "com.moulberry:$id:$version"
 dep.fzzy_config.coords = "me.fzzyhmstrs:$id:$version"
 dep.fzzy_config.slug = "fzzy-config"
 dep.sodium.coords = "net.caffeinemc:$id-$loader:$version"
+dep.penchant.coords = "maven.modrinth:$id:$version"
+dep.immersive_armors.coords = "maven.modrinth:immersive-armors:$version-$loader"
+dep.immersive_armors.slug = "immersive-armors"
+dep.rrv.coords = "maven.modrinth:$id:$version-$loader"
+dep.emi.coords = "dev.emi:$id-$loader:$version"
 include.mixinconstraints = "1.1.0"
 dev.runtime_optionals = []
 
@@ -43,9 +48,11 @@ dep.modmenu.coords = "com.terraformersmc:$id:$version"
 
 ["1.21.1"]
 mod.mc_releases = ["1.21", "1.21.1"]
-loader.neo = "21.1.244"
+loader.neo = "21.1.249"
 dep.mixson.coords = "com.github:Mixson:$version"
 include.mixson = "2.2.0"
+optional.immersive_armors = "1.7.6+1.21.1"
+optional.emi = "1.1.24+1.21.1"
 runtime.sodium = "0.8.12+mc1.21.1"
 
 [fabric."1.21.1"]
@@ -61,15 +68,18 @@ required.fzzy_config = "0.7.6+1.21+neoforge"
 
 ["26.1"]
 mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
-loader.neo = "26.1.2.87"
+loader.neo = "26.1.2.103"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
+optional.immersive_armors = "1.8.2+26.1.2"
+optional.rrv = "8.10.4+26.1.2"
 runtime.sodium = "0.9.1+mc26.1.2"
 
 [fabric."26.1"]
 mod.mc_compat = "~26.1"
 required.fabric-api = "0.155.2+26.1.2"
 required.fzzy_config = "0.7.6+26.1-pre-3"
+optional.penchant = "0.5.0+mc26.1.2"
 runtime.modmenu = "18.0.0"
 
 [neoforge."26.1"]
@@ -79,15 +89,18 @@ required.fzzy_config = "0.7.6+26.1-pre-3+neoforge"
 
 ["26.2"]
 mod.mc_releases = ["26.2"]
-loader.neo = "26.2.0.36-beta"
+loader.neo = "26.2.0.76"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
+optional.immersive_armors = "1.8.2+26.2"
+optional.rrv = "8.10.4+26.2"
 runtime.sodium = "0.9.1+mc26.2"
 
 [fabric."26.2"]
 mod.mc_compat = "~26.2"
 required.fabric-api = "0.155.2+26.2"
 required.fzzy_config = "0.7.6+26.2-pre-3"
+optional.penchant = "0.5.0+mc26.2"
 runtime.modmenu = "20.0.1"
 
 [neoforge."26.2"]

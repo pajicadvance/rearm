@@ -27,6 +27,7 @@ repositories {
     strictMaven("https://maven.su5ed.dev/releases", "Sinytra", "org.sinytra.forgified-fabric-api")
     strictMaven("https://thedarkcolour.github.io/KotlinForForge/", "Kotlin Forge")
     strictMaven("https://repo.nyon.dev/releases", "Kotlin Forge Again")
+    strictMaven("https://repo.sleeping.town/", "Sleeping Town")
     ivy {
         url = uri("https://github.com/pajicadvance/Mixson/releases/download/")
         patternLayout {
@@ -170,6 +171,7 @@ tasks {
         }
 
         val at = "aw/${sc.current.project.substringBefore('-')}.cfg"
+        val enumExt = "META-INF/${sc.current.project.substringBefore('-')}-enumextensions.json"
         val mixinJava = "JAVA_${requiredJava.majorVersion}"
         val neoDepends = neoDependencies
 
@@ -188,8 +190,10 @@ tasks {
             register("authors", "mod.authors")
             register("contributors", "mod.contributors")
             inputs.property("at", at)
-            put("at", at)
+            inputs.property("enum_ext", enumExt)
             inputs.property("dependencies", neoDepends)
+            put("at", at)
+            put("enum_ext", enumExt)
             put("dependencies", neoDepends)
         }
 

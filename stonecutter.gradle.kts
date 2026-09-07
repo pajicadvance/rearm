@@ -38,8 +38,23 @@ stonecutter parameters {
         string(current.parsed >= "1.21.11") {
             replace("ValidatedIdentifier", "ValidatedIdentifier")
             replace("ResourceLocation", "Identifier")
-            replace("location()", "identifier()")
+            replace("GuiGraphics", "GuiGraphicsExtractor")
             replace("net.ramixin.mixson_backport", "net.ramixin.mixson")
+            replace("net.minecraft.world.entity.projectile.AbstractArrow", "net.minecraft.world.entity.projectile.arrow.AbstractArrow")
+            replace("net.minecraft.client.model.ShieldModel", "net.minecraft.client.model.object.equipment.ShieldModel")
+            replace("net.minecraft.world.entity.projectile.DragonFireball", "net.minecraft.world.entity.projectile.hurtingprojectile.DragonFireball")
+            replace("playS2C()", "clientboundPlay()")
+            replace("playC2S()", "serverboundPlay()")
+            replace("ItemGroupEvents.modifyEntriesEvent", "CreativeModeTabEvents.modifyOutputEvent")
+            replace("import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;", "import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;")
+        }
+        string(current.parsed > "26.1.2") {
+            replace("InstantenousMobEffect", "InstantaneousMobEffect")
+            replace("applyInstantenousEffect", "applyInstantaneousEffect")
+            replace("ContextualBarRenderer", "ContextualBar")
+            replace("import net.minecraft.client.gui.Gui;", "import net.minecraft.client.gui.Hud;")
+            replace("Gui.HeartType", "Hud.HeartType")
+            replace("@Mixin(Gui.class)", "@Mixin(Hud.class)")
         }
     }
 }

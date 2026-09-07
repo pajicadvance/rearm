@@ -12,6 +12,7 @@ description = "${description}"
 logoFile = "icon.png"
 displayURL = "${homepage_url}"
 issueTrackerURL = "${issues_url}"
+enumExtensions = "${enum_ext}"
 
 [[mixins]]
 config = "${id}.mixins.json"

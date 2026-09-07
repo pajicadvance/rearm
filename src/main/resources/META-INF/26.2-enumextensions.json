@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "enum": "net/minecraft/client/gui/Hud$HeartType",
+      "name": "REARM_BLEEDING",
+      "constructor": "(Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;Lnet/minecraft/resources/Identifier;)V",
+      "parameters": {
+        "class": "me/pajic/rearm/platform/neoforge/EnumParams",
+        "field": "PROXY"
+      }
+    }
+  ]
+}

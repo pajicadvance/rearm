@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "rearm:backstep",
+    "rearm:crippling_throw",
+    "rearm:magic_protection"
+  ]
+}

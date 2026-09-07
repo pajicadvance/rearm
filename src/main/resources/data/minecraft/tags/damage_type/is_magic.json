@@ -1,0 +1,21 @@
+{
+  "values": [
+    "minecraft:dragon_breath",
+    "minecraft:magic",
+    "minecraft:indirect_magic",
+    "minecraft:sonic_boom",
+    "minecraft:wither",
+    {
+      "id": "#c:is_magic",
+      "required": false
+    },
+    {
+      "id": "#neoforge:is_magic",
+      "required": false
+    },
+    {
+      "id": "#neoforge:is_wither",
+      "required": false
+    }
+  ]
+}

@@ -1,35 +1,115 @@
-# Multicutter
+![rearm_banner](https://cdn.modrinth.com/data/cached_images/c34b8d3e8eb1e0430eebb88e38e00ca0a35e5c97.png)
 
-Based on [Stonecutter Fabric & NeoForge template](https://github.com/stonecutter-versioning/stonecutter-template-multiloader)
+**ReArm (Remunition and Armament)** is a mod that overhauls combat in Minecraft unintrusively by adding new combat mechanics and rebalancing weapons, armor and enchantments. Special attention was put into making the mod feel like it belongs in the game, and not outlandish.
 
-- Multiloader and multiversion management with helper classes
-- Supports both obfuscated and unobfuscated game versions
-- Dependency handling using Stonecutter versioned properties
-- Versioned class tweakers and access transformers
-- Automatic Mixin and entrypoint registration
-- Automated Modrinth and CurseForge publishing
+The mod is **fully configurable**, from disabling entire features down to editing every single damage number, cooldown and timeframe. Obviously, the mod comes configured out of the box with values which I consider to be ideal, but everyone has their preferences.
 
-### Pre-configured content
+### Bow
 
-- Versions:
-    - 1.21.1 Fabric and NeoForge
-    - 26.1.2 Fabric and NeoForge
-    - 26.2 Fabric and NeoForge
-- Dependencies:
-    - Fabric API (required)
-    - Fzzy Config (required)
-    - Mixson (required)
-    - MixinConstraints (JiJ-d)
-    - Sodium (runtime)
+The bow is meant for **high mobility** and **skill dependent combat**. With a fully enchanted bow, you'll be moving around packs of enemies with ease while devastating them with well-timed shots.
 
-No instructions on how to use this yet. If you do want to try it out, the only big difference compared to other templates is that dependencies are declared inside `stonecutter.properties.toml` and not manually inside the build scripts. You only need to add repositories to the build scripts. You can see how pre-configured dependencies are added as examples.
+- New **Perfect Shot** mechanic - Releasing the bow in a short window after fully charging it makes the fired arrow deal additional critical damage. To indicate that the shot was a Perfect Shot, the arrow will leave trails behind it, and the firing sound will have a higher pitch. In turn, vanilla bow crits are removed. On default settings, this makes bows deal significantly less damage compared to vanilla if you're not making use of perfect shots.
+- New **Quickstep** enchantment - Pressing the action key (default: Left Alt) in a short window after hitting an enemy with an arrow makes the player dash a short distance towards the direction they're moving in. Quickstep can be obtained by enchanting bows in the enchanting table with a rarity similar to the Flame enchantment or in looted enchanted books.
+- **Bow drawing sounds** - Drawing the bow now plays a sound, similar to the sound played when loading a crossbow. This applies to both players and mobs, so you can now hear skeletons and other players drawing their bow, indicating that you're about to get shot at.
+- Improved **Multishot** enchantment - Multishot now works on bows only, and has 3 levels which add one arrow for each level, up to 5 arrows. Additionally, arrows fired from Multishot bows now ignore the invulnerability timer, meaning they can hit the same target at the same time.
+- **Netherite Bow** - Bows can now be upgraded to a netherite bow in the same way you upgrade tools and armor to netherite, which gives it fire resistance, significantly increased durability, and a new look.
 
-The template may have bugs and oversights as I haven't moved any of my mods to it yet.
+### Crossbow
 
-Tooling used:
-- [Fabric Loom](https://github.com/FabricMC/fabric-loom): Used for the Fabric build script
-- [ModDevGradle](https://github.com/neoforged/ModDevGradle): Used for the NeoForge build script
-- [Stonecutter](https://stonecutter.kikugie.dev/): Multiloader and multiversion handling
-- [Loom Backwards Compatibility](https://codeberg.org/KikuGie/loom-back-compat): Allows the Fabric build script to handle both obfuscated and unobfuscated versions of the game
-- [Fletching Table](https://stonecutter.kikugie.dev/wiki/fletching-table/#fletching-table-overview): Handles automatic mixin and entrypoint registration
-- [Mod Publish Plugin](https://github.com/modmuss50/mod-publish-plugin): Handles automated publishing to Modrinth and CurseForge
+The crossbow is meant for **low mobility**, but **high and consistent damage output**. With a fully enchanted crossbow, you'll be taking down enemies in one hit by ignoring their defenses, and obliterating hordes of enemies with fireworks.
+
+- Improved **Piercing** enchantment - Piercing now also ignores a percentage of the enemies armor based on level, however, piercing arrows won't go through armored enemies.
+- **Consistent damage** - Arrows shot from crossbows will now deal a consistent amount of damage, instead of picking a random number from a range like in vanilla. On default settings, this is an overall buff to damage dealt, and makes it easier to adapt to the damage.
+- **Increased firework damage** - Firework explosion damage has been increased significantly to make them viable for use in combat with crossbows. On default settings, a firework with one firework star will already deal slightly more damage than an arrow fired from the crossbow, and a maxed out firework with seven firework stars will deal more damage than even an arrow fired from the crossbow enchanted with Power 5.
+- **Increased crossbow charge time** - On default settings, loading the crossbow takes noticeably longer, in order to counterbalance the general power increase of crossbows. The Quick Charge enchantment will still decrease the loading time.
+- Support **Power** and **Infinity** - Crossbows can now be enchanted with Power and Infinity.
+- **Netherite Crossbow** - Crossbows can now be upgraded to a netherite crossbow in the same way you upgrade tools and armor to netherite, which gives it fire resistance, significantly increased durability, and a new look.
+- Removed Multishot support - Crossbows can no longer be enchanted with Multishot (it is now a bow enchantment).
+
+### Sword
+
+The sword is meant for **versatile combat** and **shield synergy**. With a fully enchanted sword, you'll be easily controlling crowds of enemies and keeping them at bay, while countering their attacks with empowered critical strikes.
+
+- New **Critical Counter** mechanic - Sword attacks made shortly after blocking an attack with a shield will critically strike for increased damage. In turn, vanilla sword critical strikes are removed.
+- Improved **Sweeping Edge** enchantment - Sweeping Edge now deals increased damage and has increased range based on level and the amount of enemies hit by the attack.
+- Removed Knockback support - Swords can no longer be enchanted with Knockback (it's now an axe enchantment).
+
+### Axe
+
+The axe is meant for **very high single target damage**. With a fully enchanted axe, you'll be able to decimate your enemy, both in close combat and at a distance.
+
+- New **Crippling Throw** enchantment - Allows throwing the axe at an enemy, much like a trident. The axe sticks onto the enemy and slows them down. Pressing the action key recalls the axe to you and the enemy starts taking bleeding damage. Slow intensity and bleeding damage scales with enchantment level (max 3).
+- Support **Looting** and **Knockback** - Axes can now be enchanted with Looting and Knockback.
+
+### Trident
+
+- Improved **Impaling** enchantment - Impaling now also affects all mobs that are in water or rain instead of only specific aquatic mobs.
+- Return to hand - Tridents with Loyalty will always return to the hand they were thrown from instead of the first free inventory slot.
+- Return from the Void - Tridents with Loyalty will return to the player when they enter the Void instead of being destroyed.
+
+### Shield
+
+- New **Parry** mechanic - Raising the shield to block a projectile shortly before it lands parries it and sends it flying towards the shooter.
+- New **Bash** enchantment - Allows performing a shield bash by pressing the action key while blocking with a shield, knocking enemies away and dealing minor damage. The intensity of the knockback and damage dealt scales with enchantment level (max 3). The shield takes durability damage based on how many targets were hit, and is put on an 8-second cooldown.
+- **Netherite Shield** - Shields can now be upgraded to a netherite shield in the same way you upgrade tools and armor to netherite, which gives it fire resistance, significantly increased durability, and a new look.
+- Netherite shields can be trimmed if [Trimica](https://modrinth.com/mod/trimica) is installed.
+
+### Armor rebalance
+
+ReArm rebalances all armor in the game in order to make armor progression smoother, increase the importance of armor toughness, and spread armor toughness and knockback resistance across all armor tiers.
+
+- Rebalanced defense values for all armor in the game. Defense now increases linearly across armor tiers, from leather to netherite:
+    - Leather: 8
+    - Copper/Gold: 16
+    - Iron/Chainmail: 24
+    - Diamond: 32
+    - Netherite: 40
+- Toughness now has a greater effect on damage reduction and increases the minimum possible damage reduction.
+- All armor pieces now start at 0 toughness. Toughness is now obtained by enchanting armor with protection enchantments, with each type of protection enchantment granting different amounts of toughness:
+    - Melee and Projectile Protection: 0.3
+    - Elemental Protection: 0.1
+    - Blast and Magic Protection: 0.8
+- All armor pieces now grant knockback resistance based on the total defense their armor set grants. This means all armor tiers have some knockback resistance now instead of only netherite.
+
+Every part of the armor rebalance is fully adjustable and toggleable in the mod configuration.
+
+Armor from other mods will be automatically modified to suit the armor rebalance, however, max defense for each armor material can be explicitly set in the mod configuration if desired.
+
+The toughness bonus for protection enchantments from other mods can be set in the mod configuration.
+
+### Protection changes
+
+ReArm rebalances most protection enchantments and introduces a new protection enchantment in order to **make the choice of protection enchantments actually matter** compared to just going the usual route of Protection 4 on all armor pieces.
+
+- **_Armor can now have up to two different Protection enchantments_**.
+- **Melee Protection** - The regular Protection enchantment has been replaced with Melee Protection, which provides moderate damage resistance to most close up physical damage sources, meaning it _no longer protects against any other damage type_. The damage reduction of Melee Protection has been increased to match other protection enchantments.
+- **Elemental Protection** - The Fire Protection enchantment has been replaced with Elemental Protection, which provides high resistance to fire, lightning and freeze damage and reduced burn time if you're set ablaze.
+- **Magic Protection** - New Protection enchantment which provides high resistance to magic attacks.
+- Normalized enchantment costs for every Protection enchantment. In vanilla, chances for each Protection enchantment to appear in the enchanting table vary wildly, with the most common ones being Protection and Projectile Protection, and the rest being quite rare. This reduces the huge gap in chances between Protection enchantments.
+
+### Item charge progress bar
+
+Bows, crossbows, axes and tridents now visually show how much they need to be charged in order to be used inside a progress bar that shows up in the hotbar when charging up the item. The bow bar also shows how much the bow needs to be charged for the shot to be a Perfect Shot.
+
+### Tweaks
+
+- **Improved sneaking** - Increases the effectiveness of mob detection range reduction when sneaking. Enabled and set to 80% by default.
+- **Infinity fix** - Makes bows and crossbows enchanted with Infinity not require having an arrow in the inventory. Enabled by default.
+- **Craft tipped arrows with regular potions** - Changes the tipped arrow recipe to use regular potions instead of lingering ones. Enabled by default.
+- **Compatible Infinity and Mending** - Allows Infinity and Mending to be used on the same bow or crossbow. Disabled by default.
+
+### Vanilla bug fixes
+
+ReArm implements fixes for certain vanilla bugs, which are important for improving the combat experience and keeping combat consistent:
+
+- **Dragon breath damage type fix**: Fixes [MC-84595](https://mojira.dev/MC-84595) by assigning the correct damage type to the dragon breath attack.
+- **Ender Dragon vertical velocity fix**: Fixes [MC-272431](https://mojira.dev/MC-272431) and [MC-197201](https://mojira.dev/MC-197201) by increasing the Ender Dragon's vertical velocity.
+- **Power damage fix**: Fixes [MC-277617](https://mojira.dev/MC-277617) by setting the base damage of the Power enchantment to the correct value.
+- **Shield delay fix**: Fixes [MC-100949](https://mojira.dev/MC-100949) by removing the shield delay.
+
+### Recommended mods
+
+- **[Zombie Improvements](https://modrinth.com/mod/zombieimprovements)**: Several improvements and bug fixes for zombies to make them more interesting to fight.
+- **[Simple Mob Buff System](https://modrinth.com/mod/smbs)**: Adds a chance for mobs to spawn with balanced effects that make them more interesting to fight.
+- **[Potion Cauldron](https://modrinth.com/mod/potion-cauldron)** or **[Toil and Trouble](https://modrinth.com/mod/toil-and-trouble)**: Provides a very neat way of crafting tipped arrows by submerging them in a Cauldron filled with potion contents, which is an upgrade from the crafting tweak I'm providing.
+- **[Item Descriptions](https://modrinth.com/mod/item-descriptions)**: ReArm has custom enchantment description text that reflects the changes made to enchantments.

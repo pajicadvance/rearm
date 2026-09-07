@@ -1,0 +1,3 @@
+- Updated to NeoForge 26.2.
+- Backported all changes since 2.4.18 to 1.21.1 versions. This includes trident improvements, item charge progress bars, reworked Backstep into Quickstep, and many bugfixes.
+- Minecraft 1.21.1 is supported again.

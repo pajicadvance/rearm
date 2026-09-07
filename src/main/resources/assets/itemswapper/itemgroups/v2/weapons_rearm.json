@@ -1,0 +1,9 @@
+{
+  "type": "listModification",
+  "target": "itemswapper:v2/weapons",
+  "addItems": [
+    "rearm:netherite_bow",
+    "rearm:netherite_crossbow",
+    "rearm:netherite_shield"
+  ]
+}

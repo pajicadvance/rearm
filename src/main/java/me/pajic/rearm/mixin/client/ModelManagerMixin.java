@@ -1,0 +1,32 @@
+package me.pajic.rearm.mixin.client;
+
+//? <26.1 {
+
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import me.pajic.rearm.renderer.RendererConstants;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.resources.Identifier;
+import org.objectweb.asm.Opcodes;import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Mixin(ModelManager.class)
+public class ModelManagerMixin {
+
+    @ModifyExpressionValue(
+            method = "<init>",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/resources/model/ModelManager;VANILLA_ATLASES:Ljava/util/Map;",
+                    opcode = Opcodes.GETSTATIC
+            )
+    )
+    private Map<Identifier, Identifier> addModAtlas(Map<Identifier, Identifier> original) {
+        Map<Identifier, Identifier> map = new HashMap<>(original);
+        map.put(RendererConstants.NETHERITE_SHIELD_SHEET, RendererConstants.NETHERITE_SHIELD_PATTERNS);
+        return map;
+    }
+}
+*///?}

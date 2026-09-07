@@ -2,8 +2,6 @@ package me.pajic.rearm.mixson;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.util.CompatFlags;
@@ -12,7 +10,85 @@ import net.ramixin.mixson.util.Index;
 
 import java.util.List;
 
+//? <26.1 {
+/*import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+*///?}
+
 public class AssetPatches {
+
+    //? <26.1 {
+    /*private static final JsonElement netheriteBowOverride = JsonParser.parseString("""
+            [
+                {
+                  "predicate": {
+                    "pulling": 1
+                  },
+                  "model": "rearm:item/netherite_bow_pulling_0"
+                },
+                {
+                  "predicate": {
+                    "pulling": 1,
+                    "pull": 0.65
+                  },
+                  "model": "rearm:item/netherite_bow_pulling_1"
+                },
+                {
+                  "predicate": {
+                    "pulling": 1,
+                    "pull": 0.9
+                  },
+                  "model": "rearm:item/netherite_bow_pulling_2"
+                }
+            ]""");
+
+    private static final JsonElement netheriteCrossbowOverride = JsonParser.parseString("""
+            [
+                {
+                    "predicate": {
+                        "pulling": 1
+                    },
+                    "model": "rearm:item/netherite_crossbow_pulling_0"
+                },
+                {
+                    "predicate": {
+                        "pulling": 1,
+                        "pull": 0.58
+                    },
+                    "model": "rearm:item/netherite_crossbow_pulling_1"
+                },
+                {
+                    "predicate": {
+                        "pulling": 1,
+                        "pull": 1.0
+                    },
+                    "model": "rearm:item/netherite_crossbow_pulling_2"
+                },
+                {
+                    "predicate": {
+                        "charged": 1
+                    },
+                    "model": "rearm:item/netherite_crossbow_arrow"
+                },
+                {
+                    "predicate": {
+                        "charged": 1,
+                        "firework": 1
+                    },
+                    "model": "rearm:item/netherite_crossbow_firework"
+                }
+            ]""");
+
+    private static final JsonElement netheriteShieldOverride = JsonParser.parseString("""
+            [
+                {
+                    "predicate": {
+                        "blocking": 1
+                    },
+                    "model": "rearm:item/netherite_shield_blocking"
+                }
+            ]""");
+    *///?}
 
 	public static void init() {
 		// Enchantment tooltip order
@@ -89,78 +165,7 @@ public class AssetPatches {
 
         // Item models
         //? <26.1 {
-        /*private static final JsonElement netheriteBowOverride = JsonParser.parseString("""
-            [
-                {
-                  "predicate": {
-                    "pulling": 1
-                  },
-                  "model": "rearm:item/netherite_bow_pulling_0"
-                },
-                {
-                  "predicate": {
-                    "pulling": 1,
-                    "pull": 0.65
-                  },
-                  "model": "rearm:item/netherite_bow_pulling_1"
-                },
-                {
-                  "predicate": {
-                    "pulling": 1,
-                    "pull": 0.9
-                  },
-                  "model": "rearm:item/netherite_bow_pulling_2"
-                }
-            ]""");
-
-        private static final JsonElement netheriteCrossbowOverride = JsonParser.parseString("""
-            [
-                {
-                    "predicate": {
-                        "pulling": 1
-                    },
-                    "model": "rearm:item/netherite_crossbow_pulling_0"
-                },
-                {
-                    "predicate": {
-                        "pulling": 1,
-                        "pull": 0.58
-                    },
-                    "model": "rearm:item/netherite_crossbow_pulling_1"
-                },
-                {
-                    "predicate": {
-                        "pulling": 1,
-                        "pull": 1.0
-                    },
-                    "model": "rearm:item/netherite_crossbow_pulling_2"
-                },
-                {
-                    "predicate": {
-                        "charged": 1
-                    },
-                    "model": "rearm:item/netherite_crossbow_arrow"
-                },
-                {
-                    "predicate": {
-                        "charged": 1,
-                        "firework": 1
-                    },
-                    "model": "rearm:item/netherite_crossbow_firework"
-                }
-            ]""");
-
-        private static final JsonElement netheriteShieldOverride = JsonParser.parseString("""
-            [
-                {
-                    "predicate": {
-                        "blocking": 1
-                    },
-                    "model": "rearm:item/netherite_shield_blocking"
-                }
-            ]""");
-
-        MixsonHelper.registerSingleJson(
+        /*MixsonHelper.registerSingleJson(
                 "Patch netherite bow model for pre 26.1",
                 new Index("rearm:models/item/netherite_bow"),
                 context -> context.getFile().getAsJsonObject().add("overrides", netheriteBowOverride)

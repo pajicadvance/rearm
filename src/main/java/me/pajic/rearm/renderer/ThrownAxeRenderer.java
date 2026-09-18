@@ -27,11 +27,11 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
     public void submit(ThrownAxeRenderState renderState, PoseStack poseStack, @NotNull SubmitNodeCollector nodeCollector, @NotNull CameraRenderState cameraRenderState) {
         poseStack.pushPose();
         poseStack.scale(1.3F, 1.3F, 1.3F);
-        poseStack.mulPose(Axis.YN.rotationDegrees(90.0F - renderState.yRot));
+        rotate(poseStack, Axis.YN, 90.0F - renderState.yRot);
         if (!renderState.stuck) {
-            poseStack.mulPose(Axis.ZN.rotationDegrees(Mth.lerp(renderState.partialTick, renderState.yRot, renderState.yRot + 180.0F)));
+            rotate(poseStack, Axis.ZN, Mth.lerp(renderState.partialTick, renderState.yRot, renderState.yRot + 180.0F));
         } else {
-            poseStack.mulPose(Axis.ZN.rotationDegrees(90.0F));
+            rotate(poseStack, Axis.ZN, 90.0F);
         }
         renderState.item.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, renderState.outlineColor);
         poseStack.popPose();
@@ -52,6 +52,13 @@ public class ThrownAxeRenderer extends EntityRenderer<ThrownAxe, ThrownAxeRender
         renderState.axe = entity.getEntityData().get(ThrownAxe.THROWN_AXE_ITEM_STACK);
         renderState.partialTick = partialTick;
         renderState.extractItemGroupRenderState(entity, itemModelResolver);
+    }
+
+    private void rotate(PoseStack poseStack, Axis axis, float angle) {
+        //? <26.3
+        //poseStack.mulPose(axis.rotationDegrees(angle));
+        //? >=26.3
+        poseStack.rotateDegrees(axis, angle);
     }
 }
 //?}

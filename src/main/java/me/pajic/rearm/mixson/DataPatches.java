@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import me.pajic.rearm.ReArm;
-import net.minecraft.resources.Identifier;
 import net.ramixin.mixson.EventContext;
 import net.ramixin.mixson.util.Index;
 
@@ -91,7 +90,8 @@ public class DataPatches {
 									if (reqElem.isJsonObject()) {
 										JsonObject requirements = reqElem.getAsJsonObject();
 										JsonObject match = new JsonObject();
-										match.addProperty("condition", "minecraft:entity_properties");
+                                        //~ if >26.3 '"condition"' -> '"type"'
+										match.addProperty("type", "minecraft:entity_properties");
 										match.addProperty("entity", "this");
 										JsonObject predicate = new JsonObject();
 										predicate.addProperty(/*? <26.2 {*//*"type"*//*?} else {*/"minecraft:entity_type"/*?}*/, "#minecraft:sensitive_to_impaling");
@@ -99,15 +99,15 @@ public class DataPatches {
 										if (requirements.equals(match)) {
 											JsonElement newRequirements = JsonParser.parseString("""
 											{
-												"condition": "minecraft:any_of",
+												"type": "minecraft:any_of",
 												"terms": [
 												 {
-												   "condition": "minecraft:entity_properties",
+												   "type": "minecraft:entity_properties",
 												   "entity": "this",
 												   "predicate": {}
 												 },
 												 {
-												   "condition": "minecraft:entity_properties",
+												   "type": "minecraft:entity_properties",
 												   "entity": "this",
 												   "predicate": {}
 												 }
@@ -141,10 +141,10 @@ public class DataPatches {
 						JsonArray tags = new JsonArray();
 						JsonObject tag1 = new JsonObject();
 						tag1.addProperty("expected", true);
-						tag1.addProperty("id", "minecraft:is_elemental");
+						tag1.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_elemental");
 						JsonObject tag2 = new JsonObject();
 						tag2.addProperty("expected", false);
-						tag2.addProperty("id", "minecraft:bypasses_invulnerability");
+						tag2.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:bypasses_invulnerability");
 						tags.add(tag1);
 						tags.add(tag2);
 
@@ -176,19 +176,19 @@ public class DataPatches {
 						JsonArray tags = new JsonArray();
 						JsonObject tag1 = new JsonObject();
 						tag1.addProperty("expected", false);
-						tag1.addProperty("id", "minecraft:bypasses_invulnerability");
+						tag1.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:bypasses_invulnerability");
 						JsonObject tag2 = new JsonObject();
 						tag2.addProperty("expected", false);
-						tag2.addProperty("id", "minecraft:is_elemental");
+						tag2.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_elemental");
 						JsonObject tag3 = new JsonObject();
 						tag3.addProperty("expected", false);
-						tag3.addProperty("id", "minecraft:is_explosion");
+						tag3.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_explosion");
 						JsonObject tag4 = new JsonObject();
 						tag4.addProperty("expected", false);
-						tag4.addProperty("id", "minecraft:is_projectile");
+						tag4.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_projectile");
 						JsonObject tag5 = new JsonObject();
 						tag5.addProperty("expected", false);
-						tag5.addProperty("id", "minecraft:bypasses_armor");
+						tag5.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:bypasses_armor");
 						tags.add(tag1);
 						tags.add(tag2);
 						tags.add(tag3);
@@ -232,6 +232,27 @@ public class DataPatches {
 					}
 				}
 		);
+        //? >26.2 {
+        MixsonHelper.registerSingleJson(
+                "Patch Magic Protection for 26.3+",
+                new Index("rearm:enchantment/magic_protection"),
+                context -> {
+                    JsonObject obj = context.getFile().getAsJsonObject()
+                            .getAsJsonObject("effects")
+                            .getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
+                            .getAsJsonObject("requirements");
+                    if (obj.has("condition")) {
+                        obj.getAsJsonObject("predicate").getAsJsonArray("tags")
+                                .forEach(e -> e.getAsJsonObject().addProperty(
+                                        "id", "#" + e.getAsJsonObject().get("id").getAsString())
+                                );
+                        String s = obj.get("condition").getAsString();
+                        obj.addProperty("type", s);
+                        obj.remove("condition");
+                    }
+                }
+        );
+        //?}
 
 		// Damage type tags
 		MixsonHelper.registerMultiJson(

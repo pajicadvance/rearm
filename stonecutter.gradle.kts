@@ -8,7 +8,7 @@ plugins {
     id("me.modmuss50.mod-publish-plugin") apply false
 }
 
-stonecutter active "26.2-fabric"
+stonecutter active "26.3-fabric"
 
 stonecutter parameters {
     val (version, loader) = current.project.split('-', limit = 2)
@@ -55,6 +55,9 @@ stonecutter parameters {
             replace("import net.minecraft.client.gui.Gui;", "import net.minecraft.client.gui.Hud;")
             replace("Gui.HeartType", "Hud.HeartType")
             replace("@Mixin(Gui.class)", "@Mixin(Hud.class)")
+        }
+        string(current.parsed > "26.2") {
+            replace("EnderMan", "Enderman")
         }
     }
 }

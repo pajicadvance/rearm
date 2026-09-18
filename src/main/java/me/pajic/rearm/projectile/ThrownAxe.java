@@ -23,7 +23,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.monster.Enderman;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -58,7 +58,7 @@ public class ThrownAxe extends AbstractArrow {
     public static final EntityDataAccessor<Boolean> ALLOW_PICKUP = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<ItemStack> THROWN_AXE_ITEM_STACK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.ITEM_STACK);
 	@SuppressWarnings("unchecked")
-	private static final EntityType<EnderMan> ENDERMAN = (EntityType<EnderMan>) BuiltInRegistries.ENTITY_TYPE
+	private static final EntityType<Enderman> ENDERMAN = (EntityType<Enderman>) BuiltInRegistries.ENTITY_TYPE
             //~ if <26.1 'getValueOrThrow' -> 'getOrThrow'
 			.getValueOrThrow(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.withDefaultNamespace("enderman")));
 

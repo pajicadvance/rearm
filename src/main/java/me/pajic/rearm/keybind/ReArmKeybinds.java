@@ -11,7 +11,6 @@ import me.pajic.rearm.platform.MultiLoaderUtil;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
-import org.lwjgl.glfw.GLFW;
 
 public class ReArmKeybinds {
 
@@ -20,8 +19,9 @@ public class ReArmKeybinds {
 
     public static final KeyMapping ACTION_KEY = new KeyMapping(
 			"key.rearm.action",
-			InputConstants.Type.KEYSYM,
-			GLFW.GLFW_KEY_LEFT_ALT,
+            //~ if >26.2 'KEYSYM' -> 'KEYBOARD'
+			InputConstants.Type.KEYBOARD,
+			InputConstants.KEY_LALT,
             //~ if <26.1 'MOD_KEYS' -> '"category.rearm.keybindings"'
             MOD_KEYS
 	);

@@ -1,6 +1,8 @@
 package me.pajic.rearm.mixin.client;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+//? <26.3 {
+
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import me.pajic.rearm.item.ReArmItems;
 import net.minecraft.client.renderer.ItemInHandRenderer;
@@ -98,3 +100,4 @@ public class ItemInHandRendererMixin {
     }
 	//?}
 }
+*///?}

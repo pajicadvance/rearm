@@ -51,7 +51,15 @@ public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
         poseStack.pushPose();
         poseStack.scale(1.0F, -1.0F, -1.0F);
         SpriteId base = hasPatterns ? RendererConstants.NETHERITE_SHIELD_BASE : RendererConstants.NO_PATTERN_NETHERITE_SHIELD;
-		submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor, null);
+        //? <26.3 {
+		/*submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor, null);
+        *///?} else {
+        if (hasFoil && !hasPatterns) {
+            submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.entitySolidGlint(base.atlasLocation()), lightCoords, overlayCoords, -1, this.sprites.get(base), outlineColor);
+        } else {
+            submitNodeCollector.submitModel(this.model, Unit.INSTANCE, poseStack, lightCoords, overlayCoords, -1, base, this.sprites, outlineColor);
+        }
+        //?}
 		if (hasPatterns) {
 			BannerRenderer.submitPatterns(
 					this.sprites,
@@ -63,15 +71,23 @@ public class NetheriteShieldSpecialRenderer extends ShieldSpecialRenderer {
 					Unit.INSTANCE,
 					false,
 					Objects.requireNonNullElse(baseColor, DyeColor.WHITE),
-					patterns,
-					null
+					patterns
+                    //? <26.3
+					//, null
 			);
+            //? >=26.3 {
+            if (hasFoil) {
+                submitNodeCollector.order(patterns.layers().size() + 2).submitModel(this.model, Unit.INSTANCE, poseStack, RenderTypes.patternedShieldGlint(), lightCoords, overlayCoords, -1, this.sprites.get(base), 0);
+            }
+            //?}
 		}
-		if (hasFoil) {
+        //? <26.3 {
+		/*if (hasFoil) {
 			submitNodeCollector.submitModel(
 					this.model, Unit.INSTANCE, poseStack, RenderTypes.entityGlint(), lightCoords, overlayCoords, -1, this.sprites.get(base), 0, null
 			);
 		}
+        *///?}
         /*if (CompatFlags.TRIMICA_LOADED) TrimicaCompat.submitTrim(
                 model.plate(), dataComponentMap, poseStack, nodeCollector, packedLight, packedOverlay, hasFoil, outlineColor
         );*/

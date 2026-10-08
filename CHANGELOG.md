@@ -1,1 +1,3 @@
-- Added Fabric 26.3 version.
+- Versions for MC 1.21.1-26.2 no longer cause a world loading failure due to a broken Impaling enchantment definition.
+- Fixed a bug that prevented spears from being enchanted with Knockback.
+- Fixed a bug that caused world loading failures when "Reject knockback" is set to False in the config.

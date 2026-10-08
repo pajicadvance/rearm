@@ -90,13 +90,14 @@ public class DataPatches {
 									if (reqElem.isJsonObject()) {
 										JsonObject requirements = reqElem.getAsJsonObject();
 										JsonObject match = new JsonObject();
-                                        //~ if >26.3 '"condition"' -> '"type"'
+                                        //~ if >=26.3 '"condition"' -> '"type"'
 										match.addProperty("type", "minecraft:entity_properties");
 										match.addProperty("entity", "this");
 										JsonObject predicate = new JsonObject();
 										predicate.addProperty(/*? <26.2 {*//*"type"*//*?} else {*/"minecraft:entity_type"/*?}*/, "#minecraft:sensitive_to_impaling");
 										match.add("predicate", predicate);
 										if (requirements.equals(match)) {
+                                            //~ if >=26.3 '"condition"' -> '"type"' {
 											JsonElement newRequirements = JsonParser.parseString("""
 											{
 												"type": "minecraft:any_of",
@@ -114,6 +115,7 @@ public class DataPatches {
 												]
 											}
 											""");
+                                            //~}
 											JsonArray terms = newRequirements.getAsJsonObject().getAsJsonArray("terms");
 											terms.get(0).getAsJsonObject().getAsJsonObject("predicate").addProperty(/*? <26.2 {*//*"type"*//*?} else {*/"minecraft:entity_type"/*?}*/, "#minecraft:sensitive_to_impaling");
 											//? <26.2 {
@@ -283,16 +285,19 @@ public class DataPatches {
 				"Modify Knockback Enchantable tag",
 				new Index("minecraft:tags/item/enchantable/knockback_enchantable"),
 				context -> {
+                    JsonArray values = context.getFile().getAsJsonObject().getAsJsonArray("values");
 					if (ReArm.CONFIG.axe.acceptKnockback.get()) {
-						context.getFile().getAsJsonObject()
-								.getAsJsonArray("values")
-								.add("#minecraft:enchantable/axe");
-					}
+                        values.add("#minecraft:axes");
+                    }
+                    var f = context.captureFiles(new Index("minecraft:tags/item/enchantable/melee_weapon"));
+                    if (!f.isEmpty()) {
+                        values.addAll(f.getFirst().getValue().getAsJsonObject().getAsJsonArray("values"));
+                    }
+                    else values.add("#minecraft:enchantable/sword");
 					if (ReArm.CONFIG.sword.rejectKnockback.get()) {
-						context.getFile().getAsJsonObject()
-								.getAsJsonArray("values")
-								.remove(new JsonPrimitive("#minecraft:enchantable/sword"));
-					}
+                        values.remove(new JsonPrimitive("#minecraft:swords"));
+                        values.remove(new JsonPrimitive("#minecraft:enchantable/sword"));
+                    }
 				}
 		);
 		MixsonHelper.registerSingleJson(
@@ -330,7 +335,7 @@ public class DataPatches {
 					if (ReArm.CONFIG.axe.requireLoyaltyForRecall.get()) {
 						context.getFile().getAsJsonObject()
 								.getAsJsonArray("values")
-								.add("#minecraft:enchantable/axe");
+								.add("#minecraft:axes");
 					}
 				}
 		);

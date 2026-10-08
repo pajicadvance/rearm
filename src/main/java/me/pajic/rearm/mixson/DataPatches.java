@@ -291,7 +291,7 @@ public class DataPatches {
 					if (ReArm.CONFIG.sword.rejectKnockback.get()) {
 						context.getFile().getAsJsonObject()
 								.getAsJsonArray("values")
-								.remove(new JsonPrimitive("#minecraft:enchantable/sword"));
+								.remove(new JsonPrimitive("#minecraft:swords"));
 					}
 				}
 		);

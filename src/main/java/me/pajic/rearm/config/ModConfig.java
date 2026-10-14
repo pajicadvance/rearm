@@ -15,9 +15,10 @@ import me.fzzyhmstrs.fzzy_config.validation.number.ValidatedInt;
 import me.pajic.rearm.ReArm;
 import net.minecraft.resources.Identifier;
 
+import java.util.HashMap;
 import java.util.Map;
 
-@Version(version = 1)
+@Version(version = 2)
 public class ModConfig extends Config {
 
     public ModConfig() {
@@ -66,7 +67,8 @@ public class ModConfig extends Config {
                         Identifier.withDefaultNamespace("diamond"), 32,
                         Identifier.withDefaultNamespace("netherite"), 40,
                         Identifier.withDefaultNamespace("turtle_scute"), 24,
-                        Identifier.withDefaultNamespace("armadillo_scute"), 40
+                        Identifier.withDefaultNamespace("armadillo_scute"), 40,
+                        Identifier.parse("enderscape:shadoline"), 24
                 ))
                 .build();
         public ValidatedBoolean enchantmentBasedToughness = new ValidatedBoolean();
@@ -182,4 +184,13 @@ public class ModConfig extends Config {
 		public ValidatedBoolean powerDamageFix = new ValidatedBoolean();
 		public ValidatedBoolean shieldDelayFix = new ValidatedBoolean();
 	}
+
+    @Override
+    public void update(int deserializedVersion) {
+        if (deserializedVersion == 1 && !armor.totalArmorOverrides.containsKey(Identifier.parse("enderscape:shadoline"))) {
+            Map<Identifier, Integer> updated = new HashMap<>(armor.totalArmorOverrides);
+            updated.put(Identifier.parse("enderscape:shadoline"), 24);
+            armor.totalArmorOverrides.validateAndSet(updated);
+        }
+    }
 }

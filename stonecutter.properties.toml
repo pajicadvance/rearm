@@ -2,7 +2,7 @@
 mod.id = "rearm"
 mod.name = "ReArm"
 mod.group = "me.pajic"
-mod.version = "2.5.7"
+mod.version = "2.5.8"
 mod.description = "Remunition and Armament"
 mod.authors = "pajic"
 mod.contributors = "Lufurrius, Moonkey"
@@ -34,6 +34,7 @@ dep.sodium.coords = "net.caffeinemc:$id-$loader:$version"
 dep.penchant.coords = "maven.modrinth:$id:$version"
 dep.immersive_armors.coords = "maven.modrinth:immersive-armors:$version-$loader"
 dep.immersive_armors.slug = "immersive-armors"
+dep.enderscape.coords = "maven.modrinth:$id:$version"
 dep.rrv.coords = "maven.modrinth:$id:$version-$loader"
 dep.emi.coords = "dev.emi:$id-$loader:$version"
 include.mixinconstraints = "1.1.0"
@@ -48,7 +49,7 @@ dep.modmenu.coords = "com.terraformersmc:$id:$version"
 
 ["1.21.1"]
 mod.mc_releases = ["1.21", "1.21.1"]
-loader.neo = "21.1.249"
+loader.neo = "21.1.259"
 dep.mixson.coords = "com.github:Mixson:$version"
 include.mixson = "2.2.0"
 optional.immersive_armors = "1.7.6+1.21.1"
@@ -68,10 +69,11 @@ required.fzzy_config = "0.7.6+1.21+neoforge"
 
 ["26.1"]
 mod.mc_releases = ["26.1", "26.1.1", "26.1.2"]
-loader.neo = "26.1.2.103"
+loader.neo = "26.1.2.116"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
 optional.immersive_armors = "1.8.2+26.1.2"
+optional.enderscape = "3.0.3-fabric,26.1.2"
 optional.rrv = "8.10.4+26.1.2"
 runtime.sodium = "0.9.1+mc26.1.2"
 
@@ -89,10 +91,11 @@ required.fzzy_config = "0.7.6+26.1-pre-3+neoforge"
 
 ["26.2"]
 mod.mc_releases = ["26.2"]
-loader.neo = "26.2.0.76"
+loader.neo = "26.2.0.90"
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.0"
 optional.immersive_armors = "1.8.2+26.2"
+optional.enderscape = "3.0.3-fabric,26.2"
 optional.rrv = "8.10.4+26.2"
 runtime.sodium = "0.9.1+mc26.2"
 
@@ -114,6 +117,7 @@ mod.mc_releases = ["26.3"]
 dep.mixson.coords = "maven.modrinth:$id:$version"
 required.mixson = "2.2.1"
 optional.immersive_armors = "1.8.2+26.2"
+optional.enderscape = "3.0.4+mc26.3"
 optional.rrv = "8.10.5+26.3"
 optional.sodium = "0.9.2+mc26.3"
 runtime.sodium_runtime = "0.9.2+mc26.3"

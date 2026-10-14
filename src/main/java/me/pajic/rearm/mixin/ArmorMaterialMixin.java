@@ -49,9 +49,6 @@ public class ArmorMaterialMixin {
         Identifier rl = assetId.identifier();
         if (rl != null) ArmorMaterialHelper.add(rl);
         if (ReArm.CONFIG.armor.armorRebalance.get()) {
-            ReArm.LOGGER.info("--- {} ---", rl != null ? "Modifying " + rl : "Modifying unknown armor material");
-            ReArm.LOGGER.info("Old stats:");
-            ReArm.LOGGER.info("Defense: {} Toughness: {} Knockback resistance: {}", defense, toughness, knockbackResistance);
             int targetTotal = 0;
             if (rl != null && ReArm.CONFIG.armor.totalArmorOverrides.get().containsKey(rl)) {
                 targetTotal = ReArm.CONFIG.armor.totalArmorOverrides.get().get(rl);
@@ -67,8 +64,6 @@ public class ArmorMaterialMixin {
             if (ReArm.CONFIG.armor.defenseBasedKnockbackResist.get()) {
                 knockbackResistance = ArmorMaterialHelper.calculateKnockbackResist(targetTotal);
             }
-            ReArm.LOGGER.info("New stats:");
-            ReArm.LOGGER.info("Defense: {} Toughness: {} Knockback resistance: {}", defense, toughness, knockbackResistance);
         }
     }
     //~}

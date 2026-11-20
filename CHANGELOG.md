@@ -1,3 +1,11 @@
+## 2.5.10
+
+- Fixed a crash on startup when installed alongside Very Many Players.
+- Fixed startup crashes on multiple versions.
+- Fixed a misleading warning about Elemental Protection not being applied showing up in the log on versions before 26.3.
+
+## 2.5.9
+
 - Added NeoForge 26.3 version.
 - Fixed Bash dealing the same damage regardless of enchantment level.
 - Fixed the Quickstep step height boost becoming permanent if the player logged out right after a Quickstep. Affected players are cleaned up the next time they log out.

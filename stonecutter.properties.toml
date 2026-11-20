@@ -2,7 +2,7 @@
 mod.id = "rearm"
 mod.name = "ReArm"
 mod.group = "me.pajic"
-mod.version = "2.5.9"
+mod.version = "2.5.10"
 mod.description = "Remunition and Armament"
 mod.authors = "pajic"
 mod.contributors = "Lufurrius, Moonkey"

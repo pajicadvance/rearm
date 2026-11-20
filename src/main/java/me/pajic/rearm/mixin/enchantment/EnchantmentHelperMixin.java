@@ -16,7 +16,6 @@ import java.util.List;
 @Mixin(EnchantmentHelper.class)
 public class EnchantmentHelperMixin {
 
-    //~ if <26.1 'enchantment()' -> 'enchantment' {
     @WrapOperation(
             method = "selectEnchantment",
             at = @At(
@@ -30,6 +29,7 @@ public class EnchantmentHelperMixin {
             Operation<Void> original,
             @Local(ordinal = 0) List<EnchantmentInstance> selected
     ) {
+        //~ if <26.1 'enchantment()' -> 'enchantment' {
         if (!ReArm.CONFIG.protection.allowMultipleProtectionEnchantments.get()) {
             original.call(enchants, target);
             return;
@@ -43,6 +43,6 @@ public class EnchantmentHelperMixin {
             if (isProt && targetIsProt && !ei.enchantment().equals(target.enchantment())) return false;
             return !Enchantment.areCompatible(target.enchantment(), ei.enchantment());
         });
+        //~}
     }
-    //~}
 }

@@ -156,12 +156,12 @@ public abstract class PlayerMixin extends LivingEntity {
     @ModifyExpressionValue(
             method = "getProjectile",
             at = @At(
-                    //? (fabric && <26.1) || neoforge {
+                    //? (fabric && <26.1) || (neoforge && <26.3) {
                     /*value = "FIELD",
                     target = "Lnet/minecraft/world/entity/player/Abilities;instabuild:Z",
                     opcode = Opcodes.GETFIELD
                     *///?}
-                    //? fabric && >=26.1 {
+                    //? (fabric && >=26.1) || (neoforge && >=26.3) {
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/player/Player;hasInfiniteMaterials()Z"
                     //?}

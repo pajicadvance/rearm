@@ -456,6 +456,8 @@ public class DataPatches {
 					if (tagId.equals("minecraft:is_fire") && expected) {
 						tag.addProperty("id", tagPrefix + "minecraft:is_elemental");
 						prefix = tagPrefix;
+					} else if (tagId.equals("minecraft:is_elemental") && expected) {
+						prefix = tagPrefix;
 					} else if (tagId.equals("minecraft:bypasses_invulnerability")) {
 						hasInvulnerabilityTag = true;
 					}

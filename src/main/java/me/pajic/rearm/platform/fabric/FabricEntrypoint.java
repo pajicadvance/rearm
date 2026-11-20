@@ -6,7 +6,6 @@ import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.ability.BashAbility;
 import me.pajic.rearm.ability.CripplingThrowAbility;
-import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.ability.QuickstepAbility;
 import me.pajic.rearm.datapack.ModDatapacks;
 import me.pajic.rearm.effect.ReArmEffects;
@@ -82,8 +81,6 @@ public class FabricEntrypoint implements ModInitializer {
         PayloadTypeRegistry.serverboundPlay().register(QuickstepAbility.C2SQuickstepSignal.TYPE, QuickstepAbility.C2SQuickstepSignal.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(BashAbility.C2SBashSignal.TYPE, BashAbility.C2SBashSignal.CODEC);
         PayloadTypeRegistry.serverboundPlay().register(CripplingThrowAbility.C2SUpdatePlayerRecallCondition.TYPE, CripplingThrowAbility.C2SUpdatePlayerRecallCondition.CODEC);
-        PayloadTypeRegistry.serverboundPlay().register(CriticalCounterAbility.C2SUpdatePlayerCounterCondition.TYPE, CriticalCounterAbility.C2SUpdatePlayerCounterCondition.CODEC);
-        PayloadTypeRegistry.clientboundPlay().register(CriticalCounterAbility.S2CStartCriticalCounterTimer.TYPE, CriticalCounterAbility.S2CStartCriticalCounterTimer.CODEC);
         ServerPlayNetworking.registerGlobalReceiver(
                 QuickstepAbility.C2SQuickstepSignal.TYPE,
                 (payload, context) -> QuickstepAbility.handleQuickstep(context.player())
@@ -94,10 +91,7 @@ public class FabricEntrypoint implements ModInitializer {
         );
         ServerPlayNetworking.registerGlobalReceiver(
                 CripplingThrowAbility.C2SUpdatePlayerRecallCondition.TYPE,
-                (payload, context) -> CripplingThrowAbility.recallSignals.add(payload.activePlayerUUID())
-        );
-        ServerPlayNetworking.registerGlobalReceiver(CriticalCounterAbility.C2SUpdatePlayerCounterCondition.TYPE, (payload, context) ->
-                CriticalCounterAbility.setPlayerCounterCondition(payload.activePlayerUUID(), payload.shouldCounter())
+                (payload, context) -> CripplingThrowAbility.recallSignals.add(context.player().getUUID())
         );
         ServerTickEvents.END_SERVER_TICK.register(QuickstepAbility::onServerTick);
         initPredicates();

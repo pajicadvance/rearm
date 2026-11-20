@@ -10,6 +10,7 @@ import net.ramixin.mixson.EventContext;
 import net.ramixin.mixson.util.Index;
 
 import java.util.List;
+import java.util.Map;
 
 public class DataPatches {
 
@@ -140,26 +141,13 @@ public class DataPatches {
 				context -> {
 					normalizeEnchantmentCosts(context);
 					if (ReArm.CONFIG.protection.elementalProtection.get()) {
-						JsonArray tags = new JsonArray();
-						JsonObject tag1 = new JsonObject();
-						tag1.addProperty("expected", true);
-						tag1.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_elemental");
-						JsonObject tag2 = new JsonObject();
-						tag2.addProperty("expected", false);
-						tag2.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:bypasses_invulnerability");
-						tags.add(tag1);
-						tags.add(tag2);
-
-						JsonObject reqs = context.getFile().getAsJsonObject()
-								.getAsJsonObject("effects")
-								.getAsJsonArray("minecraft:damage_protection").get(0).getAsJsonObject()
-								.getAsJsonObject("requirements");
-						if (reqs.has("terms")) {
-							reqs.getAsJsonArray("terms").get(0).getAsJsonObject()
-									.getAsJsonObject("predicate")
-									.add("tags", tags);
-						} else {
-							reqs.getAsJsonObject("predicate").add("tags", tags);
+						JsonObject enchantment = context.getFile().getAsJsonObject();
+						if (!enchantment.has("effects") || !enchantment.get("effects").isJsonObject()) enchantment.add("effects", new JsonObject());
+						JsonObject effects = enchantment.getAsJsonObject("effects");
+						if (!effects.has("minecraft:damage_protection")) {
+							effects.add("minecraft:damage_protection", nonFireElementalProtection());
+						} else if (!replaceFireDamageTag(effects.get("minecraft:damage_protection"))) {
+							ReArm.LOGGER.warn("Couldn't find a fire damage condition in Fire Protection, Elemental Protection won't be applied");
 						}
 					}
 				}
@@ -191,11 +179,15 @@ public class DataPatches {
 						JsonObject tag5 = new JsonObject();
 						tag5.addProperty("expected", false);
 						tag5.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:bypasses_armor");
+						JsonObject tag6 = new JsonObject();
+						tag6.addProperty("expected", false);
+						tag6.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_magic");
 						tags.add(tag1);
 						tags.add(tag2);
 						tags.add(tag3);
 						tags.add(tag4);
 						tags.add(tag5);
+						tags.add(tag6);
 
 						JsonObject damageProtection = context.getFile().getAsJsonObject()
 								.getAsJsonObject("effects")
@@ -405,6 +397,84 @@ public class DataPatches {
 					}
 				}
 		);
+	}
+
+	private static JsonArray nonFireElementalProtection() {
+		JsonObject value = new JsonObject();
+		value.addProperty("type", "minecraft:linear");
+		value.addProperty("base", 2.0);
+		value.addProperty("per_level_above_first", 2.0);
+		JsonObject effect = new JsonObject();
+		effect.addProperty("type", "minecraft:add");
+		effect.add("value", value);
+
+		JsonArray tags = new JsonArray();
+		JsonObject elementalTag = new JsonObject();
+		elementalTag.addProperty("expected", true);
+		elementalTag.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_elemental");
+		JsonObject fireTag = new JsonObject();
+		fireTag.addProperty("expected", false);
+		fireTag.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:is_fire");
+		JsonObject invulnerabilityTag = new JsonObject();
+		invulnerabilityTag.addProperty("expected", false);
+		invulnerabilityTag.addProperty("id", /*? >26.2 {*/"#" + /*?}*/"minecraft:bypasses_invulnerability");
+		tags.add(elementalTag);
+		tags.add(fireTag);
+		tags.add(invulnerabilityTag);
+		JsonObject predicate = new JsonObject();
+		predicate.add("tags", tags);
+		JsonObject requirements = new JsonObject();
+		//~ if >=26.3 '"condition"' -> '"type"'
+		requirements.addProperty("type", "minecraft:damage_source_properties");
+		requirements.add("predicate", predicate);
+
+		JsonObject entry = new JsonObject();
+		entry.add("effect", effect);
+		entry.add("requirements", requirements);
+		JsonArray damageProtection = new JsonArray();
+		damageProtection.add(entry);
+		return damageProtection;
+	}
+
+	private static boolean replaceFireDamageTag(JsonElement element) {
+		boolean replaced = false;
+		if (element.isJsonArray()) {
+			for (JsonElement child : element.getAsJsonArray()) replaced |= replaceFireDamageTag(child);
+		} else if (element.isJsonObject()) {
+			JsonObject object = element.getAsJsonObject();
+			if (object.has("tags") && object.get("tags").isJsonArray()) {
+				JsonArray tags = object.getAsJsonArray("tags");
+				String prefix = null;
+				boolean hasInvulnerabilityTag = false;
+				for (JsonElement tagElement : tags) {
+					if (!tagElement.isJsonObject() || !tagElement.getAsJsonObject().has("id")) continue;
+					JsonObject tag = tagElement.getAsJsonObject();
+					String id = tag.get("id").getAsString();
+					String tagPrefix = id.startsWith("#") ? "#" : "";
+					String tagId = id.substring(tagPrefix.length());
+					boolean expected = !tag.has("expected") || tag.get("expected").getAsBoolean();
+					if (tagId.equals("minecraft:is_fire") && expected) {
+						tag.addProperty("id", tagPrefix + "minecraft:is_elemental");
+						prefix = tagPrefix;
+					} else if (tagId.equals("minecraft:bypasses_invulnerability")) {
+						hasInvulnerabilityTag = true;
+					}
+				}
+				if (prefix != null) {
+					if (!hasInvulnerabilityTag) {
+						JsonObject invulnerabilityTag = new JsonObject();
+						invulnerabilityTag.addProperty("expected", false);
+						invulnerabilityTag.addProperty("id", prefix + "minecraft:bypasses_invulnerability");
+						tags.add(invulnerabilityTag);
+					}
+					replaced = true;
+				}
+			}
+			for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
+				if (!entry.getKey().equals("tags")) replaced |= replaceFireDamageTag(entry.getValue());
+			}
+		}
+		return replaced;
 	}
 
 	private static void normalizeEnchantmentCosts(EventContext<JsonElement> context) {

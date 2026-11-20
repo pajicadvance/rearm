@@ -104,8 +104,9 @@ ReArm implements fixes for certain vanilla bugs, which are important for improvi
 
 - **Dragon breath damage type fix**: Fixes [MC-84595](https://mojira.dev/MC-84595) by assigning the correct damage type to the dragon breath attack.
 - **Ender Dragon vertical velocity fix**: Fixes [MC-272431](https://mojira.dev/MC-272431) and [MC-197201](https://mojira.dev/MC-197201) by increasing the Ender Dragon's vertical velocity.
-- **Power damage fix**: Fixes [MC-277617](https://mojira.dev/MC-277617) by setting the base damage of the Power enchantment to the correct value.
+- **Power damage fix**: Fixes [MC-277617](https://mojira.dev/MC-277617) by setting the base damage of the Power enchantment to the correct value (1.21.1 only).
 - **Shield delay fix**: Fixes [MC-100949](https://mojira.dev/MC-100949) by removing the shield delay.
+- **Entity sync fix**: Backports the 26.4 fixes for [MC-297196](https://mojira.dev/MC-297196) and [MC-311974](https://mojira.dev/MC-311974). Entity updates are sent to clients after entities have ticked, so knockback no longer shows up with inconsistent delay. On 26.3, entity movement also no longer stutters.
 
 ### Recommended mods
 

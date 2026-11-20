@@ -26,14 +26,18 @@ public class ReArmKeybinds {
             MOD_KEYS
 	);
 
+	private static boolean actionKeyWasDown;
+
 	public static void onClientTick(Minecraft client) {
 		if (ACTION_KEY.isDown() && client.level != null && client.player != null) {
+			boolean justPressed = !actionKeyWasDown;
 			if (ReArm.CONFIG.bow.enableBackstep.get() && CooldownTracker.quickstepCooldown == 0 && tryQuickstep(ACTION_KEY, client)) {
 				CooldownTracker.quickstepCooldown = ReArm.CONFIG.bow.backstepTimeframe.get();
 			}
-            MultiLoaderUtil.INSTANCE.sendToServer(new CripplingThrowAbility.C2SUpdatePlayerRecallCondition(client.player.getUUID()));
-			if (ReArm.CONFIG.shield.enableBash.get()) MultiLoaderUtil.INSTANCE.sendToServer(new BashAbility.C2SBashSignal());
+			if (justPressed) MultiLoaderUtil.INSTANCE.sendToServer(new CripplingThrowAbility.C2SUpdatePlayerRecallCondition());
+			if (ReArm.CONFIG.shield.enableBash.get() && client.player.isBlocking()) MultiLoaderUtil.INSTANCE.sendToServer(new BashAbility.C2SBashSignal());
 		}
+		actionKeyWasDown = ACTION_KEY.isDown();
 	}
 
 	@SuppressWarnings("DataFlowIssue")

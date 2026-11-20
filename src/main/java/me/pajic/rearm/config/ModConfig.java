@@ -57,7 +57,7 @@ public class ModConfig extends Config {
         @SuppressWarnings({"unchecked", "rawtypes"})
         public ValidatedMap<Identifier, Integer> totalArmorOverrides = (new ValidatedMap.Builder())
                 .keyHandler(new ValidatedIdentifier())
-                .valueHandler(new ValidatedInt(0, (int) (20 * armorMultiplier.get()), 0))
+                .valueHandler(new ValidatedInt(0, Integer.MAX_VALUE, 0))
                 .defaults(Map.of(
                         Identifier.withDefaultNamespace("leather"), 8,
                         Identifier.withDefaultNamespace("copper"), 16,
@@ -114,7 +114,7 @@ public class ModConfig extends Config {
 
     public static class Crossbow extends ConfigSection {
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean improvedPiercing = new ValidatedBoolean();
-        @RequiresAction(action = Action.RESTART) public ValidatedInt percentArmorIgnoredPerLevel = new ValidatedInt(15, Integer.MAX_VALUE, 1);
+        @RequiresAction(action = Action.RESTART) public ValidatedInt percentArmorIgnoredPerLevel = new ValidatedInt(15, 100, 1);
         public ValidatedBoolean stopPiercingOnArmoredEntity = new ValidatedBoolean();
         public ValidatedBoolean fixedArrowDamage = new ValidatedBoolean();
         public ValidatedInt fixedArrowDamageAmount = new ValidatedInt(10, Integer.MAX_VALUE, 1);
@@ -122,7 +122,7 @@ public class ModConfig extends Config {
         public ValidatedInt baseFireworkDamage = new ValidatedInt(12, Integer.MAX_VALUE, 1);
         public ValidatedInt damagePerFireworkStar = new ValidatedInt(3, Integer.MAX_VALUE, 0);
         public ValidatedBoolean modifyLoadSpeed = new ValidatedBoolean();
-        public ValidatedFloat loadTime = new ValidatedFloat(2F);
+        public ValidatedFloat loadTime = new ValidatedFloat(2F, Float.MAX_VALUE, 0.05F);
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean rejectMultishot = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptPower = new ValidatedBoolean();
         @RequiresAction(action = Action.RESTART) public ValidatedBoolean acceptInfinity = new ValidatedBoolean();
@@ -183,6 +183,7 @@ public class ModConfig extends Config {
 		public ValidatedBoolean enderDragonVelocityFix = new ValidatedBoolean();
 		public ValidatedBoolean powerDamageFix = new ValidatedBoolean();
 		public ValidatedBoolean shieldDelayFix = new ValidatedBoolean();
+		public ValidatedBoolean entitySyncFix = new ValidatedBoolean();
 	}
 
     @Override

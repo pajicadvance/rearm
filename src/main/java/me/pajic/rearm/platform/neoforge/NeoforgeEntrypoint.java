@@ -4,9 +4,7 @@ package me.pajic.rearm.platform.neoforge;
 
 /*import me.pajic.rearm.ReArm;
 import me.pajic.rearm.ability.BashAbility;
-import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
-import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.ability.QuickstepAbility;
 import me.pajic.rearm.datapack.ModDatapacks;
 import me.pajic.rearm.effect.ReArmEffects;
@@ -62,7 +60,7 @@ public class NeoforgeEntrypoint {
 
     @SubscribeEvent
     private static void initNetworkEvents(RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("2");
         registrar.playToServer(
                 QuickstepAbility.C2SQuickstepSignal.TYPE,
                 QuickstepAbility.C2SQuickstepSignal.CODEC,
@@ -70,27 +68,16 @@ public class NeoforgeEntrypoint {
                         QuickstepAbility.handleQuickstep((ServerPlayer) context.player())
         );
         registrar.playToServer(
-                CriticalCounterAbility.C2SUpdatePlayerCounterCondition.TYPE,
-                CriticalCounterAbility.C2SUpdatePlayerCounterCondition.CODEC,
-                (payload, context) ->
-                        CriticalCounterAbility.setPlayerCounterCondition(payload.activePlayerUUID(), payload.shouldCounter())
-        );
-        registrar.playToServer(
                 CripplingThrowAbility.C2SUpdatePlayerRecallCondition.TYPE,
                 CripplingThrowAbility.C2SUpdatePlayerRecallCondition.CODEC,
                 (payload, context) ->
-                        CripplingThrowAbility.recallSignals.add(payload.activePlayerUUID())
+                        CripplingThrowAbility.recallSignals.add(context.player().getUUID())
         );
         registrar.playToServer(
                 BashAbility.C2SBashSignal.TYPE,
                 BashAbility.C2SBashSignal.CODEC,
                 (payload, context) ->
                         BashAbility.handleBash( (ServerPlayer) context.player())
-        );
-        registrar.playToClient(
-                CriticalCounterAbility.S2CStartCriticalCounterTimer.TYPE,
-                CriticalCounterAbility.S2CStartCriticalCounterTimer.CODEC,
-                (payload, context) -> CooldownTracker.counterTimerActive = true
         );
     }
 

@@ -2,6 +2,7 @@ package me.pajic.rearm.ability;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.pajic.rearm.ReArm;
+import me.pajic.rearm.effect.ReArmEffects;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -35,11 +36,13 @@ public class QuickstepAbility {
     }
 
 	public static void handleQuickstep(ServerPlayer player) {
+		if (!ReArm.CONFIG.bow.enableBackstep.get() || !player.hasEffect(ReArmEffects.BACKSTEP_EFFECT)) return;
+		player.removeEffect(ReArmEffects.BACKSTEP_EFFECT);
 		AttributeInstance stepHeight = player.getAttribute(Attributes.STEP_HEIGHT);
 		if (stepHeight != null) {
 			double currentValue = stepHeight.getValue();
 			if (currentValue < 1) {
-				stepHeight.addOrReplacePermanentModifier(new AttributeModifier(
+				stepHeight.addTransientModifier(new AttributeModifier(
 						BACKSTEP_HEIGHT_MODIFIER,
 						1 - currentValue,
 						AttributeModifier.Operation.ADD_VALUE
@@ -57,6 +60,12 @@ public class QuickstepAbility {
 		if (horizontalMotion.lengthSqr() > 1.0E-4) {
 			player.addDeltaMovement(horizontalMotion.normalize().scale(4d/3));
 		}
+	}
+
+	public static void removePlayerData(ServerPlayer player) {
+		playerStepHeightTracker.removeInt(player.getUUID());
+		AttributeInstance stepHeight = player.getAttribute(Attributes.STEP_HEIGHT);
+		if (stepHeight != null) stepHeight.removeModifier(BACKSTEP_HEIGHT_MODIFIER);
 	}
 
 	public static void onServerTick(MinecraftServer server) {

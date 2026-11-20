@@ -50,7 +50,7 @@ public class BashAbility {
 						.stream().filter(livingEntity -> livingEntity != player).toList();
 				if (!targets.isEmpty()) {
 					DamageSource source = level.damageSources().playerAttack(player);
-					float damage = ReArm.CONFIG.shield.bashBaseDamage.get() + 2 * ReArm.CONFIG.shield.bashDamagePerLevel.get();
+					float damage = ReArm.CONFIG.shield.bashBaseDamage.get() + bashLevel * ReArm.CONFIG.shield.bashDamagePerLevel.get();
 					targets.forEach(entity -> {
 						entity.knockback(
 								ReArm.CONFIG.shield.bashBaseKnockback.get() + bashLevel * ReArm.CONFIG.shield.bashKnockbackPerLevel.get(),

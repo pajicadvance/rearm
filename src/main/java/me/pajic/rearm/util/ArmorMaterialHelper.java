@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,12 +29,22 @@ public class ArmorMaterialHelper {
     private static final List<Identifier> ARMOR_MATERIALS = new ArrayList<>();
 
     public static Map<ArmorType, Integer> calculateDefenses(int targetTotal) {
-        int[] values = {
-                Math.round(targetTotal * ((float) ReArm.CONFIG.armor.chestplateArmorPercent.get() / 100)),
-                Math.round(targetTotal * ((float) ReArm.CONFIG.armor.leggingsArmorPercent.get() / 100)),
-                Math.round(targetTotal * ((float) ReArm.CONFIG.armor.helmetArmorPercent.get() / 100)),
-                Math.round(targetTotal * ((float) ReArm.CONFIG.armor.bootsArmorPercent.get() / 100))
+        int[] percents = {
+                ReArm.CONFIG.armor.chestplateArmorPercent.get(),
+                ReArm.CONFIG.armor.leggingsArmorPercent.get(),
+                ReArm.CONFIG.armor.helmetArmorPercent.get(),
+                ReArm.CONFIG.armor.bootsArmorPercent.get()
         };
+        if (Arrays.stream(percents).sum() != 100) {
+            LOGGER.warn("Armor piece percentages don't add up to 100, using defaults");
+            percents = new int[] {
+                    ReArm.CONFIG.armor.chestplateArmorPercent.getDefault(),
+                    ReArm.CONFIG.armor.leggingsArmorPercent.getDefault(),
+                    ReArm.CONFIG.armor.helmetArmorPercent.getDefault(),
+                    ReArm.CONFIG.armor.bootsArmorPercent.getDefault()
+            };
+        }
+        int[] values = Arrays.stream(percents).map(percent -> Math.round(targetTotal * ((float) percent / 100))).toArray();
         int body = Math.round(targetTotal * ((float) ReArm.CONFIG.armor.bodyArmorPercent.get() / 100));
         int total = Arrays.stream(values).sum();
         if (total != targetTotal) {
@@ -60,7 +70,7 @@ public class ArmorMaterialHelper {
     }
 
     public static float calculateKnockbackResist(int targetTotal) {
-        return Mth.lerp(targetTotal / (20 * ReArm.CONFIG.armor.armorMultiplier.get()), 0, 0.1F);
+        return Mth.lerp(Math.min(1, targetTotal / (20 * ReArm.CONFIG.armor.armorMultiplier.get())), 0, 0.1F);
     }
 
     public static void add(Identifier rl) {
@@ -69,7 +79,12 @@ public class ArmorMaterialHelper {
 
     public static void write() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH.toFile()));
+            Files.createDirectories(FILE_PATH.getParent());
+        } catch (IOException e) {
+            LOGGER.warn("Error creating armor materials directory", e);
+            return;
+        }
+        try (BufferedWriter writer = Files.newBufferedWriter(FILE_PATH)) {
             writer.write(Component.translatable("rearm.config.armor.armorMaterialList").getString());
             writer.newLine();
             writer.newLine();
@@ -77,7 +92,6 @@ public class ArmorMaterialHelper {
                 writer.write(rl.toString());
                 writer.newLine();
             }
-            writer.close();
         } catch (IOException e) {
             LOGGER.warn("Error writing armor materials to file", e);
         }

@@ -197,5 +197,7 @@
   "rearm.config.bugFixes.powerDamageFix": "Power damage fix",
   "rearm.config.bugFixes.powerDamageFix.desc": "MC-277617: The base damage of the Power enchantment was reduced in 1.21",
   "rearm.config.bugFixes.shieldDelayFix": "Shield delay fix",
-  "rearm.config.bugFixes.shieldDelayFix.desc": "MC-100949: Shield blocking is delayed"
+  "rearm.config.bugFixes.shieldDelayFix.desc": "MC-100949: Shield blocking is delayed",
+  "rearm.config.bugFixes.entitySyncFix": "Entity sync fix",
+  "rearm.config.bugFixes.entitySyncFix.desc": "MC-297196: Knockback is synchronized to client with inconsistent delay\nMC-311974: Entity interpolation stutters (26.3 only)"
 }

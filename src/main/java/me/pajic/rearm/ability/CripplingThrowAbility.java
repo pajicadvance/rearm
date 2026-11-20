@@ -3,7 +3,6 @@ package me.pajic.rearm.ability;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.enchantment.ReArmEnchantments;
 import me.pajic.rearm.projectile.ThrownAxe;
-import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -37,12 +36,9 @@ public class CripplingThrowAbility {
 
     public static final Identifier RECALL_AXE = ReArm.id("recall_axe");
 
-    public record C2SUpdatePlayerRecallCondition(UUID activePlayerUUID) implements CustomPacketPayload {
+    public record C2SUpdatePlayerRecallCondition() implements CustomPacketPayload {
         public static final Type<C2SUpdatePlayerRecallCondition> TYPE = new Type<>(RECALL_AXE);
-        public static final StreamCodec<RegistryFriendlyByteBuf, C2SUpdatePlayerRecallCondition> CODEC = StreamCodec.composite(
-                UUIDUtil.STREAM_CODEC, C2SUpdatePlayerRecallCondition::activePlayerUUID,
-                C2SUpdatePlayerRecallCondition::new
-        );
+        public static final StreamCodec<RegistryFriendlyByteBuf, C2SUpdatePlayerRecallCondition> CODEC = StreamCodec.unit(new C2SUpdatePlayerRecallCondition());
 
         @Override
         public @NotNull Type<? extends CustomPacketPayload> type() {

@@ -22,7 +22,7 @@ public class BleedingEffect extends MobEffect {
         entity.hurtServer(level,
                 entity.damageSources().magic(),
 				ReArm.CONFIG.axe.cripplingThrowBaseBleedingDPS.get() +
-                        (amplifier - 1) * ReArm.CONFIG.axe.cripplingThrowBleedingDPSIncreasePerLevel.get()
+                        amplifier * ReArm.CONFIG.axe.cripplingThrowBleedingDPSIncreasePerLevel.get()
         );
         return true;
     }

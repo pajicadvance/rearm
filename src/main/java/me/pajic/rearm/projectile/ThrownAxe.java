@@ -54,6 +54,7 @@ public class ThrownAxe extends AbstractArrow {
     private float damage;
     private InteractionHand hand;
     private int timeInTarget;
+    private int reacquireTicks;
     public static final EntityDataAccessor<Boolean> STUCK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Boolean> ALLOW_PICKUP = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<ItemStack> THROWN_AXE_ITEM_STACK = SynchedEntityData.defineId(ThrownAxe.class, EntityDataSerializers.ITEM_STACK);
@@ -80,9 +81,18 @@ public class ThrownAxe extends AbstractArrow {
     @Override
     public void tick() {
         if (stuckEntity == null && level() instanceof ServerLevel sl && stuckEntityId != null && !stuckEntityId.equals(new UUID(0, 0))) {
-            stuckEntity = (LivingEntity) sl.getEntity(stuckEntityId);
-            setNoGravity(true);
-            entityData.set(STUCK, true);
+            if (sl.getEntity(stuckEntityId) instanceof LivingEntity livingEntity) {
+                stuckEntity = livingEntity;
+                setNoGravity(true);
+                entityData.set(STUCK, true);
+                reacquireTicks = 0;
+            } else if (++reacquireTicks > 20) {
+                stuckEntityId = null;
+                setNoGravity(false);
+                entityData.set(STUCK, false);
+                timeInTarget = 0;
+                reacquireTicks = 0;
+            }
         }
         if (inGroundTime > 4) dealtDamage = true;
         //~ if <26.1 'isInGround()' -> 'inGround'
@@ -157,7 +167,7 @@ public class ThrownAxe extends AbstractArrow {
 					new MobEffectInstance(
 							ReArmEffects.BLEEDING,
 							ReArm.CONFIG.axe.cripplingThrowBleedingDuration.get(),
-							getCripplingThrowLevel()
+							Math.max(0, getCripplingThrowLevel() - 1)
 					), dealer
 			);
 			playSound(SoundEvents.HOSTILE_HURT, 1.0F, 1.0F);

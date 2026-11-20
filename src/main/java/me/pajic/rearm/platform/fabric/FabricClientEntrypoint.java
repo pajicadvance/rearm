@@ -6,11 +6,9 @@ import dev.kikugie.fletching_table.annotation.fabric.Entrypoint;
 import me.pajic.rearm.ReArm;
 import me.pajic.rearm.ability.CooldownTracker;
 import me.pajic.rearm.ability.CripplingThrowAbility;
-import me.pajic.rearm.ability.CriticalCounterAbility;
 import me.pajic.rearm.keybind.ReArmKeybinds;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 
 //? >=26.1 {
 import me.pajic.rearm.hud.ItemUseProgressBars;
@@ -34,10 +32,6 @@ public class FabricClientEntrypoint implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ReArm.onInitializeClient();
-        ClientPlayNetworking.registerGlobalReceiver(
-                CriticalCounterAbility.S2CStartCriticalCounterTimer.TYPE,
-                (payload, context) -> CooldownTracker.counterTimerActive = true
-        );
         ClientTickEvents.END_CLIENT_TICK.register(CooldownTracker::onClientTick);
         //? >=26.1
         KeyMapping.Category.register(ReArm.id("keys"));
